@@ -8,10 +8,9 @@ const ThemeToggle = () => {
     <button
       type="button"
       onClick={toggleTheme}
-      className="gradient-btn"
       aria-label="Toggle theme"
     >
-      {theme === "dark" ? <IoSunnyOutline /> : <IoMoonOutline />}
+      {theme === "dark" ? <IoSunnyOutline size={25}/> : <IoMoonOutline size={25} />}
     </button>
   );
 };

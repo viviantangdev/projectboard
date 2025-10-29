@@ -11,8 +11,39 @@
 }
 
 body {
-  @apply scroll-smooth font-body bg-amber-300;
-  @variant dark{
-    @apply bg-red-400;
+  @apply scroll-smooth font-body bg-white text-gray-900 
+  transform transition-smooth;
+  @variant dark {
+    @apply bg-gray-950 text-white;
+  }
+}
+
+.header {
+  @apply bg-blue-100 
+  md:hidden flex justify-between items-center p-3 sticky
+  shadow-xs
+  border-b border-gray-300;
+  @variant dark {
+    @apply bg-gray-900 border-gray-800;
+  }
+}
+.navbar {
+  @apply bg-blue-100 
+  fixed top-12.5 right-0 w-[30%] h-screen 
+  border-l border-gray-300
+  transform transition-smooth;
+  @variant dark {
+    @apply bg-gray-900 border-gray-800;
+  }
+}
+
+.sidebar {
+  @apply hidden md:block p-5
+ bg-blue-100 
+  h-screen w-[200px]
+  border-r border-gray-300
+  transform transition-smooth;
+  @variant dark {
+    @apply bg-gray-900 border-gray-800;
   }
 }

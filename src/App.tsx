@@ -1,10 +1,10 @@
-import ThemeToggle from "./shared/components/ThemeToggle";
+import Dashboard from './features/dashboard/Dashboard';
+import MainLayout from './shared/layouts/MainLayout';
 
 function App() {
   return (
     <>
-      Project Board
-      <ThemeToggle/>
+      <MainLayout children={<Dashboard />}></MainLayout>
     </>
   );
 }
