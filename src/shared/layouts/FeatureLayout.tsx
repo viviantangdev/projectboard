@@ -7,7 +7,7 @@ interface FeatureLayoutProps {
 
 const FeatureLayout = ({ title, children }: FeatureLayoutProps) => {
   return (
-    <main className='p-3 md:p-10 min-h-screen'>
+    <main className='p-3 md:p-10'>
       <h2 className='text-xl'>{title}</h2>
       {children}
     </main>
