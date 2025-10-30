@@ -5,13 +5,31 @@ const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <button
-      type="button"
+    <div
       onClick={toggleTheme}
-      aria-label="Toggle theme"
+      className='themeToggle'
+      role='switch'
+      aria-checked={theme === 'dark'}
+      aria-label='Toggle theme'
+      tabIndex={0}
     >
-      {theme === "dark" ? <IoSunnyOutline size={25}/> : <IoMoonOutline size={25} />}
-    </button>
+      {/* Sliding Knob */}
+      <div
+        className={`
+          slidingKnob
+          ${theme === 'dark' ? 'translate-x-7' : 'translate-x-0'}
+        `}
+      >
+        {theme === 'dark' ? (
+          <IoSunnyOutline
+            size={18}
+            className='text-white drop-shadow-sm'
+          />
+        ) : (
+          <IoMoonOutline size={18} className='text-white drop-shadow-sm' />
+        )}
+      </div>
+    </div>
   );
 };
 

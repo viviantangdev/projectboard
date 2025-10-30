@@ -54,13 +54,30 @@ body {
   &:hover {
     @apply text-sky-400;
   }
-    @variant dark {
+  @variant dark {
     @apply text-gray-500;
   }
-
 }
 
 .navlinkActive {
   @apply text-sky-500;
+}
 
+.themeToggle {
+  @apply relative w-15 h-8 rounded-full
+  bg-gray-100 shadow-2xl
+  cursor-pointer transition-smooth;
+  &:focus {
+    @apply outline-none ring-2 ring-blue-500;
+  }
+  @variant dark {
+    @apply bg-gray-600;
+  }
+}
+
+.slidingKnob {
+  @apply absolute top-0 h-8 w-8 rounded-full
+   bg-sky-500 shadow-lg
+    flex items-center justify-center
+    transition-smooth;
 }
