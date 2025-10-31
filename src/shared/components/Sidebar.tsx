@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router';
-import { navigations } from '../types/routes';
+import { navigations } from '../utils/routes';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 

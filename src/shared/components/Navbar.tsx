@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HiMiniBars3, HiOutlineXMark } from 'react-icons/hi2';
 import { NavLink } from 'react-router';
-import { navigations } from '../types/routes';
+import { navigations } from '../utils/routes';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 
@@ -29,7 +29,13 @@ const Navbar = () => {
       >
         <div className='flex flex-col gap-2'>
           {navigations.map((nav, index) => (
-            <NavLink key={index} to={nav.path!}  className={({isActive}) => `navlink ${isActive && 'navlinkActive'}`}>
+            <NavLink
+              key={index}
+              to={nav.path!}
+              className={({ isActive }) =>
+                `navlink ${isActive && 'navlinkActive'}`
+              }
+            >
               {nav.name}
             </NavLink>
           ))}

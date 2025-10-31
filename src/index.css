@@ -4,36 +4,36 @@
 
 @theme {
   --font-body: 'Poppins', sans-serif;
-  --transition-smooth: all 0.5s ease-in-out;
+  --transition-smooth: all 0.3s ease-in-out;
 }
 @utility transition-smooth {
   transition: var(--transition-smooth);
 }
 
 body {
-  @apply scroll-smooth font-body bg-white text-gray-900 
+  @apply scroll-smooth font-body bg-white text-zinc-900 min-h-screen min-w-screen
   transform transition-smooth;
   @variant dark {
-    @apply bg-gray-950 text-white;
+    @apply bg-zinc-900 text-white;
   }
 }
 
 .header {
-  @apply bg-blue-100 
-  md:hidden flex justify-between items-center p-3 sticky
+  @apply bg-blue-100 sticky top-0 z-10000000000000000
+  md:hidden flex justify-between items-center p-3 
   shadow-xs
   border-b border-gray-300;
   @variant dark {
-    @apply bg-gray-900 border-gray-800;
+    @apply bg-zinc-800 border-gray-800;
   }
 }
 .navbar {
-  @apply bg-blue-100  p-5
+  @apply bg-blue-100  p-5 z-10000000000000000
   fixed top-13 right-0 w-[30%] h-screen 
   border-l border-gray-300
   transform transition-smooth;
   @variant dark {
-    @apply bg-gray-900 border-gray-800;
+    @apply bg-zinc-800 border-gray-800;
   }
 }
 
@@ -44,7 +44,7 @@ body {
   border-r border-gray-300
   transform transition-smooth;
   @variant dark {
-    @apply bg-gray-900 border-gray-800;
+    @apply bg-zinc-800 border-gray-800;
   }
 }
 
