@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { HiMiniBars3, HiOutlineXMark } from 'react-icons/hi2';
 import { NavLink } from 'react-router';
-import { navigations } from '../utils/routes';
-import Logo from './Logo';
-import ThemeToggle from './ThemeToggle';
+import Logo from '../Logo';
+import { navigations } from '../../utils/routes';
+import ThemeToggle from '../ThemeToggle';
+
 
 const Navbar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);

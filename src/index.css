@@ -81,3 +81,26 @@ body {
     flex items-center justify-center
     transition-smooth;
 }
+
+/*Floating menu*/
+.floatingMenu {
+  @apply flex flex-col 
+  shadow-2xl bg-white rounded-md overflow-hidden 
+  absolute top-10 z-10 
+  ring-1 ring-gray-200 transition-smooth;
+  @variant dark {
+    @apply bg-gray-600;
+  }
+}
+.floatingActionButton {
+  @apply flex items-center 
+  gap-3 py-2 px-5 rounded 
+  cursor-pointer 
+  transition-smooth;
+  @variant dark {
+    @apply bg-gray-600;
+  }
+  &:hover {
+    @apply bg-sky-500 text-white;
+  }
+}
