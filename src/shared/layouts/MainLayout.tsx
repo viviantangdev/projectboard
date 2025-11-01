@@ -4,7 +4,7 @@ import Sidebar from '../components/navigation/Sidebar';
 
 const MainLayout = () => {
   return (
-    <div className='flex flex-col md:flex-row'>
+    <div className='flex flex-col md:flex-row max-h-screen'>
       <Navbar />
       <Sidebar />
       <Outlet />
