@@ -1,239 +1,297 @@
-import {
-  AllCommunityModule,
-  ModuleRegistry,
-  themeQuartz,
-  type ICellRendererParams,
-  type SelectionChangedEvent,
-} from 'ag-grid-community';
-import { AgGridReact } from 'ag-grid-react';
-import { useCallback } from 'react';
+import { useState } from 'react';
 import { TbEdit, TbEye, TbTrash } from 'react-icons/tb';
-import type { PriorityType, StatusType } from '../../../shared/utils/task';
+import type { RawData } from '../../../shared/utils/data';
 import Badge from './Badge';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
-
-interface RowData {
-  id: number;
-  task: string;
-  project: string;
-  priority: PriorityType;
-  dueDate: string;
-  status: StatusType;
-}
-
-const rowData: RowData[] = [
-  {
-    id: 1,
-    task: 'Swimming',
-    project: 'Sport',
-    priority: 'Low',
-    dueDate: '2020-01-02',
-    status: 'Todo',
-  },
-  {
-    id: 2,
-    task: 'Eating',
-    project: 'Food',
-    priority: 'High',
-    dueDate: '2020-01-03',
-    status: 'Todo',
-  },
-  {
-    id: 3,
-    task: 'Bathing',
-    project: 'Home',
-    priority: 'Medium',
-    dueDate: '2020-01-04',
-    status: 'Done',
-  },
-];
+type SortOrderType = 'asc' | 'desc';
 
 const Table = () => {
-  const theme = themeQuartz
-    .withParams(
-      {
-        backgroundColor: '#fff',
-        foregroundColor: '#000',
-        headerTextColor: '#fff',
-        headerBackgroundColor: '#0ea5e9',
-        oddRowBackgroundColor: '#fff',
-        iconButtonActiveColor: '#fff',
-        iconButtonActiveIndicatorColor: '#18d6d6',
-        rangeSelectionBorderStyle: 'none',
-        selectedRowBackgroundColor: '#f3f4f6',
-        browserColorScheme: 'light',
-      },
-      'light-table'
-    )
-    .withParams(
-      {
-        backgroundColor: '#27272a',
-        foregroundColor: '#fff',
-        headerTextColor: '#fff',
-        headerBackgroundColor: '#09090b',
-        oddRowBackgroundColor: 'rgb(0, 0, 0, 0.1)',
-        iconButtonActiveColor: '#fff',
-        iconButtonActiveIndicatorColor: '#18d6d6',
-        rangeSelectionBorderStyle: 'none',
-        selectedRowBackgroundColor: '#030712',
-        browserColorScheme: 'dark',
-      },
-      'dark-table'
-    );
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterProject, setFilterProject] = useState('');
+  const [filterPriority, setFilterPriority] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+  const [sortBy, setSortBy] = useState<keyof RawData>('id');
+  const [sortOrder, setSortOrder] = useState<SortOrderType>('asc'); // Default ascending order
 
-  const ActionsCellRenderer = (props: ICellRendererParams) => {
-    const handleSeeMore = () => {
-      console.log(`see more ${props.data.id}`);
-    };
-    const handleEdit = () => {
-      console.log(`edit ${props.data.id}`);
-    };
+  const [data, setData] = useState<RawData[]>([
+    {
+      id: 1,
+      task: 'Complete project proposaluuuuuuuuuuuuooppå',
+      project: 'Home',
+      priority: 'High',
+      dueDate: '2020-01-01',
+      status: 'Done',
+    },
+    {
+      id: 2,
+      task: 'Review code',
+      project: 'Home',
+      priority: 'Medium',
+      dueDate: '2020-01-01',
+      status: 'Todo',
+    },
+    {
+      id: 3,
+      task: 'Update documentation',
+      project: 'Home',
+      priority: 'Low',
+      dueDate: '2020-01-02',
+      status: 'Todo',
+    },
+    {
+      id: 4,
+      task: 'Test application',
+      project: 'Office',
+      priority: 'High',
+      dueDate: '2020-01-01',
+      status: 'Done',
+    },
+  ]);
 
-    const handleDelete = () => {
-      console.log(`delete ${props.data.id}`);
-    };
+  const handleSeeMore = (id: number) => {
+    console.log(`see more ${id}`);
+  };
+  const handleEdit = (id: number) => {
+    console.log(`edit ${id}`);
+  };
 
-    const actionButtons = [
-      {
-        icon: <TbEye size={15} />,
-        label: 'View',
-        onClick: handleSeeMore,
-      },
-      {
-        icon: <TbEdit size={15} />,
-        label: 'Edit',
-        onClick: handleEdit,
-      },
-      {
-        icon: <TbTrash size={15} />,
-        label: 'Delete',
-        onClick: handleDelete,
-      },
-    ];
+  const handleDelete = (id: number) => {
+    console.log(`delete ${id}`);
+  };
 
-    return (
-      <div className='flex justify-end h-full gap-3'>
-        {actionButtons.map((btn, index) => (
-          <button
-            key={index}
-            onClick={btn.onClick}
-            aria-label={btn.label}
-            title={btn.label}
-            className='px-2 cursor-pointer hover:text-sky-500 transition-smooth'
-          >
-            {btn.icon}
-          </button>
-        ))}
-      </div>
+  // Function to handle checkbox toggle
+  const handleCheckboxChange = (id: number) => {
+    setData((prevData) =>
+      prevData.map((item) =>
+        item.id === id
+          ? { ...item, status: item.status === 'Done' ? 'Todo' : 'Done' }
+          : item
+      )
     );
   };
 
-  const PriorityRenderer = (props: ICellRendererParams) => (
-    <Badge
-      value={props.value as PriorityType}
-      colorMap={{
-        High: 'text-red-700 bg-red-100',
-        Medium: 'text-amber-700 bg-amber-100',
-        Low: 'text-emerald-700 bg-emerald-100',
-      }}
-    />
-  );
-
-  const StatusRenderer = (props: ICellRendererParams) => (
-    <Badge
-      value={props.value as StatusType}
-      colorMap={{
-        Done: 'text-emerald-700 bg-emerald-100 ',
-        Todo: 'text-amber-700 bg-amber-100 ',
-      }}
-    />
-  );
-
-  const onSelectionChanged = useCallback(
-    (event: SelectionChangedEvent<RowData>) => {
-      const selectedRows = event.api.getSelectedRows();
-      const ids = selectedRows.map((row: RowData) => row.id);
-      console.log('Selected IDs:', ids);
+  const actionButtons = [
+    {
+      icon: <TbEye size={15} />,
+      label: 'View',
+      onClick: handleSeeMore,
     },
-    []
-  );
+    {
+      icon: <TbEdit size={15} />,
+      label: 'Edit',
+      onClick: handleEdit,
+    },
+    {
+      icon: <TbTrash size={15} />,
+      label: 'Delete',
+      onClick: handleDelete,
+    },
+  ];
+
+  // Function to handle sorting
+  const handleSort = (key: keyof RawData) => {
+    if (sortBy === key) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(key);
+      setSortOrder('asc');
+    }
+  };
+
+  // Sorting logic based on sortBy and sortOrder
+  const sortedData = [...data].sort((a, b) => {
+    const aValue = a[sortBy];
+    const bValue = b[sortBy];
+    if (sortOrder === 'asc') {
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    } else {
+      return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
+    }
+  });
 
   return (
-    <AgGridReact
-      domLayout='autoHeight'
-      suppressRowVirtualisation={true}
-      className='w-full h-full overflow-x-auto ag-theme-quartz'
-      theme={theme}
-      defaultColDef={{
-        flex: 1,
-        resizable: true,
-        minWidth: 130,
-        cellClass: 'text-xs',
-      }}
-      pagination={true}
-      paginationAutoPageSize
-      rowSelection={{ mode: 'multiRow', headerCheckbox: false }}
-      onSelectionChanged={onSelectionChanged}
-      onGridReady={(params) => {
-        // Wait for grid to be ready
-        params.api.forEachNode((node) => {
-          if (node.data?.status === 'Done') {
-            node.setSelected(true);
-          }
-        });
-      }}
-      columnDefs={[
-        {
-          headerName: 'Task',
-          field: 'task',
-          filter: true,
-        },
-        {
-          headerName: 'Project',
-          field: 'project',
-          filter: true,
-        },
-        {
-          headerName: 'Priority',
-          field: 'priority',
-          filter: true,
-          cellRenderer: PriorityRenderer,
-          //Sort High to Low
-          comparator: (a: PriorityType, b: PriorityType) => {
-            const order: Record<PriorityType, number> = {
-              High: 0,
-              Medium: 1,
-              Low: 2,
-            };
-            return order[a] - order[b];
-          },
-        },
-        {
-          headerName: 'Due Date',
-          field: 'dueDate',
-          filter: 'agDateColumnFilter',
-        },
-        {
-          headerName: 'Status',
-          field: 'status',
-          filter: true,
-          cellRenderer: StatusRenderer,
-          //Sort Todo first
-          comparator: (a: StatusType, b: StatusType) => {
-            const order: Record<StatusType, number> = {
-              Todo: 0,
-              Done: 1,
-            };
-            return order[a] - order[b];
-          },
-        },
-        {
-          cellRenderer: ActionsCellRenderer,
-        },
-      ]}
-      rowData={rowData}
-    />
+    <div className='container max-w-4xl'>
+      {/* Filter and Search Controls */}
+      <div className='flex flex-col sm:flex-row gap-4 mb-6'>
+        <input
+          type='text'
+          placeholder='Search by task'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className='searchInput'
+        />
+        <select
+          value={filterProject}
+          onChange={(e) => setFilterProject(e.target.value)}
+          className='select'
+        >
+          <option value=''>All Projects</option>
+          {[...new Set(data.map((item) => item.project))].map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+        <select
+          value={filterPriority}
+          onChange={(e) => setFilterPriority(e.target.value)}
+          className='select'
+        >
+          <option value=''>All Priorities</option>
+          {[...new Set(data.map((item) => item.priority))].map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className='select'
+        >
+          <option value=''>All Statuses</option>
+          {[...new Set(data.map((item) => item.status))].map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Table */}
+      <div className='relative overflow-x-auto shadow-md text-xs tracking-wider rounded '>
+        <table className='w-full min-w-[640px] tableContainer'>
+          {/*Header*/}
+          <thead>
+            <tr className='p-3 tableHeader'>
+              <th></th>
+         
+              <th
+                onClick={() => handleSort('task')}
+                className='tableHeaderItem'
+              >
+                Task {sortBy === 'task' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </th>
+              <th
+                onClick={() => handleSort('project')}
+                className='tableHeaderItem'
+              >
+                Project{' '}
+                {sortBy === 'project' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </th>
+              <th
+                onClick={() => handleSort('priority')}
+                className='tableHeaderItem'
+              >
+                Priority
+                {sortBy === 'priority' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </th>
+              <th
+                onClick={() => handleSort('dueDate')}
+                className='tableHeaderItem'
+              >
+                Due date
+                {sortBy === 'dueDate' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </th>
+               <th onClick={() => handleSort('status')} className='tableHeaderItem'>
+                Status {sortBy === 'status' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          {/*Body */}
+          <tbody>
+            {sortedData
+              .filter((item) =>
+                item.task.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .filter(
+                (item) =>
+                  (filterProject === '' || item.project === filterProject) &&
+                  (filterPriority === '' || item.priority === filterPriority) &&
+                  (filterStatus === '' || item.status === filterStatus)
+              )
+              .map((item) => (
+                <tr key={item.id} className='tableRow'>
+                  <td className='p-3'>
+                    <input
+                      type='checkbox'
+                      checked={item.status === 'Done'}
+                      onChange={() => handleCheckboxChange(item.id)}
+                      className='h-5 w-5 checkbox'
+                    />
+                  </td>
+                  <td
+                    className={`p-3 ${
+                      item.status === 'Done' && 'line-through text-gray-400'
+                    }`}
+                  >
+                    {item.task}
+                  </td>
+                  <td
+                    className={`p-3 ${
+                      item.status === 'Done' && 'text-gray-400'
+                    }`}
+                  >
+                    {item.project}
+                  </td>
+                  <td className='p-3'>
+                    <Badge
+                      value={item.priority}
+                      colorMap={{
+                        High:
+                          item.status === 'Done'
+                            ? 'text-gray-400 bg-gray-200'
+                            : 'text-red-700 bg-red-100',
+                        Medium:
+                          item.status === 'Done'
+                            ? 'text-gray-400 bg-gray-200'
+                            : 'text-amber-700 bg-amber-100',
+                        Low:
+                          item.status === 'Done'
+                            ? 'text-gray-400 bg-gray-200'
+                            : 'text-emerald-700 bg-emerald-100',
+                      }}
+                    />
+                  </td>
+                  <td
+                    className={`p-3 ${
+                      item.status === 'Done' && 'text-gray-400'
+                    }`}
+                  >
+                    {item.dueDate}
+                  </td>
+                  <td className='p-3'>
+                    <Badge
+                      value={item.status}
+                      colorMap={{
+                        Done: 'text-emerald-700 bg-emerald-100 ',
+                        Todo: 'text-zinc-700 bg-sky-100 ',
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <div className='flex gap-3'>
+                      {item.status !== 'Done'  && actionButtons.map((action, index) => (
+                        <button
+                          key={index}
+                          onClick={() => action.onClick(item.id)}
+                          aria-label={action.label}
+                          title={action.label}
+                          disabled={item.status === 'Done'}
+                          className='px-2 cursor-pointer hover:text-sky-500 transition-smooth'
+                        >
+                          {action.icon}
+                        </button>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

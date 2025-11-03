@@ -126,6 +126,68 @@ body {
   @apply w-5 h-5;
 }
 
-.note {
-  transition: transform 0.2s ease, opacity 0.2s ease; /* Smooth drag animation */
+/*Table*/
+.tableContainer {
+  @apply table-auto border-collapse;
+}
+.tableHeader {
+  @apply text-left cursor-pointer bg-sky-200 text-gray-700;
+  @variant dark {
+    @apply bg-gray-700 text-zinc-100;
+  }
+}
+.tableHeaderItem {
+  @apply p-3 text-left cursor-pointer;
+}
+
+.tableRow {
+  @apply border-t border-gray-200 bg-white;
+  &:hover {
+    @apply bg-sky-100;
+  }
+  @variant dark {
+    @apply bg-zinc-800 border-gray-700;
+    &:hover {
+      @apply bg-zinc-700;
+    }
+  }
+}
+
+.checkbox {
+  @apply h-5 w-5 rounded cursor-pointer appearance-none
+  border border-gray-300;
+  &:checked {
+    @apply bg-sky-300;
+  }
+  @variant dark {
+    @apply bg-zinc-800 border-gray-700;
+    &:checked {
+      @apply bg-zinc-700;
+    }
+  }
+}
+
+.checkbox:checked::after {
+  content: '✓';
+  @apply flex justify-center items-center text-white text-sm font-bold;
+}
+
+.searchInput {
+  @apply text-sm p-2 border border-gray-300 rounded;
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
+  }
+  @variant dark {
+    @apply border-gray-500;
+  }
+}
+
+.select {
+  @apply text-sm p-2 border border-gray-300 rounded;
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
+  }
+    @variant dark {
+    @apply border-gray-500;
+  }
 }

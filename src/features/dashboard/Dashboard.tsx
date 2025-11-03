@@ -1,5 +1,5 @@
 import FeatureLayout from '../../shared/layouts/FeatureLayout';
-import Table from './components/Table';
+import Table from './components/table';
 
 const Dashboard = () => {
   return (
