@@ -4,17 +4,18 @@ import { RiDraggable } from 'react-icons/ri';
 import type { NoteItem } from '../../../shared/utils/note';
 
 interface NoteProps extends NoteItem {
+  onDelete: () => void;
   dragHandleProps?: SyntheticListenerMap | null;
 }
 
-const Note = ({ title, content, dragHandleProps }: NoteProps) => {
+const Note = ({ title, content, onDelete, dragHandleProps }: NoteProps) => {
   return (
     <div className='note'>
       <div className='flex justify-between items-center'>
         <div {...dragHandleProps} className='cursor-grab'>
           <RiDraggable />
         </div>
-        <HiOutlineXMark className='cursor-pointer' />
+        <HiOutlineXMark onClick={onDelete} className='cursor-pointer' />
       </div>
       <span>{title}</span>
       <div>

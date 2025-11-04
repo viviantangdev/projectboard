@@ -1,5 +1,5 @@
 export interface NoteItem {
-    id: number;
+  id: string;
   title: string;
   content: string;
 }
