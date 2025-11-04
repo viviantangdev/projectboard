@@ -10,7 +10,7 @@ import { useNotes } from '../context/useNotes';
 import Note from './Note';
 
 const SortableNote = ({ note }: { note: NoteItem }) => {
-  const { onDeleteNote } = useNotes();
+  const { onDeleteNote, onUpdateNote } = useNotes();
   const {
     attributes,
     listeners,
@@ -31,11 +31,12 @@ const SortableNote = ({ note }: { note: NoteItem }) => {
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
       <Note
-        title={note.title}
-        content={note.content}
-        id={note.id}
+        note={note}
         dragHandleProps={listeners}
         onDelete={() => onDeleteNote(note.id)}
+        onUpdate={(updatedData: NoteItem) =>
+          onUpdateNote(note.id, updatedData)
+        }
       />
     </div>
   );
@@ -55,12 +56,12 @@ const NoteBoard = () => {
     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext
         items={notes.map((note) => note.id.toString())}
-        strategy={rectSortingStrategy} // Use rectSortingStrategy for both layouts
+        strategy={rectSortingStrategy}
       >
         <div className='noteBoard'>
           {notes.map((note) => (
             <SortableNote key={note.id.toString()} note={note} />
-          ))}
+          )).reverse()}
         </div>
       </SortableContext>
     </DndContext>

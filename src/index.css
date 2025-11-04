@@ -111,7 +111,7 @@ body {
 }
 
 .note {
-  @apply flex flex-col gap-4 p-4
+  @apply flex flex-col gap-4 p-4 min-h-full
   bg-amber-200 rounded shadow-sm
    border border-gray-300;
   @variant dark {
@@ -187,7 +187,23 @@ body {
   &:focus {
     @apply outline-none ring-2 ring-sky-500;
   }
-    @variant dark {
+  @variant dark {
     @apply border-gray-500;
+  }
+}
+
+/*Create note button*/
+.createButton {
+  @apply cursor-pointer rounded px-4 py-2 shadow-md
+   bg-sky-500 text-zinc-100 
+  transition-smooth;
+  &:hover {
+    @apply bg-zinc-700;
+  }
+  @variant dark {
+    @apply bg-sky-600;
+    &:hover {
+      @apply bg-zinc-700;
+    }
   }
 }

@@ -9,11 +9,17 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     { id: '1', title: 'Note 1', content: 'Content 1' },
     { id: '2', title: 'Note 2', content: 'Content 2' },
     { id: '3', title: 'Note 3', content: 'Content 3' },
-
   ]);
 
-  function onCreateNote({ ...data }: NoteItem) {
-    setNotes((prev) => [...prev, { ...data, id: uuidV4() }]);
+  function onCreateNote({ title, content }: NoteItem) {
+    setNotes((prev) => [
+      ...prev,
+      {
+        id: uuidV4(),
+        title,
+        content,
+      },
+    ]);
   }
 
   function onUpdateNote(id: string, { ...data }: NoteItem) {
