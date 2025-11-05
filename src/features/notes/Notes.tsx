@@ -12,10 +12,7 @@ const Notes = () => {
     <FeatureLayout
       title='Notes'
       actionButton={
-        <button
-          onClick={handleSumbit}
-          className='createButton'
-        >
+        <button onClick={handleSumbit} className='actionButton'>
           + New note
         </button>
       }

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { HiMiniBars3, HiOutlineXMark } from 'react-icons/hi2';
 import { NavLink } from 'react-router';
-import Logo from '../Logo';
-import { navigations } from '../../utils/routes';
-import ThemeToggle from '../ThemeToggle';
+import Logo from '../components/Logo';
+import { navigations } from '../utils/routes';
+import ThemeToggle from '../components/ThemeToggle';
 
 
 const Navbar = () => {

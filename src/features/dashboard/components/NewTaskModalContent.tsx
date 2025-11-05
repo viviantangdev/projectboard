@@ -16,10 +16,12 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
   const [priority, setPriority] = useState<PriorityType | undefined>(undefined);
   const [dueDate, setDueDate] = useState<string | undefined>(undefined);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     // Reset error message
     setErrors({});
+
     // Validate all fields
     const newErrors: { [key: string]: string } = {};
     if (!title) newErrors.title = '* Title is required';
@@ -32,6 +34,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
       setErrors(newErrors);
       return;
     }
+
     // Check if all required fields are valid
     if (title && content && project && priority && dueDate) {
       onCreateTask({
@@ -153,9 +156,14 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
           }}
         />
       </div>
-      <button type='submit' className='createButton'>
-        Save
-      </button>
+      <div className='flex gap-3'>
+        <button type='submit' className='actionButton w-full'>
+          Save
+        </button>
+        <button type='submit' className='cancelButton w-full'>
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

@@ -15,7 +15,7 @@ const Dashboard = () => {
     <FeatureLayout
       title='Dashboard'
       actionButton={
-        <button onClick={handleSumbit} className='createButton'>
+        <button onClick={handleSumbit} className='actionButton'>
           + New task
         </button>
       }
@@ -26,11 +26,7 @@ const Dashboard = () => {
           isOpen={modalIsOpen}
           setIsOpen={() => setIsOpen(false)}
           title={'New task'}
-          children={
-            <NewTaskModalContent
-              setIsModalOpen={setIsOpen}
-            />
-          }
+          children={<NewTaskModalContent setIsModalOpen={setIsOpen} />}
         />
       )}
     </FeatureLayout>
