@@ -252,7 +252,7 @@ const DashboardTable = () => {
                             aria-label={action.label}
                             title={action.label}
                             disabled={item.status === 'Done'}
-                            className='px-2 cursor-pointer hover:text-sky-500 transition-smooth'
+                            className='iconButton'
                           >
                             {action.icon}
                           </button>

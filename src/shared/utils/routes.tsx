@@ -7,5 +7,6 @@ interface NavigationItem {
 export const navigations: NavigationItem[] = [
   { name: 'Dashboard', path: '/dashboard' },
   { name: 'Notes', path: '/notes' },
+  { name: 'Settings', path: '/settings' },
 
 ];

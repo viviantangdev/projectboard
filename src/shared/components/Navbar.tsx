@@ -13,7 +13,7 @@ const Navbar = () => {
     setIsNavbarOpen(!isNavbarOpen);
   };
   return (
-    <header className='header'>
+    <header className='navHeader'>
       <Logo />
       <button onClick={onToggle} className='transform-smooth'>
         {isNavbarOpen ? (

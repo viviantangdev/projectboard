@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import AddProjectModalContent from '../../../shared/components/AddProjectModalContent';
 import Modal from '../../../shared/components/Modal';
 import {
   priorities,
@@ -7,7 +8,6 @@ import {
   type StatusType,
 } from '../../../shared/utils/task';
 import { useProjects } from '../../projects/context/useProjects';
-import AddProjectModalContent from './AddProjectModalContent';
 import Badge from './Badge';
 
 interface TaskProps {
@@ -45,7 +45,7 @@ const TaskForm = ({
   handleCancel,
 }: TaskProps) => {
   const { projects } = useProjects();
-  const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false);
+  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-10 py-5'>
       <div className='flex flex-col gap-5'>
@@ -119,7 +119,7 @@ const TaskForm = ({
             </select>
             <button
               type='button'
-              onClick={() => setIsCreateProjectOpen(true)}
+              onClick={() => setIsAddProjectModalOpen(true)}
               className='text-sm text-sky-500 cursor-pointer'
             >
               Create new
@@ -227,14 +227,14 @@ const TaskForm = ({
           Cancel
         </button>
       </div>
-      {isCreateProjectOpen && (
+      {isAddProjectModalOpen && (
         <Modal
-          title={'Create project'}
-          isOpen={isCreateProjectOpen}
-          setIsOpen={setIsCreateProjectOpen}
+          title={'Add project'}
+          isOpen={isAddProjectModalOpen}
+          setIsOpen={setIsAddProjectModalOpen}
           children={
             <AddProjectModalContent
-              setIsCreateProjectOpen={setIsCreateProjectOpen}
+              setIsModalOpen={setIsAddProjectModalOpen}
             />
           }
         />

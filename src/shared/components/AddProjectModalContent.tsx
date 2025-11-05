@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useProjects } from '../../projects/context/useProjects';
+import { useProjects } from '../../features/projects/context/useProjects';
 interface AddProjectModalContentProps {
-  setIsCreateProjectOpen: (isOpen: boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
 }
 const AddProjectModalContent = ({
-  setIsCreateProjectOpen,
+  setIsModalOpen,
 }: AddProjectModalContentProps) => {
   const { addProject } = useProjects();
   const [newProject, setNewProject] = useState<string>('');
@@ -22,7 +22,7 @@ const AddProjectModalContent = ({
           type='button'
           onClick={() => {
             addProject(newProject);
-            setIsCreateProjectOpen(false);
+            setIsModalOpen(false);
           }}
           className='actionButton w-full'
         >
@@ -31,7 +31,7 @@ const AddProjectModalContent = ({
         <button
           type='button'
           onClick={() => {
-            setIsCreateProjectOpen(false);
+            setIsModalOpen(false);
           }}
           className='cancelButton w-full'
         >

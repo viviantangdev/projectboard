@@ -18,8 +18,9 @@ body {
   }
 }
 
-/*Navigation*/
-.header {
+/*-----------NAVIGATION------------*/
+
+.navHeader {
   @apply bg-blue-100 sticky top-0 z-10000000000000000
   md:hidden flex justify-between items-center p-3 
   shadow-xs
@@ -64,28 +65,8 @@ body {
   @apply text-sky-500;
 }
 
+/*-----------NOTES------------*/
 
-/*Theme button*/
-.themeToggle {
-  @apply relative w-15 h-8 rounded-full
-  bg-gray-100 shadow-2xl
-  cursor-pointer transition-smooth;
-  &:focus {
-    @apply outline-none ring-2 ring-blue-500;
-  }
-  @variant dark {
-    @apply bg-gray-600;
-  }
-}
-
-.slidingKnob {
-  @apply absolute top-0 h-8 w-8 rounded-full
-   bg-sky-500 shadow-lg
-    flex items-center justify-center
-    transition-smooth;
-}
-
-/*Note board*/
 .noteBoard {
   @apply flex flex-col gap-4 p-4 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(250px,1fr))];
 }
@@ -106,7 +87,8 @@ body {
   @apply w-5 h-5;
 }
 
-/*Table in Dashboard*/
+/*-----------DASHBOARD------------*/
+
 .tableContainer {
   @apply table-auto border-collapse;
 }
@@ -172,6 +154,28 @@ body {
   }
 }
 
+/*-----------BUTTONS------------*/
+
+/*Theme button*/
+.themeToggle {
+  @apply relative w-15 h-8 rounded-full
+  bg-gray-100 shadow-2xl
+  cursor-pointer transition-smooth;
+  &:focus {
+    @apply outline-none ring-2 ring-blue-500;
+  }
+  @variant dark {
+    @apply bg-gray-600;
+  }
+}
+
+.slidingKnob {
+  @apply absolute top-0 h-8 w-8 rounded-full
+   bg-sky-500 shadow-lg
+    flex items-center justify-center
+    transition-smooth;
+}
+
 /*Action button (Save & add button) & Cancel button*/
 .actionButton {
   @apply cursor-pointer rounded px-4 py-2 shadow-md
@@ -200,4 +204,9 @@ body {
       @apply bg-zinc-700;
     }
   }
+}
+
+/*Icon button (View, edit, delete button)*/
+.iconButton {
+  @apply px-2 cursor-pointer hover:text-sky-500 transition-smooth;
 }
