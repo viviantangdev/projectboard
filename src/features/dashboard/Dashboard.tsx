@@ -5,28 +5,28 @@ import DashboardTable from './components/DashboardTable';
 import NewTaskModalContent from './components/NewTaskModalContent';
 
 const Dashboard = () => {
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
 
-  function handleSumbit() {
-    setIsOpen(true);
+  function handleOpenModal() {
+    setIsNewTaskModalOpen(true);
   }
 
   return (
     <FeatureLayout
       title='Dashboard'
       actionButton={
-        <button onClick={handleSumbit} className='actionButton'>
+        <button onClick={handleOpenModal} className='actionButton'>
           + New task
         </button>
       }
     >
       <DashboardTable />
-      {modalIsOpen && (
+      {isNewTaskModalOpen && (
         <Modal
-          isOpen={modalIsOpen}
-          setIsOpen={() => setIsOpen(false)}
+          isOpen={isNewTaskModalOpen}
+          setIsOpen={() => setIsNewTaskModalOpen(false)}
           title={'New task'}
-          children={<NewTaskModalContent setIsModalOpen={setIsOpen} />}
+          children={<NewTaskModalContent setIsModalOpen={setIsNewTaskModalOpen} />}
         />
       )}
     </FeatureLayout>

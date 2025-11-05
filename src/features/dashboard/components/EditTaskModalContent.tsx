@@ -1,20 +1,25 @@
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { type PriorityType } from '../../../shared/utils/task';
+import { type PriorityType, type StatusType, type TaskItem } from '../../../shared/utils/task';
 import { useTasks } from '../context/useTasks';
 import TaskForm from './TaskForm';
 
-interface NewTaskModalContentProps {
+interface EditTaskModalContentProps {
+  task: TaskItem;
   setIsModalOpen: (isOpen: boolean) => void;
 }
 
-const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
-  const { onCreateTask } = useTasks();
-  const [title, setTitle] = useState<string | undefined>(undefined);
-  const [content, setContent] = useState<string | undefined>(undefined);
-  const [project, setProject] = useState<string | undefined>(undefined);
-  const [priority, setPriority] = useState<PriorityType | undefined>(undefined);
-  const [dueDate, setDueDate] = useState<string | undefined>(undefined);
+const EditTaskModalContent = ({
+  task,
+  setIsModalOpen,
+}: EditTaskModalContentProps) => {
+  const { onUpdateTask } = useTasks();
+  const [title, setTitle] = useState<string>(task.title);
+  const [content, setContent] = useState<string>(task.content);
+  const [project, setProject] = useState<string>(task.project);
+  const [priority, setPriority] = useState<PriorityType>(task.priority);
+  const [dueDate, setDueDate] = useState<string>(task.dueDate);
+  const [status, setStatus] = useState<StatusType>(task.status);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   function handleSubmit(e: React.FormEvent) {
@@ -37,21 +42,16 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
 
     // Check if all required fields are valid
     if (title && content && project && priority && dueDate) {
-      onCreateTask({
-        id: '',
+      // Update task
+      onUpdateTask(task.id, {
+        id: task.id, 
         title,
         content,
         project,
         priority,
         dueDate,
-        status: 'Todo',
+        status,
       });
-      // Reset form fields
-      setTitle(undefined);
-      setContent(undefined);
-      setProject(undefined);
-      setPriority(undefined);
-      setDueDate(undefined);
       setIsModalOpen(false); // Close modal
     }
   }
@@ -67,11 +67,13 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
       setPriority={setPriority}
       dueDate={dueDate!}
       setDueDate={setDueDate}
+      setStatus={setStatus}
       handleSubmit={handleSubmit}
       errors={errors}
       handleCancel={() => setIsModalOpen(false)}
+      status={status}
     />
   );
 };
 
-export default NewTaskModalContent;
+export default EditTaskModalContent;

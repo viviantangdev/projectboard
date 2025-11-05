@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router';
-import { navigations } from '../../utils/routes';
-import Logo from '../Logo';
-import ThemeToggle from '../ThemeToggle';
+import { navigations } from '../utils/routes';
+import Logo from '../components/Logo';
+import ThemeToggle from '../components/ThemeToggle';
 
 const Sidebar = () => {
   return (

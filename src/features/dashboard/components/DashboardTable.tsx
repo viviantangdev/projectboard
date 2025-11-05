@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { TbEdit, TbEye, TbTrash } from 'react-icons/tb';
+import Modal from '../../../shared/components/Modal';
 import type { TaskItem } from '../../../shared/utils/task';
 import { useTasks } from '../context/useTasks';
 import Badge from './Badge';
+import EditTaskModalContent from './EditTaskModalContent';
 
 type SortOrderType = 'asc' | 'desc';
 
@@ -13,14 +15,20 @@ const DashboardTable = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [sortBy, setSortBy] = useState<keyof TaskItem>('id');
   const [sortOrder, setSortOrder] = useState<SortOrderType>('asc'); // Default ascending order
+  const [editTask, setEditTask] = useState<TaskItem | null>(null); // Track task to edit
+  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
 
+  function handleOpenModal() {
+    setIsEditTaskModalOpen(true);
+  }
   const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
 
   const handleSeeMore = (id: string) => {
     console.log(`see more ${id}`);
   };
-  const handleEdit = (id: string) => {
-    console.log(`edit ${id}`);
+  const handleEdit = (task: TaskItem) => {
+    handleOpenModal();
+    setEditTask(task); // Open modal with task data
   };
 
   const handleDelete = (id: string) => {
@@ -36,7 +44,10 @@ const DashboardTable = () => {
     {
       icon: <TbEdit size={15} />,
       label: 'Edit',
-      onClick: handleEdit,
+      onClick: (id: string) => {
+        const task = tasks.find((t) => t.id === id);
+        if (task) handleEdit(task);
+      },
     },
     {
       icon: <TbTrash size={15} />,
@@ -253,6 +264,21 @@ const DashboardTable = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Edit Modal */}
+      {editTask && (
+        <Modal
+          isOpen={isEditTaskModalOpen}
+          setIsOpen={() => setIsEditTaskModalOpen(false)}
+          title={'Edit task'}
+          children={
+            <EditTaskModalContent
+              task={editTask}
+              setIsModalOpen={() => setEditTask(null)}
+            />
+          }
+        />
+      )}
     </div>
   );
 };
