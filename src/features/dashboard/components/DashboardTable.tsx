@@ -1,73 +1,30 @@
 import { useState } from 'react';
 import { TbEdit, TbEye, TbTrash } from 'react-icons/tb';
-import type { RawData } from '../../../shared/utils/data';
+import type { TaskItem } from '../../../shared/utils/task';
+import { useTasks } from '../context/useTasks';
 import Badge from './Badge';
 
 type SortOrderType = 'asc' | 'desc';
 
-const Table = () => {
+const DashboardTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterProject, setFilterProject] = useState('');
   const [filterPriority, setFilterPriority] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
-  const [sortBy, setSortBy] = useState<keyof RawData>('id');
+  const [sortBy, setSortBy] = useState<keyof TaskItem>('id');
   const [sortOrder, setSortOrder] = useState<SortOrderType>('asc'); // Default ascending order
 
-  const [data, setData] = useState<RawData[]>([
-    {
-      id: 1,
-      task: 'Complete project proposaluuuuuuuuuuuuooppå',
-      project: 'Home',
-      priority: 'High',
-      dueDate: '2020-01-01',
-      status: 'Done',
-    },
-    {
-      id: 2,
-      task: 'Review code',
-      project: 'Home',
-      priority: 'Medium',
-      dueDate: '2020-01-01',
-      status: 'Todo',
-    },
-    {
-      id: 3,
-      task: 'Update documentation',
-      project: 'Home',
-      priority: 'Low',
-      dueDate: '2020-01-02',
-      status: 'Todo',
-    },
-    {
-      id: 4,
-      task: 'Test application',
-      project: 'Office',
-      priority: 'High',
-      dueDate: '2020-01-01',
-      status: 'Done',
-    },
-  ]);
+  const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
 
-  const handleSeeMore = (id: number) => {
+  const handleSeeMore = (id: string) => {
     console.log(`see more ${id}`);
   };
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: string) => {
     console.log(`edit ${id}`);
   };
 
-  const handleDelete = (id: number) => {
-    console.log(`delete ${id}`);
-  };
-
-  // Function to handle checkbox toggle
-  const handleCheckboxChange = (id: number) => {
-    setData((prevData) =>
-      prevData.map((item) =>
-        item.id === id
-          ? { ...item, status: item.status === 'Done' ? 'Todo' : 'Done' }
-          : item
-      )
-    );
+  const handleDelete = (id: string) => {
+    onDeleteTask(id);
   };
 
   const actionButtons = [
@@ -89,7 +46,7 @@ const Table = () => {
   ];
 
   // Function to handle sorting
-  const handleSort = (key: keyof RawData) => {
+  const handleSort = (key: keyof TaskItem) => {
     if (sortBy === key) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
@@ -99,7 +56,7 @@ const Table = () => {
   };
 
   // Sorting logic based on sortBy and sortOrder
-  const sortedData = [...data].sort((a, b) => {
+  const sortedData = [...tasks].sort((a, b) => {
     const aValue = a[sortBy];
     const bValue = b[sortBy];
     if (sortOrder === 'asc') {
@@ -126,7 +83,7 @@ const Table = () => {
           className='select'
         >
           <option value=''>All Projects</option>
-          {[...new Set(data.map((item) => item.project))].map((value) => (
+          {[...new Set(tasks.map((item) => item.project))].map((value) => (
             <option key={value} value={value}>
               {value}
             </option>
@@ -138,7 +95,7 @@ const Table = () => {
           className='select'
         >
           <option value=''>All Priorities</option>
-          {[...new Set(data.map((item) => item.priority))].map((value) => (
+          {[...new Set(tasks.map((item) => item.priority))].map((value) => (
             <option key={value} value={value}>
               {value}
             </option>
@@ -150,7 +107,7 @@ const Table = () => {
           className='select'
         >
           <option value=''>All Statuses</option>
-          {[...new Set(data.map((item) => item.status))].map((value) => (
+          {[...new Set(tasks.map((item) => item.status))].map((value) => (
             <option key={value} value={value}>
               {value}
             </option>
@@ -165,18 +122,18 @@ const Table = () => {
           <thead>
             <tr className='p-3 tableHeader'>
               <th></th>
-         
+
               <th
-                onClick={() => handleSort('task')}
+                onClick={() => handleSort('title')}
                 className='tableHeaderItem'
               >
-                Task {sortBy === 'task' && (sortOrder === 'asc' ? '↑' : '↓')}
+                Task {sortBy === 'title' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
               <th
                 onClick={() => handleSort('project')}
                 className='tableHeaderItem'
               >
-                Project{' '}
+                Project
                 {sortBy === 'project' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
               <th
@@ -193,8 +150,12 @@ const Table = () => {
                 Due date
                 {sortBy === 'dueDate' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
-               <th onClick={() => handleSort('status')} className='tableHeaderItem'>
-                Status {sortBy === 'status' && (sortOrder === 'asc' ? '↑' : '↓')}
+              <th
+                onClick={() => handleSort('status')}
+                className='tableHeaderItem'
+              >
+                Status{' '}
+                {sortBy === 'status' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
               <th></th>
             </tr>
@@ -203,7 +164,7 @@ const Table = () => {
           <tbody>
             {sortedData
               .filter((item) =>
-                item.task.toLowerCase().includes(searchTerm.toLowerCase())
+                item.title.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .filter(
                 (item) =>
@@ -217,7 +178,7 @@ const Table = () => {
                     <input
                       type='checkbox'
                       checked={item.status === 'Done'}
-                      onChange={() => handleCheckboxChange(item.id)}
+                      onChange={() => onToggleTaskStatus(item.id, item.status)}
                       className='h-5 w-5 checkbox'
                     />
                   </td>
@@ -226,7 +187,7 @@ const Table = () => {
                       item.status === 'Done' && 'line-through text-gray-400'
                     }`}
                   >
-                    {item.task}
+                    {item.title}
                   </td>
                   <td
                     className={`p-3 ${
@@ -272,18 +233,19 @@ const Table = () => {
                   </td>
                   <td>
                     <div className='flex gap-3'>
-                      {item.status !== 'Done'  && actionButtons.map((action, index) => (
-                        <button
-                          key={index}
-                          onClick={() => action.onClick(item.id)}
-                          aria-label={action.label}
-                          title={action.label}
-                          disabled={item.status === 'Done'}
-                          className='px-2 cursor-pointer hover:text-sky-500 transition-smooth'
-                        >
-                          {action.icon}
-                        </button>
-                      ))}
+                      {item.status !== 'Done' &&
+                        actionButtons.map((action, index) => (
+                          <button
+                            key={index}
+                            onClick={() => action.onClick(item.id)}
+                            aria-label={action.label}
+                            title={action.label}
+                            disabled={item.status === 'Done'}
+                            className='px-2 cursor-pointer hover:text-sky-500 transition-smooth'
+                          >
+                            {action.icon}
+                          </button>
+                        ))}
                     </div>
                   </td>
                 </tr>
@@ -295,4 +257,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default DashboardTable;
