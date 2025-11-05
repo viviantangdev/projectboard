@@ -6,7 +6,7 @@ const Notes = () => {
   const { onCreateNote } = useNotes();
 
   function handleSumbit() {
-    onCreateNote({ id: '', title: '', content: '' }); // ID will be generated in onCreateNote
+    onCreateNote({ id: '', title: '', details: '' }); // ID will be generated in onCreateNote
   }
   return (
     <FeatureLayout

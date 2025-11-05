@@ -3,7 +3,7 @@ import React from 'react';
 interface ModalProps {
   title: string;
   isOpen: boolean;
-  setIsOpen: () => void;
+  setIsOpen: (isOpen: boolean) => void;
   children: React.ReactNode;
 }
 const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
@@ -13,7 +13,7 @@ const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
         <div className='bg-white rounded-lg shadow-lg p-6 max-w-md w-full relative'>
           <button
             className='absolute top-2 right-2 cursor-pointer'
-            onClick={setIsOpen}
+            onClick={()=>setIsOpen(false)}
           >
             &#x2715; {/* Close button */}
           </button>

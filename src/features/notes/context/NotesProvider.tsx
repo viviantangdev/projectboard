@@ -6,18 +6,18 @@ import { NotesContext } from './NotesContext';
 
 export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const [notes, setNotes] = useLocalStorage<NoteItem[]>('NOTES', [
-    { id: '1', title: 'Note 1', content: 'Content 1' },
-    { id: '2', title: 'Note 2', content: 'Content 2' },
-    { id: '3', title: 'Note 3', content: 'Content 3' },
+    { id: '1', title: 'Note 1', details: 'Details 1' },
+    { id: '2', title: 'Note 2', details: 'Details 2' },
+    { id: '3', title: 'Note 3', details: 'Details 3' },
   ]);
 
-  function onCreateNote({ title, content }: NoteItem) {
+  function onCreateNote({ title, details }: NoteItem) {
     setNotes((prev) => [
       ...prev,
       {
         id: uuidV4(),
         title,
-        content,
+        details,
       },
     ]);
   }

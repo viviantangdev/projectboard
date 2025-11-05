@@ -8,7 +8,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     {
       id: '1',
       title: 'Task 1',
-      content: 'Content 1',
+      details: 'Details 1',
       project: 'Home',
       priority: 'High',
       dueDate: '2020-01-01',
@@ -17,7 +17,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     {
       id: '2',
       title: 'Task 2',
-      content: 'Content 2',
+      details: 'Details 2',
       project: 'Home',
       priority: 'High',
       dueDate: '2020-01-01',
@@ -26,7 +26,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     {
       id: '3',
       title: 'Task 3',
-      content: 'Content 3',
+      details: 'Details 3',
       project: 'Home',
       priority: 'High',
       dueDate: '2020-01-01',
@@ -36,19 +36,19 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
   function onCreateTask({
     title,
-    content,
+    details,
     project,
     priority,
     dueDate,
     status,
   }: TaskItem) {
-    console.log('ööööö')
+    console.log('ööööö');
     setTasks((prev) => [
       ...prev,
       {
         id: uuidV4(),
         title,
-        content,
+        details,
         project,
         priority,
         dueDate,

@@ -1,15 +1,19 @@
+import { useState } from 'react';
+import Modal from '../../../shared/components/Modal';
 import {
   priorities,
   statuses,
   type PriorityType,
   type StatusType,
 } from '../../../shared/utils/task';
+import { useProjects } from '../../projects/context/useProjects';
+import AddProjectModalContent from './AddProjectModalContent';
 import Badge from './Badge';
 
 interface TaskProps {
   title: string;
   setTitle: (changed: string) => void;
-  content: string;
+  details: string;
   setContent: (changed: string) => void;
   project: string;
   setProject: (changed: string) => void;
@@ -26,7 +30,7 @@ interface TaskProps {
 const TaskForm = ({
   title,
   setTitle,
-  content,
+  details,
   setContent,
   project,
   setProject,
@@ -40,150 +44,172 @@ const TaskForm = ({
   handleSubmit,
   handleCancel,
 }: TaskProps) => {
+  const { projects } = useProjects();
+  const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false);
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-10 py-5'>
-      <div className='flex flex-col gap-3'>
+      <div className='flex flex-col gap-5'>
         {/*Title & Details */}
         <div>
           <div className='flex justify-between items-center'>
             <label htmlFor='title' className='text-sm'>
-              Title
+              Title:
             </label>
             {errors.title && (
               <span className='text-xs text-red-500'>{errors.title}</span>
             )}
           </div>
           <textarea
-            className='w-full resize-none h-auto outline-none text-sm'
+            className='w-full resize-none h-auto outline-none text-sm placeholder:italic'
             placeholder='Title: e.g Pay bills'
             value={title}
             onChange={(e) => {
               const target = e.target;
               target.style.height = 'auto'; // Reset height to recalculate
-              target.style.height = `${target.scrollHeight}px`; // Set height to content
+              target.style.height = `${target.scrollHeight}px`; // Set height to details
               setTitle(e.target.value);
             }}
           />
 
           <div className='flex justify-between items-center'>
             <label htmlFor='Details' className='text-sm'>
-              Details
+              Details:
             </label>
-            {errors.content && (
-              <span className='text-xs text-red-500'>{errors.content}</span>
+            {errors.details && (
+              <span className='text-xs text-red-500'>{errors.details}</span>
             )}
           </div>
           <textarea
-            className='w-full resize-none h-auto outline-none text-sm'
+            className='w-full resize-none h-auto outline-none text-sm placeholder:italic'
             placeholder='Details: e.g rent.'
-            value={content}
+            value={details}
             onChange={(e) => {
               const target = e.target;
               target.style.height = 'auto'; // Reset height to recalculate
-              target.style.height = `${target.scrollHeight}px`; // Set height to content
+              target.style.height = `${target.scrollHeight}px`; // Set height to details
               setContent(e.target.value);
             }}
           />
         </div>
         {/*Project */}
-        <div className='flex items-center justify-between'>
-          <div>
+        <div className='flex flex-col gap-1'>
+          <div className='flex justify-between items-center'>
             <label htmlFor='Project' className='text-sm'>
               Project:
             </label>
-            <input
-              type='text'
+            {errors.project && (
+              <span className='text-xs text-red-500'>{errors.project}</span>
+            )}
+          </div>
+          <div className='flex items-center gap-5'>
+            <select
+              id='project'
               value={project}
               onChange={(e) => setProject(e.target.value)}
-              className='text-sm rounded border border-sky-500 px-1'
-            />
+              className='text-sm border border-gray-300 rounded p-1'
+            >
+              <option value='' disabled>
+                Select a project
+              </option>
+              {projects.map((project, index) => (
+                <option key={index} value={project.name}>
+                  {project.name}
+                </option>
+              ))}
+            </select>
+            <button
+              type='button'
+              onClick={() => setIsCreateProjectOpen(true)}
+              className='text-sm text-sky-500 cursor-pointer'
+            >
+              Create new
+            </button>
           </div>
-          {errors.project && (
-            <span className='text-xs text-red-500'>{errors.project}</span>
-          )}
         </div>
         {/*Priority */}
-        <div className='flex items-center justify-between'>
-          <div className='flex'>
+        <div className='flex flex-col gap-1'>
+          <div className='flex justify-between items-center'>
             <label htmlFor='Priority' className='text-sm'>
               Priority:
             </label>
-            <div className='flex gap-2'>
-              {priorities.map((value, index) => (
-                <Badge
-                  key={index}
-                  onClick={() => setPriority(value)}
-                  value={value}
-                  colorMap={{
-                    High:
-                      priority === 'High'
-                        ? 'text-red-700 bg-red-100 border-red-100 border-2'
-                        : 'text-red-700 bg-transparent border-red-100 border-2 hover:text-red-700 hover:bg-red-100 hover:border-red-100 hover:border-2',
-                    Medium:
-                      priority === 'Medium'
-                        ? 'text-amber-700 bg-amber-100 border-amber-100 border-2'
-                        : 'text-amber-700 bg-transparent border-amber-100 border-2 hover:text-amber-700 hover:bg-amber-100 hover:border-amber-100 hover:border-2',
-                    Low:
-                      priority === 'Low'
-                        ? 'text-emerald-700 bg-emerald-100 border-emerald-100 border-2'
-                        : 'text-emerald-700 bg-transparent border-emerald-100 border-2 hover:text-emerald-700 hover:bg-emerald-100 hover:border-emerald-100 hover:border-2',
-                  }}
-                />
-              ))}
-            </div>
+            {errors.priority && (
+              <span className='text-xs text-red-500'>{errors.priority}</span>
+            )}
           </div>
-          {errors.priority && (
-            <span className='text-xs text-red-500'>{errors.priority}</span>
-          )}
+          <div className='flex gap-1'>
+            {priorities.map((value, index) => (
+              <Badge
+                key={index}
+                onClick={() => setPriority(value)}
+                value={value}
+                colorMap={{
+                  High:
+                    priority === 'High'
+                      ? 'text-red-700 bg-red-100 border-red-100 border-2'
+                      : 'text-red-700 bg-transparent border-red-100 border-2 hover:text-red-700 hover:bg-red-100 hover:border-red-100 hover:border-2',
+                  Medium:
+                    priority === 'Medium'
+                      ? 'text-amber-700 bg-amber-100 border-amber-100 border-2'
+                      : 'text-amber-700 bg-transparent border-amber-100 border-2 hover:text-amber-700 hover:bg-amber-100 hover:border-amber-100 hover:border-2',
+                  Low:
+                    priority === 'Low'
+                      ? 'text-emerald-700 bg-emerald-100 border-emerald-100 border-2'
+                      : 'text-emerald-700 bg-transparent border-emerald-100 border-2 hover:text-emerald-700 hover:bg-emerald-100 hover:border-emerald-100 hover:border-2',
+                }}
+              />
+            ))}
+          </div>
         </div>
         {/*Due Date */}
-        <div className='flex items-center justify-between'>
-          <div>
+        <div className='flex flex-col gap-1'>
+          <div className='flex justify-between items-center'>
             <label htmlFor='DueDate' className='text-sm'>
               Due date:
             </label>
+            {errors.dueDate && (
+              <span className='text-xs text-red-500'>{errors.dueDate}</span>
+            )}
+          </div>
+          <div>
             <input
               type='date'
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
               placeholder='YYYY-MM-DD'
-              className='text-sm rounded border border-sky-500 px-1'
+              className='text-sm border border-gray-300 rounded p-1'
             />
           </div>
-          {errors.dueDate && (
-            <span className='text-xs text-red-500'>{errors.dueDate}</span>
-          )}
         </div>
         {/*Status */}
         {status && setStatus && (
-          <div className='flex items-center justify-between'>
+          <div className='flex flex-col gap-1'>
             <div className='flex'>
               <label htmlFor='Status' className='text-sm'>
                 Status:
-              </label>
-              <div className='flex gap-2'>
-                {statuses.map((value, index) => (
-                  <Badge
-                    key={index}
-                    onClick={() => setStatus(value)}
-                    value={value}
-                    colorMap={{
-                      Done:
-                        status === 'Done'
-                          ? 'text-emerald-700 bg-emerald-100 border-emerald-100 border-2'
-                          : 'text-emerald-700 bg-transparent border-emerald-100 border-2 hover:text-emerald-700 hover:bg-emerald-100 hover:border-emerald-100 hover:border-2',
-                      Todo:
-                        status === 'Todo'
-                          ? 'text-zinc-700 bg-sky-100 border-sky-100 border-2'
-                          : 'text-zinc-700 bg-transparent border-zinc-100 border-2 hover:text-zinc-700 hover:bg-sky-100 hover:border-sky-100 hover:border-2',
-                    }}
-                  />
-                ))}
-              </div>
+              </label>{' '}
+              {errors.status && (
+                <span className='text-xs text-red-500'>{errors.status}</span>
+              )}
             </div>
-            {errors.status && (
-              <span className='text-xs text-red-500'>{errors.status}</span>
-            )}
+            <div className='flex gap-1'>
+              {statuses.map((value, index) => (
+                <Badge
+                  key={index}
+                  onClick={() => setStatus(value)}
+                  value={value}
+                  colorMap={{
+                    Done:
+                      status === 'Done'
+                        ? 'text-emerald-700 bg-emerald-100 border-emerald-100 border-2'
+                        : 'text-emerald-700 bg-transparent border-emerald-100 border-2 hover:text-emerald-700 hover:bg-emerald-100 hover:border-emerald-100 hover:border-2',
+                    Todo:
+                      status === 'Todo'
+                        ? 'text-zinc-700 bg-sky-100 border-sky-100 border-2'
+                        : 'text-zinc-700 bg-transparent border-zinc-100 border-2 hover:text-zinc-700 hover:bg-sky-100 hover:border-sky-100 hover:border-2',
+                  }}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -201,6 +227,18 @@ const TaskForm = ({
           Cancel
         </button>
       </div>
+      {isCreateProjectOpen && (
+        <Modal
+          title={'Create project'}
+          isOpen={isCreateProjectOpen}
+          setIsOpen={setIsCreateProjectOpen}
+          children={
+            <AddProjectModalContent
+              setIsCreateProjectOpen={setIsCreateProjectOpen}
+            />
+          }
+        />
+      )}
     </form>
   );
 };

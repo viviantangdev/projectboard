@@ -26,27 +26,27 @@ const Note = ({ note, onDelete, onUpdate, dragHandleProps }: NoteProps) => {
         onChange={(e) => {
           const target = e.target;
           target.style.height = 'auto'; // Reset height to recalculate
-          target.style.height = `${target.scrollHeight}px`; // Set height to content
+          target.style.height = `${target.scrollHeight}px`; // Set height to details
           onUpdate({
             id: note.id,
             title: e.target.value,
-            content: note.content,
+            details: note.details,
           });
         }}
       />
 
       <textarea
         className='w-full resize-none h-auto outline-none text-sm'
-        placeholder='New content'
-        value={note.content}
+        placeholder='New details'
+        value={note.details}
         onChange={(e) => {
           const target = e.target;
           target.style.height = 'auto'; // Reset height to recalculate
-          target.style.height = `${target.scrollHeight}px`; // Set height to content
+          target.style.height = `${target.scrollHeight}px`; // Set height to details
           onUpdate({
             id: note.id,
             title: note.title,
-            content: e.target.value,
+            details: e.target.value,
           });
         }}
       />

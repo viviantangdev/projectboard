@@ -10,11 +10,11 @@ interface NewTaskModalContentProps {
 
 const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
   const { onCreateTask } = useTasks();
-  const [title, setTitle] = useState<string | undefined>(undefined);
-  const [content, setContent] = useState<string | undefined>(undefined);
-  const [project, setProject] = useState<string | undefined>(undefined);
+  const [title, setTitle] = useState<string>('');
+  const [details, setContent] = useState<string>('');
+  const [project, setProject] = useState<string>('');
   const [priority, setPriority] = useState<PriorityType | undefined>(undefined);
-  const [dueDate, setDueDate] = useState<string | undefined>(undefined);
+  const [dueDate, setDueDate] = useState<string>('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   function handleSubmit(e: React.FormEvent) {
@@ -25,7 +25,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
     // Validate all fields
     const newErrors: { [key: string]: string } = {};
     if (!title) newErrors.title = '* Title is required';
-    if (!content) newErrors.content = '* Details is required';
+    if (!details) newErrors.details = '* Details is required';
     if (!project) newErrors.project = '* Project is required';
     if (!priority) newErrors.priority = '* Select priority';
     if (!dueDate) newErrors.dueDate = '* Due date is required';
@@ -36,36 +36,36 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
     }
 
     // Check if all required fields are valid
-    if (title && content && project && priority && dueDate) {
+    if (title && details && project && priority && dueDate) {
       onCreateTask({
         id: '',
         title,
-        content,
+        details,
         project,
         priority,
         dueDate,
         status: 'Todo',
       });
       // Reset form fields
-      setTitle(undefined);
-      setContent(undefined);
-      setProject(undefined);
+      setTitle('');
+      setContent('');
+      setProject('');
       setPriority(undefined);
-      setDueDate(undefined);
+      setDueDate('');
       setIsModalOpen(false); // Close modal
     }
   }
   return (
     <TaskForm
-      title={title!}
+      title={title}
       setTitle={setTitle}
-      content={content!}
+      details={details}
       setContent={setContent}
-      project={project!}
+      project={project}
       setProject={setProject}
       priority={priority!}
       setPriority={setPriority}
-      dueDate={dueDate!}
+      dueDate={dueDate}
       setDueDate={setDueDate}
       handleSubmit={handleSubmit}
       errors={errors}

@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { type PriorityType, type StatusType, type TaskItem } from '../../../shared/utils/task';
+import {
+  type PriorityType,
+  type StatusType,
+  type TaskItem,
+} from '../../../shared/utils/task';
 import { useTasks } from '../context/useTasks';
 import TaskForm from './TaskForm';
 
@@ -15,7 +19,7 @@ const EditTaskModalContent = ({
 }: EditTaskModalContentProps) => {
   const { onUpdateTask } = useTasks();
   const [title, setTitle] = useState<string>(task.title);
-  const [content, setContent] = useState<string>(task.content);
+  const [details, setContent] = useState<string>(task.details);
   const [project, setProject] = useState<string>(task.project);
   const [priority, setPriority] = useState<PriorityType>(task.priority);
   const [dueDate, setDueDate] = useState<string>(task.dueDate);
@@ -30,7 +34,7 @@ const EditTaskModalContent = ({
     // Validate all fields
     const newErrors: { [key: string]: string } = {};
     if (!title) newErrors.title = '* Title is required';
-    if (!content) newErrors.content = '* Details is required';
+    if (!details) newErrors.details = '* Details is required';
     if (!project) newErrors.project = '* Project is required';
     if (!priority) newErrors.priority = '* Select priority';
     if (!dueDate) newErrors.dueDate = '* Due date is required';
@@ -41,12 +45,12 @@ const EditTaskModalContent = ({
     }
 
     // Check if all required fields are valid
-    if (title && content && project && priority && dueDate) {
+    if (title && details && project && priority && dueDate) {
       // Update task
       onUpdateTask(task.id, {
-        id: task.id, 
+        id: task.id,
         title,
-        content,
+        details,
         project,
         priority,
         dueDate,
@@ -59,7 +63,7 @@ const EditTaskModalContent = ({
     <TaskForm
       title={title!}
       setTitle={setTitle}
-      content={content!}
+      details={details!}
       setContent={setContent}
       project={project!}
       setProject={setProject}
