@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Modal from '../../../shared/components/Modal';
 import { useSortTasks } from '../../../shared/hooks/useSortTask';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
@@ -17,6 +17,19 @@ const DashboardTable = () => {
   const { actionButtons, editTask } = useTaskActions(tasks, onDeleteTask, () =>
     setIsEditTaskModalOpen(true)
   );
+
+  const filteredTasks = useMemo(() => {
+    return sortedData
+      .filter((item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .filter(
+        (item) =>
+          (filterProject === '' || item.project.name === filterProject) &&
+          (filterPriority === '' || item.priority === filterPriority) &&
+          (filterStatus === '' || item.status === filterStatus)
+      );
+  }, [sortedData, searchTerm, filterPriority, filterProject, filterStatus]);
 
   return (
     <div className='container max-w-4xl'>
@@ -116,95 +129,80 @@ const DashboardTable = () => {
           </thead>
           {/*Body */}
           <tbody>
-            {sortedData
-              .filter((item) =>
-                item.title.toLowerCase().includes(searchTerm.toLowerCase())
-              )
-              .filter(
-                (item) =>
-                  (filterProject === '' ||
-                    item.project.name === filterProject) &&
-                  (filterPriority === '' || item.priority === filterPriority) &&
-                  (filterStatus === '' || item.status === filterStatus)
-              )
-              .map((item) => (
-                <tr key={item.id} className='tableRow'>
-                  <td className='p-3'>
-                    <input
-                      type='checkbox'
-                      checked={item.status === 'Done'}
-                      onChange={() => onToggleTaskStatus(item.id, item.status)}
-                      className='h-5 w-5 checkbox'
-                    />
-                  </td>
-                  <td
-                    className={`p-3 ${
-                      item.status === 'Done' && 'line-through text-gray-400'
-                    }`}
-                  >
-                    {item.title}
-                  </td>
-                  <td
-                    className={`p-3 ${
-                      item.status === 'Done' && 'text-gray-400'
-                    }`}
-                  >
-                    {item.project.name}
-                  </td>
-                  <td className='p-3'>
-                    <Badge
-                      value={item.priority}
-                      colorMap={{
-                        High:
-                          item.status === 'Done'
-                            ? 'text-gray-400 bg-gray-200'
-                            : 'text-red-700 bg-red-100',
-                        Medium:
-                          item.status === 'Done'
-                            ? 'text-gray-400 bg-gray-200'
-                            : 'text-amber-700 bg-amber-100',
-                        Low:
-                          item.status === 'Done'
-                            ? 'text-gray-400 bg-gray-200'
-                            : 'text-emerald-700 bg-emerald-100',
-                      }}
-                    />
-                  </td>
-                  <td
-                    className={`p-3 ${
-                      item.status === 'Done' && 'text-gray-400'
-                    }`}
-                  >
-                    {item.dueDate}
-                  </td>
-                  <td className='p-3'>
-                    <Badge
-                      value={item.status}
-                      colorMap={{
-                        Done: 'text-emerald-700 bg-emerald-100 ',
-                        Todo: 'text-zinc-700 bg-sky-100 ',
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <div className='flex gap-3'>
-                      {item.status !== 'Done' &&
-                        actionButtons.map((action, index) => (
-                          <button
-                            key={index}
-                            onClick={() => action.onClick(item.id)}
-                            aria-label={action.label}
-                            title={action.label}
-                            disabled={item.status === 'Done'}
-                            className='iconButton'
-                          >
-                            {action.icon}
-                          </button>
-                        ))}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+            {filteredTasks.map((item) => (
+              <tr key={item.id} className='tableRow'>
+                <td className='p-3'>
+                  <input
+                    type='checkbox'
+                    checked={item.status === 'Done'}
+                    onChange={() => onToggleTaskStatus(item.id, item.status)}
+                    className='h-5 w-5 checkbox'
+                  />
+                </td>
+                <td
+                  className={`p-3 ${
+                    item.status === 'Done' && 'line-through text-gray-400'
+                  }`}
+                >
+                  {item.title}
+                </td>
+                <td
+                  className={`p-3 ${item.status === 'Done' && 'text-gray-400'}`}
+                >
+                  {item.project.name}
+                </td>
+                <td className='p-3'>
+                  <Badge
+                    value={item.priority}
+                    colorMap={{
+                      High:
+                        item.status === 'Done'
+                          ? 'text-gray-400 bg-gray-200'
+                          : 'text-red-700 bg-red-100',
+                      Medium:
+                        item.status === 'Done'
+                          ? 'text-gray-400 bg-gray-200'
+                          : 'text-amber-700 bg-amber-100',
+                      Low:
+                        item.status === 'Done'
+                          ? 'text-gray-400 bg-gray-200'
+                          : 'text-emerald-700 bg-emerald-100',
+                    }}
+                  />
+                </td>
+                <td
+                  className={`p-3 ${item.status === 'Done' && 'text-gray-400'}`}
+                >
+                  {item.dueDate}
+                </td>
+                <td className='p-3'>
+                  <Badge
+                    value={item.status}
+                    colorMap={{
+                      Done: 'text-emerald-700 bg-emerald-100 ',
+                      Todo: 'text-zinc-700 bg-sky-100 ',
+                    }}
+                  />
+                </td>
+                <td>
+                  <div className='flex gap-3'>
+                    {item.status !== 'Done' &&
+                      actionButtons.map((action, index) => (
+                        <button
+                          key={index}
+                          onClick={() => action.onClick(item.id)}
+                          aria-label={action.label}
+                          title={action.label}
+                          disabled={item.status === 'Done'}
+                          className='iconButton'
+                        >
+                          {action.icon}
+                        </button>
+                      ))}
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
