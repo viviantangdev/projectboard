@@ -1,4 +1,5 @@
 import { useParams } from 'react-router';
+import FeatureLayout from '../../../shared/layouts/FeatureLayout';
 import { useProjects } from '../context/useProjects';
 
 const ProjectDetail = () => {
@@ -12,11 +13,17 @@ const ProjectDetail = () => {
   console.log('ProjectDetail rendering for projectId:', projectId);
   console.log('Selected project:', project);
   return (
-    <div>
-      <h1>{project.name}</h1>
-      <p>Project ID: {project.id}</p>
+    <FeatureLayout
+      title={`Project: ${project.name}`}
+      actionButton={
+        <button onClick={() => {}} className='actionButton'>
+          + New project
+        </button>
+      }
+    >
       {/* Render additional project details */}
-    </div>
+      <></>
+    </FeatureLayout>
   );
 };
 

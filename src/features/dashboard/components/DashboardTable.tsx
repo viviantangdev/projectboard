@@ -1,82 +1,22 @@
 import { useState } from 'react';
-import { TbEdit, TbEye, TbTrash } from 'react-icons/tb';
 import Modal from '../../../shared/components/Modal';
-import type { TaskItem } from '../../../shared/utils/task';
+import { useSortTasks } from '../../../shared/hooks/useSortTask';
+import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import { useTasks } from '../context/useTasks';
 import Badge from './Badge';
 import EditTaskModalContent from './EditTaskModalContent';
-
-type SortOrderType = 'asc' | 'desc';
 
 const DashboardTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterProject, setFilterProject] = useState('');
   const [filterPriority, setFilterPriority] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
-  const [sortBy, setSortBy] = useState<keyof TaskItem>('id');
-  const [sortOrder, setSortOrder] = useState<SortOrderType>('asc'); // Default ascending order
-  const [editTask, setEditTask] = useState<TaskItem | null>(null); // Track task to edit
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
-
   const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
-
-  function handleOpenModal() {
-    setIsEditTaskModalOpen(true);
-  }
-
-  const handleSeeMore = (id: string) => {
-    console.log(`see more ${id}`);
-  };
-  const handleEdit = (task: TaskItem) => {
-    handleOpenModal();
-    setEditTask(task); // Open modal with task data
-  };
-
-  const handleDelete = (id: string) => {
-    onDeleteTask(id);
-  };
-
-  const actionButtons = [
-    {
-      icon: <TbEye size={15} />,
-      label: 'View',
-      onClick: handleSeeMore,
-    },
-    {
-      icon: <TbEdit size={15} />,
-      label: 'Edit',
-      onClick: (id: string) => {
-        const task = tasks.find((t) => t.id === id);
-        if (task) handleEdit(task);
-      },
-    },
-    {
-      icon: <TbTrash size={15} />,
-      label: 'Delete',
-      onClick: handleDelete,
-    },
-  ];
-
-  // Function to handle sorting
-  const handleSort = (key: keyof TaskItem) => {
-    if (sortBy === key) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(key);
-      setSortOrder('asc');
-    }
-  };
-
-  // Sorting logic based on sortBy and sortOrder
-  const sortedData = [...tasks].sort((a, b) => {
-    const aValue = a[sortBy];
-    const bValue = b[sortBy];
-    if (sortOrder === 'asc') {
-      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-    } else {
-      return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
-    }
-  });
+  const { sortedData, handleSort, sortBy, sortOrder } = useSortTasks(tasks); // Use the custom hook
+  const { actionButtons, editTask } = useTaskActions(tasks, onDeleteTask, () =>
+    setIsEditTaskModalOpen(true)
+  );
 
   return (
     <div className='container max-w-4xl'>
@@ -168,7 +108,7 @@ const DashboardTable = () => {
                 onClick={() => handleSort('status')}
                 className='tableHeaderItem'
               >
-                Status{' '}
+                Status
                 {sortBy === 'status' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
               <th></th>

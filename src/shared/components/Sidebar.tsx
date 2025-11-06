@@ -1,8 +1,9 @@
+import { useState } from 'react';
+import { GoChevronDown } from 'react-icons/go';
 import { NavLink } from 'react-router';
 import Logo from '../components/Logo';
 import ThemeToggle from '../components/ThemeToggle';
 import { useNavigations } from '../hooks/useNavigations';
-import { useState } from 'react';
 
 const Sidebar = () => {
   const navigations = useNavigations();
@@ -18,9 +19,14 @@ const Sidebar = () => {
                 <>
                   <button
                     onClick={() => setIsProjectsOpen(!isProjectsOpen)}
-                    className='navlink font-semibold text-left'
+                    className='navlink flex justify-between items-center'
                   >
                     {nav.name}
+                    <span
+                 className={`transition-transform duration-300 ${isProjectsOpen ? 'rotate-180' : 'rotate-0'}`}
+                    >
+                      <GoChevronDown />
+                    </span>
                   </button>
                   {isProjectsOpen && (
                     <div className='ml-4 flex flex-col gap-1'>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { GoChevronDown } from 'react-icons/go';
 import { HiMiniBars3, HiOutlineXMark } from 'react-icons/hi2';
 import { NavLink } from 'react-router';
 import Logo from '../components/Logo';
@@ -30,15 +31,22 @@ const Navbar = () => {
         }`}
       >
         <div className='flex flex-col gap-2'>
-            {navigations.map((nav, index) => (
+          {navigations.map((nav, index) => (
             <div key={index} className='flex flex-col gap-1'>
               {nav.children && nav.children.length > 0 ? (
                 <>
                   <button
                     onClick={() => setIsProjectsOpen(!isProjectsOpen)}
-                    className='navlink font-semibold text-left'
+                    className='navlink flex justify-between items-center'
                   >
                     {nav.name}
+                    <span
+                      className={`transition-transform duration-300 ${
+                        isProjectsOpen ? 'rotate-180' : 'rotate-0'
+                      }`}
+                    >
+                      <GoChevronDown />
+                    </span>
                   </button>
                   {isProjectsOpen && (
                     <div className='ml-4 flex flex-col gap-1'>
