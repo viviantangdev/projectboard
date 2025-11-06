@@ -28,6 +28,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
   const [dueDate, setDueDate] = useState<string>('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+  const [newProject, setNewProject] = useState<string>('');
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,7 +50,6 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
 
     // Check if all required fields are valid
     if (title && details && project && priority && dueDate) {
-      console.log(project);
       onCreateTask({
         id: '',
         title,
@@ -146,7 +146,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
             </select>
             <button
               type='button'
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsAddProjectModalOpen(true)}
               className='text-sm text-sky-500 cursor-pointer'
             >
               Create new
@@ -248,7 +248,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
         </button>
         <button
           type='button'
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsModalOpen(false)}
           className='cancelButton w-full'
         >
           Cancel
@@ -260,17 +260,12 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
           isOpen={isAddProjectModalOpen}
           setIsOpen={setIsAddProjectModalOpen}
           children={
-            <SingleInputModalContent
-              value={''}
-              setValue={(value) =>
-                setProject((prev) => ({
-                  ...prev,
-                  name: value,
-                }))
-              }
-              onSubmit={() => addProject(project.name)}
-              setIsModalOpen={setIsAddProjectModalOpen}
-            />
+           <SingleInputModalContent
+                value={newProject}
+                setValue={setNewProject}
+                onSubmit={() => addProject(newProject)}
+                setIsModalOpen={setIsAddProjectModalOpen}
+              />
           }
         />
       )}

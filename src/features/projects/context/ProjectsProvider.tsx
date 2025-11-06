@@ -26,19 +26,20 @@ export const ProjectsProvider = ({
   };
 
   const editProject = (id: string, name: string) => {
-    console.log('setting projects')
     setProjects((prev) =>
       prev.map((project) =>
         project.id === id ? { ...project, name: name.trim() } : project
       )
     );
-    
+
     // Update tasks with the new project name
     setTasks((prevTasks) =>
       prevTasks.map((task) => {
         if (task.project.id === id) {
-    
-          return { ...task, project: { id: task.project.id, name: name.trim() } };
+          return {
+            ...task,
+            project: { id: task.project.id, name: name.trim() },
+          };
         }
         return task;
       })
