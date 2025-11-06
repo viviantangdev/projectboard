@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { HiMiniBars3, HiOutlineXMark } from 'react-icons/hi2';
 import { NavLink } from 'react-router';
 import Logo from '../components/Logo';
-import { navigations } from '../utils/routes';
 import ThemeToggle from '../components/ThemeToggle';
-
+import { useNavigations } from '../hooks/useNavigations';
 
 const Navbar = () => {
+  const navigations = useNavigations();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(true);
 
   const onToggle = () => {
     setIsNavbarOpen(!isNavbarOpen);
@@ -29,16 +30,45 @@ const Navbar = () => {
         }`}
       >
         <div className='flex flex-col gap-2'>
-          {navigations.map((nav, index) => (
-            <NavLink
-              key={index}
-              to={nav.path!}
-              className={({ isActive }) =>
-                `navlink ${isActive && 'navlinkActive'}`
-              }
-            >
-              {nav.name}
-            </NavLink>
+            {navigations.map((nav, index) => (
+            <div key={index} className='flex flex-col gap-1'>
+              {nav.children && nav.children.length > 0 ? (
+                <>
+                  <button
+                    onClick={() => setIsProjectsOpen(!isProjectsOpen)}
+                    className='navlink font-semibold text-left'
+                  >
+                    {nav.name}
+                  </button>
+                  {isProjectsOpen && (
+                    <div className='ml-4 flex flex-col gap-1'>
+                      {nav.children.map((child, childIndex) => (
+                        <NavLink
+                          key={childIndex}
+                          to={child.path}
+                          className={({ isActive }) =>
+                            `navlink child-navlink ${
+                              isActive ? 'navlinkActive' : ''
+                            }`
+                          }
+                        >
+                          {child.name}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <NavLink
+                  to={nav.path}
+                  className={({ isActive }) =>
+                    `navlink ${isActive ? 'navlinkActive' : ''}`
+                  }
+                >
+                  {nav.name}
+                </NavLink>
+              )}
+            </div>
           ))}
           <ThemeToggle />
         </div>
