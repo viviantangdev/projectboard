@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { BsDot } from 'react-icons/bs';
 import { TbEdit, TbTrash } from 'react-icons/tb';
-import AddProjectModalContent from '../../shared/components/AddProjectModalContent';
 import Modal from '../../shared/components/Modal';
+import SingleInputModalContent from '../../shared/components/SingleInputModalContent';
 import FeatureLayout from '../../shared/layouts/FeatureLayout';
 import { useProjects } from '../projects/context/useProjects';
 
 export const Settings = () => {
-  const { projects, editProject, deleteProject } = useProjects();
+  const { projects, addProject, editProject, deleteProject } = useProjects();
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+  const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
+  const [newProject, setNewProject] = useState<string>('');
+  const [editCurrentProject, setEditCurrentProject] = useState<string>('');
   return (
     <FeatureLayout title='Settings'>
       <div className='flex flex-col gap-5'>
@@ -31,7 +34,12 @@ export const Settings = () => {
               <span key={index}>{project.name}</span>
               <div className='flex items-center'>
                 <button className='iconButton '>
-                  <TbEdit onClick={() => editProject(project.name)} />
+                  <TbEdit
+                    onClick={() => {
+                      setEditCurrentProject(project.name);
+                      setIsEditProjectModalOpen(true);
+                    }}
+                  />
                 </button>
                 <button className='iconButton'>
                   <TbTrash onClick={() => deleteProject(project.name)} />
@@ -46,8 +54,26 @@ export const Settings = () => {
             isOpen={isAddProjectModalOpen}
             setIsOpen={setIsAddProjectModalOpen}
             children={
-              <AddProjectModalContent
+              <SingleInputModalContent
+                value={newProject}
+                setValue={setNewProject}
+                onSubmit={addProject}
                 setIsModalOpen={setIsAddProjectModalOpen}
+              />
+            }
+          />
+        )}
+        {isEditProjectModalOpen && (
+          <Modal
+            title={'Edit project'}
+            isOpen={isEditProjectModalOpen}
+            setIsOpen={setIsEditProjectModalOpen}
+            children={
+              <SingleInputModalContent
+                value={editCurrentProject}
+                setValue={setEditCurrentProject}
+                onSubmit={editProject}
+                setIsModalOpen={setIsEditProjectModalOpen}
               />
             }
           />

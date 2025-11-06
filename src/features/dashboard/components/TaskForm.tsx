@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import AddProjectModalContent from '../../../shared/components/AddProjectModalContent';
 import Modal from '../../../shared/components/Modal';
+import SingleInputModalContent from '../../../shared/components/SingleInputModalContent';
 import {
   priorities,
   statuses,
@@ -44,8 +44,10 @@ const TaskForm = ({
   handleSubmit,
   handleCancel,
 }: TaskProps) => {
-  const { projects } = useProjects();
+  const { projects, addProject } = useProjects();
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+  const [newProject, setNewProject] = useState<string>('');
+
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-10 py-5'>
       <div className='flex flex-col gap-5'>
@@ -233,7 +235,10 @@ const TaskForm = ({
           isOpen={isAddProjectModalOpen}
           setIsOpen={setIsAddProjectModalOpen}
           children={
-            <AddProjectModalContent
+            <SingleInputModalContent
+              value={newProject}
+              setValue={setNewProject}
+              onSubmit={addProject}
               setIsModalOpen={setIsAddProjectModalOpen}
             />
           }

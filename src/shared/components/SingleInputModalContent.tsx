@@ -1,27 +1,28 @@
-import { useState } from 'react';
-import { useProjects } from '../../features/projects/context/useProjects';
-interface AddProjectModalContentProps {
+interface SingleInputtModalContentProps {
+  value: string;
+  setValue: (value: string) => void;
   setIsModalOpen: (isOpen: boolean) => void;
+  onSubmit?: (value: string) => void;
 }
-const AddProjectModalContent = ({
+const SingleInputModalContent = ({
+  value,
+  setValue,
+  onSubmit,
   setIsModalOpen,
-}: AddProjectModalContentProps) => {
-  const { addProject } = useProjects();
-  const [newProject, setNewProject] = useState<string>('');
-
+}: SingleInputtModalContentProps) => {
   return (
     <div className='flex flex-col gap-6 py-3'>
       <input
         type='text'
         className='border rounded border-gray-300 px-2 py-1 '
-        value={newProject}
-        onChange={(e) => setNewProject(e.target.value)}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
       <div className='flex gap-3 '>
         <button
           type='button'
           onClick={() => {
-            addProject(newProject);
+            onSubmit!(value);
             setIsModalOpen(false);
           }}
           className='actionButton w-full'
@@ -42,4 +43,4 @@ const AddProjectModalContent = ({
   );
 };
 
-export default AddProjectModalContent;
+export default SingleInputModalContent;
