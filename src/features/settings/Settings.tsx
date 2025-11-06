@@ -11,7 +11,10 @@ export const Settings = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
   const [newProject, setNewProject] = useState<string>('');
-  const [editCurrentProject, setEditCurrentProject] = useState<string>('');
+  const [editCurrentProject, setEditCurrentProject] = useState({
+    id: '',
+    name: '',
+  });
   return (
     <FeatureLayout title='Settings'>
       <div className='flex flex-col gap-5'>
@@ -27,27 +30,30 @@ export const Settings = () => {
           </button>
         </div>
 
-        <div className='flex flex-col gap-2 '>
+        <ul className='flex flex-col gap-2 '>
           {projects.map((project, index) => (
-            <div className='flex items-center gap-5'>
+            <li key={index} className='flex items-center gap-5'>
               <BsDot />
               <span key={index}>{project.name}</span>
               <div className='flex items-center'>
                 <button className='iconButton '>
                   <TbEdit
                     onClick={() => {
-                      setEditCurrentProject(project.name);
+                      setEditCurrentProject({
+                        id: project.id,
+                        name: project.name,
+                      });
                       setIsEditProjectModalOpen(true);
                     }}
                   />
                 </button>
                 <button className='iconButton'>
-                  <TbTrash onClick={() => deleteProject(project.name)} />
+                  <TbTrash onClick={() => deleteProject(project.id)} />
                 </button>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
         {isAddProjectModalOpen && (
           <Modal
             title={'Add project'}
@@ -57,7 +63,7 @@ export const Settings = () => {
               <SingleInputModalContent
                 value={newProject}
                 setValue={setNewProject}
-                onSubmit={addProject}
+                onSubmit={() => addProject(newProject)}
                 setIsModalOpen={setIsAddProjectModalOpen}
               />
             }
@@ -70,9 +76,13 @@ export const Settings = () => {
             setIsOpen={setIsEditProjectModalOpen}
             children={
               <SingleInputModalContent
-                value={editCurrentProject}
-                setValue={setEditCurrentProject}
-                onSubmit={editProject}
+                value={editCurrentProject.name}
+                setValue={(value) =>
+                  setEditCurrentProject((prev) => ({ ...prev, name: value }))
+                }
+                onSubmit={() =>
+                  editProject(editCurrentProject.id, editCurrentProject.name)
+                }
                 setIsModalOpen={setIsEditProjectModalOpen}
               />
             }

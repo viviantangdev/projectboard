@@ -2,7 +2,7 @@ interface SingleInputtModalContentProps {
   value: string;
   setValue: (value: string) => void;
   setIsModalOpen: (isOpen: boolean) => void;
-  onSubmit?: (value: string) => void;
+  onSubmit: () => void;
 }
 const SingleInputModalContent = ({
   value,
@@ -22,7 +22,8 @@ const SingleInputModalContent = ({
         <button
           type='button'
           onClick={() => {
-            onSubmit!(value);
+            onSubmit();
+            setValue('');
             setIsModalOpen(false);
           }}
           className='actionButton w-full'
@@ -32,6 +33,7 @@ const SingleInputModalContent = ({
         <button
           type='button'
           onClick={() => {
+            setValue('');
             setIsModalOpen(false);
           }}
           className='cancelButton w-full'

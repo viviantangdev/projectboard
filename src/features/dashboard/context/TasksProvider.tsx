@@ -1,38 +1,15 @@
+import { useEffect } from 'react';
 import { v4 as uuidV4 } from 'uuid';
 import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
 import type { TaskItem } from '../../../shared/utils/task';
 import { TasksContext } from './TasksContext';
 
 export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
-  const [tasks, setTasks] = useLocalStorage<TaskItem[]>('TASKS', [
-    {
-      id: '1',
-      title: 'Task 1',
-      details: 'Details 1',
-      project: 'Home',
-      priority: 'High',
-      dueDate: '2020-01-01',
-      status: 'Todo',
-    },
-    {
-      id: '2',
-      title: 'Task 2',
-      details: 'Details 2',
-      project: 'Home',
-      priority: 'High',
-      dueDate: '2020-01-01',
-      status: 'Todo',
-    },
-    {
-      id: '3',
-      title: 'Task 3',
-      details: 'Details 3',
-      project: 'Home',
-      priority: 'High',
-      dueDate: '2020-01-01',
-      status: 'Todo',
-    },
-  ]);
+  const [tasks, setTasks] = useLocalStorage<TaskItem[]>('TASKS', []);
+  useEffect(() => {
+    localStorage.setItem('TASKS', JSON.stringify(tasks));
+    console.log('Updated tasks:', tasks); // Log updated state
+  }, [tasks]);
 
   function onCreateTask({
     title,
@@ -42,7 +19,6 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     dueDate,
     status,
   }: TaskItem) {
-    console.log('ööööö');
     setTasks((prev) => [
       ...prev,
       {
@@ -84,7 +60,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
         onCreateTask,
         onUpdateTask,
         onDeleteTask,
-        onToggleTaskStatus,
+        onToggleTaskStatus,setTasks
       }}
     >
       {children}

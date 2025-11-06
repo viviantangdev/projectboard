@@ -18,10 +18,11 @@ const DashboardTable = () => {
   const [editTask, setEditTask] = useState<TaskItem | null>(null); // Track task to edit
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
 
+  const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
+
   function handleOpenModal() {
     setIsEditTaskModalOpen(true);
   }
-  const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
 
   const handleSeeMore = (id: string) => {
     console.log(`see more ${id}`);
@@ -94,11 +95,13 @@ const DashboardTable = () => {
           className='select'
         >
           <option value=''>All Projects</option>
-          {[...new Set(tasks.map((item) => item.project))].map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
+          {[...new Set(tasks.map((item) => item.project.name))].map(
+            (value, index) => (
+              <option key={index} value={value}>
+                {value}
+              </option>
+            )
+          )}
         </select>
         <select
           value={filterPriority}
@@ -179,7 +182,8 @@ const DashboardTable = () => {
               )
               .filter(
                 (item) =>
-                  (filterProject === '' || item.project === filterProject) &&
+                  (filterProject === '' ||
+                    item.project.name === filterProject) &&
                   (filterPriority === '' || item.priority === filterPriority) &&
                   (filterStatus === '' || item.status === filterStatus)
               )
@@ -205,7 +209,7 @@ const DashboardTable = () => {
                       item.status === 'Done' && 'text-gray-400'
                     }`}
                   >
-                    {item.project}
+                    {item.project.name}
                   </td>
                   <td className='p-3'>
                     <Badge
@@ -274,7 +278,7 @@ const DashboardTable = () => {
           children={
             <EditTaskModalContent
               task={editTask}
-              setIsModalOpen={() => setEditTask(null)}
+              setIsModalOpen={setIsEditTaskModalOpen}
             />
           }
         />
