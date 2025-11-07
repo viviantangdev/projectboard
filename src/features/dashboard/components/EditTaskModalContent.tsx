@@ -36,6 +36,7 @@ const EditTaskModalContent = ({
   const [status, setStatus] = useState<StatusType>(task.status);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     // Reset error message
@@ -71,8 +72,8 @@ const EditTaskModalContent = ({
   }
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-10 py-5'>
+      {/*Title & Details */}
       <div className='flex flex-col gap-5'>
-        {/*Title & Details */}
         <div>
           <div className='flex justify-between items-center'>
             <label htmlFor='title' className='text-sm'>
@@ -145,9 +146,9 @@ const EditTaskModalContent = ({
             <button
               type='button'
               onClick={() => setIsAddProjectModalOpen(true)}
-              className='text-sm text-sky-500 cursor-pointer'
+              className='text-sm text-sky-500 dark:text-zinc-50 cursor-pointer'
             >
-              Create new
+              Add project
             </button>
           </div>
         </div>
@@ -161,7 +162,7 @@ const EditTaskModalContent = ({
               <span className='text-xs text-red-500'>{errors.priority}</span>
             )}
           </div>
-          <div className='flex gap-1'>
+          <div className='flex gap-2'>
             {priorities.map((value, index) => (
               <Badge
                 key={index}
@@ -170,16 +171,16 @@ const EditTaskModalContent = ({
                 colorMap={{
                   High:
                     priority === 'High'
-                      ? 'text-red-700 bg-red-100 border-red-100 border-2'
-                      : 'text-red-700 bg-transparent border-red-100 border-2 hover:text-red-700 hover:bg-red-100 hover:border-red-100 hover:border-2',
+                      ? 'badgeHigh'
+                      : 'unSelectedBadge unSelectedBadgeHigh',
                   Medium:
                     priority === 'Medium'
-                      ? 'text-amber-700 bg-amber-100 border-amber-100 border-2'
-                      : 'text-amber-700 bg-transparent border-amber-100 border-2 hover:text-amber-700 hover:bg-amber-100 hover:border-amber-100 hover:border-2',
+                      ? 'badgeMedium'
+                      : 'unSelectedBadge unSelectedBadgeMedium',
                   Low:
                     priority === 'Low'
-                      ? 'text-emerald-700 bg-emerald-100 border-emerald-100 border-2'
-                      : 'text-emerald-700 bg-transparent border-emerald-100 border-2 hover:text-emerald-700 hover:bg-emerald-100 hover:border-emerald-100 hover:border-2',
+                      ? 'badgeLow'
+                      : 'unSelectedBadge unSelectedBadgeLow',
                 }}
               />
             ))}
@@ -222,9 +223,18 @@ const EditTaskModalContent = ({
                 onClick={() => setStatus(value)}
                 value={value}
                 colorMap={{
-                  Done: 'badgeDone',
-                  Ongoing: 'badgeOngoing',
-                  Todo: 'badgeTodo',
+                  Done:
+                    status === 'Done'
+                      ? 'badgeDone'
+                      : 'unSelectedBadge unSelectedBadgeDone',
+                  Ongoing:
+                    status === 'Ongoing'
+                      ? 'badgeOngoing'
+                      : 'unSelectedBadge unSelectedBadgeOngoing',
+                  Todo:
+                    status === 'Todo'
+                      ? 'badgeTodo'
+                      : 'unSelectedBadge unSelectedBadgeTodo',
                 }}
               />
             ))}

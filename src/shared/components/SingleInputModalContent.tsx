@@ -11,14 +11,14 @@ const SingleInputModalContent = ({
   setIsModalOpen,
 }: SingleInputtModalContentProps) => {
   return (
-    <div className='flex flex-col gap-6 py-3'>
+    <div className='flex flex-col py-6'>
       <input
         type='text'
-        className='border rounded border-gray-300 px-2 py-1 '
+        className='searchInput'
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <div className='flex gap-3 '>
+      <div className='flex gap-3 pt-5'>
         <button
           type='button'
           onClick={() => {

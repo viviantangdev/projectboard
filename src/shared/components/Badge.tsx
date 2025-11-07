@@ -10,7 +10,7 @@ const Badge = <T extends string>({
   return (
     <span
       onClick={onClick}
-      className={`${onClick && 'cursor-pointer'} ${colorMap[value]} py-1 px-2 rounded text-xs`}
+      className={`${onClick && 'cursor-pointer'} ${colorMap[value]} rounded text-xs py-1 px-2`}
     >
       {value}
     </span>
