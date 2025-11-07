@@ -2,7 +2,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { v4 as uuidV4 } from 'uuid';
 import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
 import type { NoteItem } from '../../../shared/utils/note';
-import { NotesContext } from './NotesContext';
+import { NotesContext } from './useNotes';
 
 export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const [notes, setNotes] = useLocalStorage<NoteItem[]>('NOTES', [

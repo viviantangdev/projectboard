@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
 import SingleInputModalContent from '../../../shared/components/SingleInputModalContent';
 import {
@@ -11,7 +12,6 @@ import {
 } from '../../../shared/utils/task';
 import { useProjects } from '../../projects/context/useProjects';
 import { useTasks } from '../context/useTasks';
-import Badge from './Badge';
 
 interface NewTaskModalContentProps {
   setIsModalOpen: (isOpen: boolean) => void;
@@ -133,7 +133,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
                 );
                 setProject(selectedProject || { id: '', name: '' });
               }}
-              className='text-sm border border-gray-300 rounded p-1'
+              className='modalInput'
             >
               <option value='' disabled>
                 Select a project
@@ -203,7 +203,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
               placeholder='YYYY-MM-DD'
-              className='text-sm border border-gray-300 rounded p-1'
+              className='modalInput'
             />
           </div>
         </div>
@@ -260,12 +260,12 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
           isOpen={isAddProjectModalOpen}
           setIsOpen={setIsAddProjectModalOpen}
           children={
-           <SingleInputModalContent
-                value={newProject}
-                setValue={setNewProject}
-                onSubmit={() => addProject(newProject)}
-                setIsModalOpen={setIsAddProjectModalOpen}
-              />
+            <SingleInputModalContent
+              value={newProject}
+              setValue={setNewProject}
+              onSubmit={() => addProject(newProject)}
+              setIsModalOpen={setIsAddProjectModalOpen}
+            />
           }
         />
       )}

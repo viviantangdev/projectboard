@@ -3,7 +3,8 @@ import { v4 as uuidV4 } from 'uuid';
 import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
 import type { ProjectItem } from '../../../shared/utils/task';
 import { useTasks } from '../../dashboard/context/useTasks';
-import { ProjectsContext } from './ProjectsContext';
+import { ProjectsContext } from './useProjects';
+
 export const ProjectsProvider = ({
   children,
 }: {

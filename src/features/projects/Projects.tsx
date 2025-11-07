@@ -11,7 +11,7 @@ const Projects = () => {
 
   if (projects.length === 0) {
     return (
-      <div className='m-auto flex flex-col gap-3'>
+      <div className='m-auto flex flex-col items-center gap-3'>
         <span>You dont have any projects.</span>
         <button
           type='button'

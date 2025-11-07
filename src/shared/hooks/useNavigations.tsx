@@ -1,8 +1,13 @@
+import { FaGear, FaFolderOpen } from 'react-icons/fa6';
+import { FaNoteSticky } from 'react-icons/fa6';
+import { LuDot } from 'react-icons/lu';
+import { MdDashboard } from 'react-icons/md';
 import { useProjects } from '../../features/projects/context/useProjects';
 
 export interface NavigationItem {
   name: string;
   path: string;
+  icon: React.ReactNode;
   children?: NavigationItem[];
 }
 
@@ -13,18 +18,20 @@ export const useNavigations = (): NavigationItem[] => {
   // Map project children
   const projectNavItems: NavigationItem[] = projects.map((project) => ({
     name: project.name,
-    path: `/projects/${project.name}`, 
+    path: `/projects/${project.name}`,
+    icon: <LuDot />,
   }));
 
   return [
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Notes', path: '/notes' },
+    { name: 'Dashboard', path: '/dashboard', icon: <MdDashboard /> },
     {
       name: 'Projects',
       path: '/projects',
+      icon: <FaFolderOpen />,
       // Only include children if there are projects
       ...(projects.length > 0 && { children: projectNavItems }),
     },
-    { name: 'Settings', path: '/settings' },
+    { name: 'Notes', path: '/notes', icon: <FaNoteSticky /> },
+    { name: 'Settings', path: '/settings', icon: <FaGear /> },
   ];
 };

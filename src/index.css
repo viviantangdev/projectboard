@@ -11,27 +11,27 @@
 }
 
 body {
-  @apply scroll-smooth font-body bg-white text-zinc-900 h-screen min-w-screen
+  @apply scroll-smooth font-body bg-zinc-50 text-zinc-900 h-screen min-w-screen
   transform transition-smooth;
   @variant dark {
-    @apply bg-zinc-900 text-zinc-200;
+    @apply bg-zinc-900 text-zinc-100;
   }
 }
 
 /*-----------NAVIGATION------------*/
 
 .navHeader {
-  @apply bg-blue-100 sticky top-0 z-10000000000000000
+  @apply bg-zinc-100 sticky top-0 z-10000000000000000
   md:hidden flex justify-between items-center p-3 
   shadow-xs
   border-b border-gray-300;
   @variant dark {
-    @apply bg-zinc-800 border-gray-800;
+    @apply bg-zinc-800 border-zinc-600;
   }
 }
 .navbar {
-  @apply bg-blue-100  p-5 z-10000000000000000
-  fixed top-13 right-0 w-[30%] h-screen 
+  @apply bg-zinc-100  p-5 z-10000000000000000
+  fixed top-13 right-0 w-[30%] bottom-0
   border-l border-gray-300
   transform transition-smooth;
   @variant dark {
@@ -41,12 +41,12 @@ body {
 
 .sidebar {
   @apply hidden md:block p-5
- bg-blue-100 
+ bg-zinc-100 
   h-screen w-[200px]
   border-r border-gray-300
   transform transition-smooth;
   @variant dark {
-    @apply bg-zinc-800 border-gray-800;
+    @apply bg-zinc-800 border-zinc-600;
   }
 }
 
@@ -57,19 +57,24 @@ body {
     @apply text-sky-400;
   }
   @variant dark {
-    @apply text-gray-500;
+    @apply text-sky-600;
+    &:hover {
+      @apply text-zinc-100;
+    }
   }
 }
 
 .navlinkActive {
   @apply text-sky-500;
+  @variant dark {
+    @apply text-zinc-100;
+  }
 }
-
 
 /*-----------NOTES------------*/
 
 .noteBoard {
-  @apply flex flex-col gap-4 p-4 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(250px,1fr))];
+  @apply flex flex-col gap-4 p-4 md:grid md:grid-cols-[repeat(auto-fit,minmax(250px,1fr))];
 }
 
 .note {
@@ -88,15 +93,15 @@ body {
   @apply w-5 h-5;
 }
 
-/*-----------DASHBOARD------------*/
+/*-----------DASHBOARD TABLE------------*/
 
 .tableContainer {
   @apply table-auto border-collapse;
 }
 .tableHeader {
-  @apply text-left cursor-pointer bg-sky-200 text-gray-700;
+  @apply text-left cursor-pointer bg-sky-200;
   @variant dark {
-    @apply bg-gray-700 text-zinc-100;
+    @apply bg-zinc-700 text-zinc-200;
   }
 }
 .tableHeaderItem {
@@ -104,54 +109,67 @@ body {
 }
 
 .tableRow {
-  @apply border-t border-gray-200 bg-white;
+  @apply border-t border-gray-200 bg-zinc-100 text-zinc-800;
   &:hover {
     @apply bg-sky-100;
   }
   @variant dark {
-    @apply bg-zinc-800 border-gray-700;
+    @apply bg-zinc-800 border-gray-700 text-zinc-300;
     &:hover {
-      @apply bg-zinc-700;
+      @apply bg-zinc-900;
     }
   }
 }
 
 .checkbox {
   @apply h-5 w-5 rounded cursor-pointer appearance-none
-  border border-gray-300;
+  border border-zinc-300;
   &:checked {
     @apply bg-sky-300;
   }
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
+  }
+
   @variant dark {
     @apply bg-zinc-800 border-gray-700;
     &:checked {
       @apply bg-zinc-700;
+    }
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
     }
   }
 }
 
 .checkbox:checked::after {
   content: '✓';
-  @apply flex justify-center items-center text-white text-sm font-bold;
+  @apply flex justify-center items-center text-zinc-50 text-sm font-bold;
 }
 
 .searchInput {
-  @apply text-sm p-2 border border-gray-300 rounded;
+  @apply text-sm p-2 border border-zinc-300 bg-zinc-50 placeholder-zinc-400 rounded;
   &:focus {
     @apply outline-none ring-2 ring-sky-500;
   }
   @variant dark {
-    @apply border-gray-500;
+    @apply border-zinc-600 bg-zinc-700 text-zinc-100 placeholder-zinc-400;
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
+    }
   }
 }
 
 .select {
-  @apply text-sm p-2 border border-gray-300 rounded;
+  @apply text-sm p-2 border border-zinc-300 bg-zinc-50 rounded;
   &:focus {
     @apply outline-none ring-2 ring-sky-500;
   }
   @variant dark {
-    @apply border-gray-500;
+    @apply border-zinc-600 bg-zinc-700 text-zinc-100 placeholder-zinc-400;
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
+    }
   }
 }
 
@@ -160,13 +178,16 @@ body {
 /*Theme button*/
 .themeToggle {
   @apply relative w-15 h-8 rounded-full
-  bg-gray-100 shadow-2xl
+  bg-gray-300 shadow-2xl
   cursor-pointer transition-smooth;
   &:focus {
     @apply outline-none ring-2 ring-blue-500;
   }
   @variant dark {
     @apply bg-gray-600;
+    &:focus {
+      @apply outline-none ring-2 ring-blue-400;
+    }
   }
 }
 
@@ -180,34 +201,127 @@ body {
 /*Action button (Save & add button) & Cancel button*/
 .actionButton {
   @apply cursor-pointer rounded px-4 py-2 shadow-md
-   bg-sky-500 text-zinc-100 
+   bg-sky-500 text-zinc-50 
   transition-smooth;
   &:hover {
-    @apply bg-zinc-700;
+    @apply bg-sky-600;
+  }
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
   }
   @variant dark {
-    @apply bg-sky-600;
+    @apply bg-sky-600 text-zinc-50;
     &:hover {
-      @apply bg-zinc-700;
+      @apply bg-sky-700;
+    }
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
     }
   }
 }
 .cancelButton {
-  @apply cursor-pointer rounded px-4 py-2 shadow-md
-    text-red-400 
+  @apply cursor-pointer rounded px-4 py-2 shadow-md border
+   bg-zinc-200 border-zinc-300 
   transition-smooth;
   &:hover {
-    @apply bg-zinc-700 text-zinc-100;
+    @apply bg-zinc-300;
+  }
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
   }
   @variant dark {
-    @apply bg-sky-600;
+    @apply bg-zinc-700 text-zinc-100  border-zinc-600;
     &:hover {
-      @apply bg-zinc-700;
+      @apply bg-zinc-600;
+    }
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
     }
   }
 }
 
 /*Icon button (View, edit, delete button)*/
 .iconButton {
-  @apply px-2 cursor-pointer hover:text-sky-500 transition-smooth;
+  @apply px-2 cursor-pointer transition-smooth;
+  &:hover {
+    @apply text-sky-500;
+  }
+}
+
+/*-----------BADGE------------*/
+
+/*Priority*/
+.badgeLow {
+  @apply bg-green-500 text-zinc-50;
+  @variant dark {
+    @apply bg-green-500 text-zinc-50;
+  }
+}
+.badgeMedium {
+  @apply bg-amber-500 text-zinc-50;
+  @variant dark {
+    @apply bg-amber-500 text-zinc-50;
+  }
+}
+.badgeHigh {
+  @apply bg-red-500 text-zinc-50;
+  @variant dark {
+    @apply bg-red-500 text-zinc-50;
+  }
+}
+
+/*Status*/
+.badgeTodo {
+  @apply bg-zinc-300;
+  @variant dark {
+    @apply bg-zinc-600 text-zinc-100;
+  }
+}
+.badgeOngoing {
+  @apply bg-sky-500 text-zinc-50;
+  @variant dark {
+    @apply bg-sky-600 text-zinc-50;
+  }
+}
+.badgeDone {
+  @apply bg-emerald-500 text-zinc-50;
+  @variant dark {
+    @apply bg-emerald-600 text-zinc-50;
+  }
+}
+/*-----------MODAL------------*/
+
+.modal {
+  @apply bg-zinc-50 rounded-lg shadow-lg;
+  @variant dark {
+    @apply bg-zinc-800 text-zinc-300;
+  }
+}
+
+.modalInput {
+  @apply text-sm p-2 border border-zinc-300 bg-zinc-50 rounded;
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
+  }
+  @variant dark {
+    @apply border-zinc-600 bg-zinc-700 text-zinc-100 placeholder-zinc-400;
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
+    }
+  }
+}
+
+/*-----------CREATE MENU------------*/
+
+.createMenu {
+  @apply bg-white rounded shadow-md z-1 w-[140px] overflow-hidden;
+  @variant dark {
+    @apply bg-zinc-800;
+  }
+}
+.createMenuLink {
+  @apply cursor-pointer px-4 py-2 text-sm transition-smooth;
+  &:hover {
+    @apply bg-sky-500 text-zinc-100;
+  }
 }

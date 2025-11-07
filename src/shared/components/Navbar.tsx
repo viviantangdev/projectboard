@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { FaBarsStaggered, FaXmark } from 'react-icons/fa6';
 import { GoChevronDown } from 'react-icons/go';
-import { HiMiniBars3, HiOutlineXMark } from 'react-icons/hi2';
 import { NavLink } from 'react-router';
 import Logo from '../components/Logo';
 import ThemeToggle from '../components/ThemeToggle';
@@ -19,14 +19,14 @@ const Navbar = () => {
       <Logo />
       <button onClick={onToggle} className='transform-smooth'>
         {isNavbarOpen ? (
-          <HiOutlineXMark className='size-5' />
+          <FaXmark className='size-5' />
         ) : (
-          <HiMiniBars3 className='size-5' />
+          <FaBarsStaggered className='size-5' />
         )}
       </button>
       {/*Navbar menu */}
       <nav
-        className={`navbar ${
+        className={`navbar flex flex-col justify-between ${
           isNavbarOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -39,7 +39,10 @@ const Navbar = () => {
                     onClick={() => setIsProjectsOpen(!isProjectsOpen)}
                     className='navlink flex justify-between items-center'
                   >
-                    {nav.name}
+                    <div className='flex items-center gap-2'>
+                      {nav.icon}
+                      {nav.name}
+                    </div>
                     <span
                       className={`transition-transform duration-300 ${
                         isProjectsOpen ? 'rotate-180' : 'rotate-0'
@@ -55,11 +58,12 @@ const Navbar = () => {
                           key={childIndex}
                           to={child.path}
                           className={({ isActive }) =>
-                            `navlink child-navlink ${
+                            `flex items-center gap-1 navlink ${
                               isActive ? 'navlinkActive' : ''
                             }`
                           }
                         >
+                          {child.icon}
                           {child.name}
                         </NavLink>
                       ))}
@@ -70,16 +74,19 @@ const Navbar = () => {
                 <NavLink
                   to={nav.path}
                   className={({ isActive }) =>
-                    `navlink ${isActive ? 'navlinkActive' : ''}`
+                    `flex items-center gap-2 navlink ${
+                      isActive ? 'navlinkActive' : ''
+                    }`
                   }
                 >
+                  {nav.icon}
                   {nav.name}
                 </NavLink>
               )}
             </div>
           ))}
-          <ThemeToggle />
         </div>
+        <ThemeToggle />
       </nav>
     </header>
   );

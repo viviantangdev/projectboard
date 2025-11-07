@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaXmark } from 'react-icons/fa6';
 
 interface ModalProps {
   title: string;
@@ -9,15 +10,16 @@ interface ModalProps {
 const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
   return (
     isOpen && (
-      <div className='fixed inset-0 flex items-center justify-center bg-black/50'>
-        <div className='bg-white rounded-lg shadow-lg p-6 max-w-md w-full relative'>
+      <div className='fixed inset-0 flex items-center justify-center bg-black/80'>
+        <div className='modal p-6 max-w-md w-full relative'>
           <button
-            className='absolute top-2 right-2 cursor-pointer'
-            onClick={()=>setIsOpen(false)}
+            className='absolute top-0 right-0 cursor-pointer text-xl p-4'
+            onClick={() => setIsOpen(false)}
           >
-            &#x2715; {/* Close button */}
+            <FaXmark />
+            {/* Close button */}
           </button>
-          <h3>{title}</h3>
+          <h3 className='text-xl'>{title}</h3>
           {children}
         </div>
       </div>

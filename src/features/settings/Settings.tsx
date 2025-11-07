@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BsDot } from 'react-icons/bs';
+import { FaGear } from 'react-icons/fa6';
 import { TbEdit, TbTrash } from 'react-icons/tb';
 import Modal from '../../shared/components/Modal';
 import SingleInputModalContent from '../../shared/components/SingleInputModalContent';
@@ -16,7 +17,7 @@ export const Settings = () => {
     name: '',
   });
   return (
-    <FeatureLayout title='Settings'>
+    <FeatureLayout title='Settings' icon={<FaGear />} withCreateButton={false}>
       <div className='flex flex-col gap-5'>
         <h3>Manage projects</h3>
 

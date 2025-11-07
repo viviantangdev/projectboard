@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
 import SingleInputModalContent from '../../../shared/components/SingleInputModalContent';
 import {
@@ -12,7 +13,6 @@ import {
 } from '../../../shared/utils/task';
 import { useProjects } from '../../projects/context/useProjects';
 import { useTasks } from '../context/useTasks';
-import Badge from './Badge';
 
 interface EditTaskModalContentProps {
   task: TaskItem;
@@ -131,7 +131,7 @@ const EditTaskModalContent = ({
               onChange={(e) =>
                 setProject((prev) => ({ ...prev, name: e.target.value }))
               }
-              className='text-sm border border-gray-300 rounded p-1'
+              className='text-sm select'
             >
               <option value='' disabled>
                 Select a project
@@ -201,7 +201,7 @@ const EditTaskModalContent = ({
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
               placeholder='YYYY-MM-DD'
-              className='text-sm border border-gray-300 rounded p-1'
+              className='text-sm select'
             />
           </div>
         </div>

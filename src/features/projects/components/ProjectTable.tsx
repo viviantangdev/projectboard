@@ -3,12 +3,15 @@ import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
 import { useSortTasks } from '../../../shared/hooks/useSortTask';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
-import { useTasks } from '../context/useTasks';
-import EditTaskModalContent from './EditTaskModalContent';
+import type { ProjectItem } from '../../../shared/utils/task';
+import EditTaskModalContent from '../../dashboard/components/EditTaskModalContent';
+import { useTasks } from '../../dashboard/context/useTasks';
 
-const DashboardTable = () => {
+interface ProjectTableProps {
+  project: ProjectItem;
+}
+const ProjectTable = ({ project }: ProjectTableProps) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterProject, setFilterProject] = useState('');
   const [filterPriority, setFilterPriority] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
@@ -17,19 +20,20 @@ const DashboardTable = () => {
   const { actionButtons, editTask } = useTaskActions(tasks, onDeleteTask, () =>
     setIsEditTaskModalOpen(true)
   );
-
+  // Filter project
   const filteredTasks = useMemo(() => {
+    if (!project) return []; // Return empty array if project is not found
     return sortedData
       .filter((item) =>
         item.title.toLowerCase().includes(searchTerm.toLowerCase())
       )
       .filter(
         (item) =>
-          (filterProject === '' || item.project.name === filterProject) &&
           (filterPriority === '' || item.priority === filterPriority) &&
-          (filterStatus === '' || item.status === filterStatus)
+          (filterStatus === '' || item.status === filterStatus) &&
+          item.project.name === project.name
       );
-  }, [sortedData, searchTerm, filterPriority, filterProject, filterStatus]);
+  }, [sortedData, searchTerm, filterPriority, filterStatus, project]);
 
   return (
     <div className='container max-w-4xl'>
@@ -42,20 +46,7 @@ const DashboardTable = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className='searchInput'
         />
-        <select
-          value={filterProject}
-          onChange={(e) => setFilterProject(e.target.value)}
-          className='select'
-        >
-          <option value=''>All Projects</option>
-          {[...new Set(tasks.map((item) => item.project.name))].map(
-            (value, index) => (
-              <option key={index} value={value}>
-                {value}
-              </option>
-            )
-          )}
-        </select>
+
         <select
           value={filterPriority}
           onChange={(e) => setFilterPriority(e.target.value)}
@@ -96,13 +87,7 @@ const DashboardTable = () => {
               >
                 Task {sortBy === 'title' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
-              <th
-                onClick={() => handleSort('project')}
-                className='tableHeaderItem'
-              >
-                Project
-                {sortBy === 'project' && (sortOrder === 'asc' ? '↑' : '↓')}
-              </th>
+              <th className='tableHeaderItem'>Project</th>
               <th
                 onClick={() => handleSort('priority')}
                 className='tableHeaderItem'
@@ -155,9 +140,18 @@ const DashboardTable = () => {
                   <Badge
                     value={item.priority}
                     colorMap={{
-                      High: 'badgeHigh',
-                      Medium: 'badgeMedium',
-                      Low: 'badgeLow',
+                      High:
+                        item.status === 'Done'
+                          ? 'text-gray-400 bg-gray-200'
+                          : 'text-red-700 bg-red-100',
+                      Medium:
+                        item.status === 'Done'
+                          ? 'text-gray-400 bg-gray-200'
+                          : 'text-amber-700 bg-amber-100',
+                      Low:
+                        item.status === 'Done'
+                          ? 'text-gray-400 bg-gray-200'
+                          : 'text-emerald-700 bg-emerald-100',
                     }}
                   />
                 </td>
@@ -170,8 +164,8 @@ const DashboardTable = () => {
                   <Badge
                     value={item.status}
                     colorMap={{
-                      Done: 'badgeDone',
-                      Todo: 'badgeTodo',
+                      Done: 'text-emerald-700 bg-emerald-100 ',
+                      Todo: 'text-zinc-700 bg-sky-100 ',
                     }}
                   />
                 </td>
@@ -216,4 +210,4 @@ const DashboardTable = () => {
   );
 };
 
-export default DashboardTable;
+export default ProjectTable;

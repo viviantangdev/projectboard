@@ -10,9 +10,9 @@ const Sidebar = () => {
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
   return (
     <aside className='sidebar'>
-      <div className='flex flex-col gap-7 h-full'>
+      <div className='flex flex-col gap-10 h-full'>
         <Logo />
-        <nav className='flex flex-col gap-2 flex-1'>
+        <nav className='flex flex-col gap-3 flex-1'>
           {navigations.map((nav, index) => (
             <div key={index} className='flex flex-col gap-1'>
               {nav.children && nav.children.length > 0 ? (
@@ -21,9 +21,14 @@ const Sidebar = () => {
                     onClick={() => setIsProjectsOpen(!isProjectsOpen)}
                     className='navlink flex justify-between items-center'
                   >
-                    {nav.name}
+                    <div className='flex items-center gap-2'>
+                      {nav.icon}
+                      {nav.name}
+                    </div>
                     <span
-                 className={`transition-transform duration-300 ${isProjectsOpen ? 'rotate-180' : 'rotate-0'}`}
+                      className={`transition-transform duration-300 ${
+                        isProjectsOpen ? 'rotate-180' : 'rotate-0'
+                      }`}
                     >
                       <GoChevronDown />
                     </span>
@@ -35,11 +40,12 @@ const Sidebar = () => {
                           key={childIndex}
                           to={child.path}
                           className={({ isActive }) =>
-                            `navlink child-navlink ${
+                            `flex items-center gap-1 navlink ${
                               isActive ? 'navlinkActive' : ''
                             }`
                           }
                         >
+                          {child.icon}
                           {child.name}
                         </NavLink>
                       ))}
@@ -50,9 +56,10 @@ const Sidebar = () => {
                 <NavLink
                   to={nav.path}
                   className={({ isActive }) =>
-                    `navlink ${isActive ? 'navlinkActive' : ''}`
+                    `flex items-center gap-2 navlink ${isActive ? 'navlinkActive' : ''}`
                   }
                 >
+                  {nav.icon}
                   {nav.name}
                 </NavLink>
               )}

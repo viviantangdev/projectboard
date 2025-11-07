@@ -1,3 +1,4 @@
+import { FaNoteSticky } from 'react-icons/fa6';
 import FeatureLayout from '../../shared/layouts/FeatureLayout';
 import NoteBoard from './components/NoteBoard';
 import { useNotes } from './context/useNotes';
@@ -11,9 +12,11 @@ const Notes = () => {
   return (
     <FeatureLayout
       title='Notes'
+      icon={<FaNoteSticky /> }
+      withCreateButton={false}
       actionButton={
         <button onClick={handleSumbit} className='actionButton'>
-          + New note
+          + Create note
         </button>
       }
     >

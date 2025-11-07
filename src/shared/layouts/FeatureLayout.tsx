@@ -1,23 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
+import NewTaskModalContent from '../../features/dashboard/components/NewTaskModalContent';
+import { useProjects } from '../../features/projects/context/useProjects';
+import CreateButton from '../components/CreateButton';
+import Modal from '../components/Modal';
+import SingleInputModalContent from '../components/SingleInputModalContent';
 
 interface FeatureLayoutProps {
   title: string;
+  icon: React.ReactNode;
   children: React.ReactNode;
+  withCreateButton: boolean;
   actionButton?: React.ReactNode;
 }
 
 const FeatureLayout = ({
-  title,
+  title,icon,
   children,
-  actionButton = <></>,
+  withCreateButton,actionButton
 }: FeatureLayoutProps) => {
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isProjectkModalOpen, setIsProjectkModalOpen] = useState(false);
+  const [newProject, setNewProject] = useState<string>('');
+  const { addProject } = useProjects();
   return (
     <main className='p-3 md:p-10 flex flex-col gap-8 w-full'>
       <div className='flex justify-between items-end'>
-        <h2 className='text-xl'>{title}</h2>
+        <div className='flex items-center gap-2 text-xl'>
+          {icon}
+          <h2>{title}</h2>
+        </div>
+        {withCreateButton && (
+          <CreateButton
+            setTaskOpen={setIsTaskModalOpen}
+            setProjectOpen={setIsProjectkModalOpen}
+          />
+        )}
         {actionButton}
       </div>
       {children}
+      {withCreateButton && isTaskModalOpen && (
+        <Modal
+          isOpen={isTaskModalOpen}
+          setIsOpen={() => setIsTaskModalOpen(false)}
+          title={'New task'}
+          children={<NewTaskModalContent setIsModalOpen={setIsTaskModalOpen} />}
+        />
+      )}
+      {withCreateButton && isProjectkModalOpen && (
+        <Modal
+          isOpen={isProjectkModalOpen}
+          setIsOpen={setIsProjectkModalOpen}
+          title={'Add project'}
+          children={
+            <SingleInputModalContent
+              value={newProject}
+              setValue={setNewProject}
+              onSubmit={() => addProject(newProject)}
+              setIsModalOpen={setIsProjectkModalOpen}
+            />
+          }
+        />
+      )}
     </main>
   );
 };
