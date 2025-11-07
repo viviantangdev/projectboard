@@ -19,6 +19,7 @@ const ProjectDetail = () => {
       icon={<FaFolderOpen />}
       withCreateButton={true}
     >
+      <h3>Tasks</h3>
       <ProjectTable project={project} />
     </FeatureLayout>
   );

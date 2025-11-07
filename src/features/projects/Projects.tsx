@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router';
 import Modal from '../../shared/components/Modal';
-import SingleInputModalContent from '../../shared/components/SingleInputModalContent';
+import TaskFormSingleInput from '../../shared/components/TaskFormSingleInput';
 import { useProjects } from './context/useProjects';
 
 const Projects = () => {
@@ -12,7 +12,7 @@ const Projects = () => {
   if (projects.length === 0) {
     return (
       <div className='m-auto flex flex-col items-center gap-3'>
-        <span>You dont have any projects.</span>
+        <p>You dont have any projects.</p>
         <button
           type='button'
           onClick={() => setIsAddProjectModalOpen(true)}
@@ -26,7 +26,7 @@ const Projects = () => {
             isOpen={isAddProjectModalOpen}
             setIsOpen={setIsAddProjectModalOpen}
             children={
-              <SingleInputModalContent
+              <TaskFormSingleInput
                 value={newProject}
                 setValue={setNewProject}
                 onSubmit={() => addProject(newProject)}

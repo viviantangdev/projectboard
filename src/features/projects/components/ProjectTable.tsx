@@ -4,7 +4,7 @@ import Modal from '../../../shared/components/Modal';
 import { useSortTasks } from '../../../shared/hooks/useSortTask';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import type { ProjectItem } from '../../../shared/utils/task';
-import EditTaskModalContent from '../../dashboard/components/EditTaskModalContent';
+import TaskForm from '../../dashboard/components/TaskForm';
 import { useTasks } from '../../dashboard/context/useTasks';
 
 interface ProjectTableProps {
@@ -20,6 +20,7 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
   const { actionButtons, editTask } = useTaskActions(tasks, onDeleteTask, () =>
     setIsEditTaskModalOpen(true)
   );
+
   // Filter project
   const filteredTasks = useMemo(() => {
     if (!project) return []; // Return empty array if project is not found
@@ -74,7 +75,7 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
       </div>
 
       {/* Table */}
-      <div className='relative overflow-x-auto shadow-md text-xs tracking-wider rounded '>
+      <div className='relative overflow-x-auto shadow-md  tracking-wider rounded '>
         <table className='w-full min-w-[640px] tableContainer'>
           {/*Header*/}
           <thead>
@@ -137,7 +138,7 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
                   {item.project.name}
                 </td>
                 <td className='p-3'>
-                   <Badge
+                  <Badge
                     value={item.priority}
                     colorMap={{
                       High: 'badgeHigh',
@@ -152,11 +153,11 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
                   {item.dueDate}
                 </td>
                 <td className='p-3'>
-                      <Badge
+                  <Badge
                     value={item.status}
                     colorMap={{
                       Done: 'badgeDone',
-                      Ongoing:'badgeOngoing',
+                      Ongoing: 'badgeOngoing',
                       Todo: 'badgeTodo',
                     }}
                   />
@@ -191,10 +192,7 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
           setIsOpen={() => setIsEditTaskModalOpen(false)}
           title={'Edit task'}
           children={
-            <EditTaskModalContent
-              task={editTask}
-              setIsModalOpen={setIsEditTaskModalOpen}
-            />
+            <TaskForm task={editTask} setIsModalOpen={setIsEditTaskModalOpen} />
           }
         />
       )}

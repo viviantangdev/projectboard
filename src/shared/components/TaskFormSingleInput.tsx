@@ -1,15 +1,15 @@
-interface SingleInputtModalContentProps {
+interface TaskFormSingleInputProps {
   value: string;
   setValue: (value: string) => void;
   setIsModalOpen: (isOpen: boolean) => void;
   onSubmit: () => void;
 }
-const SingleInputModalContent = ({
+const TaskFormSingleInput = ({
   value,
   setValue,
   onSubmit,
   setIsModalOpen,
-}: SingleInputtModalContentProps) => {
+}: TaskFormSingleInputProps) => {
   return (
     <div className='flex flex-col py-6'>
       <input
@@ -45,4 +45,4 @@ const SingleInputModalContent = ({
   );
 };
 
-export default SingleInputModalContent;
+export default TaskFormSingleInput;

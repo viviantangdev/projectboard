@@ -4,7 +4,7 @@ import Modal from '../../../shared/components/Modal';
 import { useSortTasks } from '../../../shared/hooks/useSortTask';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import { useTasks } from '../context/useTasks';
-import EditTaskModalContent from './EditTaskModalContent';
+import TaskForm from './TaskForm';
 
 const DashboardTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,7 +83,7 @@ const DashboardTable = () => {
       </div>
 
       {/* Table */}
-      <div className='relative overflow-x-auto shadow-md text-xs tracking-wider rounded '>
+      <div className='relative overflow-x-auto shadow-md  tracking-wider rounded '>
         <table className='w-full min-w-[640px] tableContainer'>
           {/*Header*/}
           <thead>
@@ -171,7 +171,7 @@ const DashboardTable = () => {
                     value={item.status}
                     colorMap={{
                       Done: 'badgeDone',
-                      Ongoing:'badgeOngoing',
+                      Ongoing: 'badgeOngoing',
                       Todo: 'badgeTodo',
                     }}
                   />
@@ -206,10 +206,7 @@ const DashboardTable = () => {
           setIsOpen={() => setIsEditTaskModalOpen(false)}
           title={'Edit task'}
           children={
-            <EditTaskModalContent
-              task={editTask}
-              setIsModalOpen={setIsEditTaskModalOpen}
-            />
+            <TaskForm task={editTask} setIsModalOpen={setIsEditTaskModalOpen} />
           }
         />
       )}

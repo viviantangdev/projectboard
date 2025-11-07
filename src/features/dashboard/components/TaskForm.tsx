@@ -1,46 +1,62 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
-import SingleInputModalContent from '../../../shared/components/SingleInputModalContent';
+import TaskFormSingleInput from '../../../shared/components/TaskFormSingleInput';
 import {
   priorities,
   statuses,
   type PriorityType,
   type ProjectItem,
   type StatusType,
+  type TaskItem,
 } from '../../../shared/utils/task';
 import { useProjects } from '../../projects/context/useProjects';
 import { useTasks } from '../context/useTasks';
 
-interface NewTaskModalContentProps {
+interface TaskFormProps {
+  task?: TaskItem; // Optional for edit mode
   setIsModalOpen: (isOpen: boolean) => void;
 }
 
-const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
+const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
   const { projects, addProject } = useProjects();
-  const { onCreateTask } = useTasks();
-  const [title, setTitle] = useState<string>('');
-  const [details, setContent] = useState<string>('');
-  const [project, setProject] = useState<ProjectItem>({ id: '', name: '' });
-  const [priority, setPriority] = useState<PriorityType | undefined>(undefined);
-  const [status, setStatus] = useState<StatusType>('Todo');
-  const [dueDate, setDueDate] = useState<string>('');
+  const { onCreateTask, onUpdateTask } = useTasks();
+
+  // Initialize state based on whether task is provided (edit mode) or not (create mode)
+  const [title, setTitle] = useState<string>(task?.title || '');
+  const [details, setDetails] = useState<string>(task?.details || '');
+  const [project, setProject] = useState<ProjectItem>(
+    task?.project || { id: '', name: '' }
+  );
+  const [priority, setPriority] = useState<PriorityType | undefined>(
+    task?.priority || undefined
+  );
+  const [dueDate, setDueDate] = useState<string>(task?.dueDate || '');
+  const [status, setStatus] = useState<StatusType>(task?.status || 'Todo');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  const [newProject, setNewProject] = useState<string>('');
+  const [newProjectName, setNewProjectName] = useState<string>('');
+
+  // Update project state when projects list changes (e.g., after adding a new project)
+  useEffect(() => {
+    if (newProjectName && projects.some((p) => p.name === newProjectName)) {
+      const selectedProject = projects.find((p) => p.name === newProjectName);
+      if (selectedProject) setProject(selectedProject);
+      setNewProjectName('');
+    }
+  }, [projects, newProjectName]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Reset error message
     setErrors({});
 
     // Validate all fields
     const newErrors: { [key: string]: string } = {};
     if (!title) newErrors.title = '* Title is required';
     if (!details) newErrors.details = '* Details is required';
-    if (!project) newErrors.project = '* Project is required';
-    if (!priority) newErrors.priority = '* Select priority';
+    if (!project.name) newErrors.project = '* Project is required';
+    if (!priority) newErrors.priority = '* Priority is required';
     if (!dueDate) newErrors.dueDate = '* Due date is required';
 
     if (Object.keys(newErrors).length > 0) {
@@ -48,79 +64,77 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
       return;
     }
 
-    // Check if all required fields are valid
-    if (title && details && project && priority && dueDate) {
-      onCreateTask({
-        id: '',
-        title,
-        details,
-        project,
-        priority,
-        dueDate,
-        status,
-      });
-      // Reset form fields
-      setTitle('');
-      setContent('');
-      setProject({ id: '', name: '' });
-      setPriority(undefined);
-      setDueDate('');
-      setIsModalOpen(false); // Close modal
+    const taskData = {
+      id: task?.id || '',
+      title,
+      details,
+      project,
+      priority: priority!,
+      dueDate,
+      status,
+    };
+
+    // Call appropriate action based on mode
+    if (task) {
+      onUpdateTask(task.id, taskData);
+    } else {
+      onCreateTask(taskData);
     }
+
+    // Reset form and close modal
+    setTitle('');
+    setDetails('');
+    setProject({ id: '', name: '' });
+    setPriority(undefined);
+    setDueDate('');
+    setStatus('Todo');
+    setIsModalOpen(false);
   }
+
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-10 py-5'>
-      {/*Title & Details */}
+      {/* Title & Details */}
       <div className='flex flex-col gap-5'>
         <div>
-          <div className='flex justify-between items-center'>
-            <label htmlFor='title' className='text-sm'>
-              Title:
-            </label>
+          <div className='flex justify-end items-center'>
             {errors.title && (
-              <span className='text-xs text-red-500'>{errors.title}</span>
+              <span className='text-red-500'>{errors.title}</span>
             )}
           </div>
           <textarea
-            className='w-full resize-none h-auto outline-none text-sm placeholder:italic'
-            placeholder='Title: e.g Pay bills'
+            className='w-full resize-none h-auto outline-none  placeholder:italic'
+            placeholder='Title...'
             value={title}
             onChange={(e) => {
               const target = e.target;
-              target.style.height = 'auto'; // Reset height to recalculate
-              target.style.height = `${target.scrollHeight}px`; // Set height to details
+              target.style.height = 'auto';
+              target.style.height = `${target.scrollHeight}px`;
               setTitle(e.target.value);
             }}
           />
-
-          <div className='flex justify-between items-center'>
-            <label htmlFor='Details' className='text-sm'>
-              Details:
-            </label>
+          <div className='flex justify-end items-center'>
             {errors.details && (
-              <span className='text-xs text-red-500'>{errors.details}</span>
+              <span className=' text-red-500'>{errors.details}</span>
             )}
           </div>
           <textarea
-            className='w-full resize-none h-auto outline-none text-sm placeholder:italic'
-            placeholder='Details: e.g rent.'
+            className='w-full resize-none h-auto outline-none  placeholder:italic'
+            placeholder='Details...'
             value={details}
             onChange={(e) => {
               const target = e.target;
-              target.style.height = 'auto'; // Reset height to recalculate
-              target.style.height = `${target.scrollHeight}px`; // Set height to details
-              setContent(e.target.value);
+              target.style.height = 'auto';
+              target.style.height = `${target.scrollHeight}px`;
+              setDetails(e.target.value);
             }}
           />
         </div>
-        {/*Project */}
+        {/* Project */}
         <div className='flex flex-col gap-1'>
           <div className='flex justify-between items-center'>
-            <label htmlFor='Project' className='text-sm'>
-              Project:
-            </label>
+            <label htmlFor='Project'>Project:</label>
             {errors.project && (
-              <span className='text-xs text-red-500'>{errors.project}</span>
+              <span className=' text-red-500'>{errors.project}</span>
             )}
           </div>
           <div className='flex items-center gap-5'>
@@ -131,7 +145,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
                 const selectedProject = projects.find(
                   (p) => p.name === e.target.value
                 );
-                setProject(selectedProject || { id: '', name: '' });
+                setProject(selectedProject || { id: '', name: e.target.value });
               }}
               className='modalInput'
             >
@@ -147,20 +161,18 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
             <button
               type='button'
               onClick={() => setIsAddProjectModalOpen(true)}
-              className='text-sm text-sky-500 dark:text-zinc-50 cursor-pointer'
+              className='secondaryButton'
             >
               Add project
             </button>
           </div>
         </div>
-        {/*Priority */}
+        {/* Priority */}
         <div className='flex flex-col gap-1'>
           <div className='flex justify-between items-center'>
-            <label htmlFor='Priority' className='text-sm'>
-              Priority:
-            </label>
+            <label htmlFor='Priority'>Priority:</label>
             {errors.priority && (
-              <span className='text-xs text-red-500'>{errors.priority}</span>
+              <span className=' text-red-500'>{errors.priority}</span>
             )}
           </div>
           <div className='flex gap-2'>
@@ -187,14 +199,12 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
             ))}
           </div>
         </div>
-        {/*Due Date */}
+        {/* Due Date */}
         <div className='flex flex-col gap-1'>
           <div className='flex justify-between items-center'>
-            <label htmlFor='DueDate' className='text-sm'>
-              Due date:
-            </label>
+            <label htmlFor='DueDate'>Due date:</label>
             {errors.dueDate && (
-              <span className='text-xs text-red-500'>{errors.dueDate}</span>
+              <span className=' text-red-500'>{errors.dueDate}</span>
             )}
           </div>
           <div>
@@ -207,14 +217,12 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
             />
           </div>
         </div>
-        {/*Status */}
+        {/* Status */}
         <div className='flex flex-col gap-1'>
           <div className='flex'>
-            <label htmlFor='Status' className='text-sm'>
-              Status:
-            </label>
+            <label htmlFor='Status'>Status:</label>
             {errors.status && (
-              <span className='text-xs text-red-500'>{errors.status}</span>
+              <span className=' text-red-500'>{errors.status}</span>
             )}
           </div>
           <div className='flex gap-1'>
@@ -243,7 +251,7 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
         </div>
       </div>
 
-      {/*Action Buttons */}
+      {/* Action Buttons */}
       <div className='flex gap-3'>
         <button type='submit' className='actionButton w-full'>
           Save
@@ -258,14 +266,14 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
       </div>
       {isAddProjectModalOpen && (
         <Modal
-          title={'Add project'}
+          title='Add project'
           isOpen={isAddProjectModalOpen}
           setIsOpen={setIsAddProjectModalOpen}
           children={
-            <SingleInputModalContent
-              value={newProject}
-              setValue={setNewProject}
-              onSubmit={() => addProject(newProject)}
+            <TaskFormSingleInput
+              value={newProjectName}
+              setValue={setNewProjectName}
+              onSubmit={() => addProject(newProjectName)}
               setIsModalOpen={setIsAddProjectModalOpen}
             />
           }
@@ -275,4 +283,4 @@ const NewTaskModalContent = ({ setIsModalOpen }: NewTaskModalContentProps) => {
   );
 };
 
-export default NewTaskModalContent;
+export default TaskForm;

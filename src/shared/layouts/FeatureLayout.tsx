@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import NewTaskModalContent from '../../features/dashboard/components/NewTaskModalContent';
+import TaskForm from '../../features/dashboard/components/TaskForm';
 import { useProjects } from '../../features/projects/context/useProjects';
 import CreateButton from '../components/CreateButton';
 import Modal from '../components/Modal';
-import SingleInputModalContent from '../components/SingleInputModalContent';
+import TaskFormSingleInput from '../components/TaskFormSingleInput';
 
 interface FeatureLayoutProps {
   title: string;
@@ -14,18 +14,20 @@ interface FeatureLayoutProps {
 }
 
 const FeatureLayout = ({
-  title,icon,
+  title,
+  icon,
   children,
-  withCreateButton,actionButton
+  withCreateButton,
+  actionButton,
 }: FeatureLayoutProps) => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isProjectkModalOpen, setIsProjectkModalOpen] = useState(false);
   const [newProject, setNewProject] = useState<string>('');
   const { addProject } = useProjects();
   return (
-    <main className='p-3 md:p-10 flex flex-col gap-8 w-full'>
+    <main className='p-5 lg:p-15 flex flex-col gap-8 w-full'>
       <div className='flex justify-between items-end'>
-        <div className='flex items-center gap-2 text-xl'>
+        <div className='flex items-center gap-2 '>
           {icon}
           <h2>{title}</h2>
         </div>
@@ -43,7 +45,7 @@ const FeatureLayout = ({
           isOpen={isTaskModalOpen}
           setIsOpen={() => setIsTaskModalOpen(false)}
           title={'New task'}
-          children={<NewTaskModalContent setIsModalOpen={setIsTaskModalOpen} />}
+          children={<TaskForm setIsModalOpen={setIsTaskModalOpen} />}
         />
       )}
       {withCreateButton && isProjectkModalOpen && (
@@ -52,7 +54,7 @@ const FeatureLayout = ({
           setIsOpen={setIsProjectkModalOpen}
           title={'Add project'}
           children={
-            <SingleInputModalContent
+            <TaskFormSingleInput
               value={newProject}
               setValue={setNewProject}
               onSubmit={() => addProject(newProject)}

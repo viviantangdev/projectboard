@@ -28,7 +28,7 @@ const CreateButton = ({ setTaskOpen, setProjectOpen }: CreateButtonProps) => {
           isCreateMenuOpen ? 'absolute' : 'hidden'
         } right-0 mt-1 flex flex-col createMenu`}
       >
-        <span className='text-sm p-2 text-gray-400'>Create</span>
+        <span className=' p-2 text-gray-400'>Create</span>
         <div className='h-0.5 bg-gray-200' />
         <button
           onClick={() => {

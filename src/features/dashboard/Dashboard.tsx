@@ -9,6 +9,7 @@ const Dashboard = () => {
       icon={<MdDashboard />}
       withCreateButton={true}
     >
+      <h3>All tasks</h3>
       <DashboardTable />
     </FeatureLayout>
   );
