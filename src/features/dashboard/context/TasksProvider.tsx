@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { v4 as uuidV4 } from 'uuid';
 import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
 import type { TaskItem } from '../../../shared/utils/task';
-import { TasksContext } from './TasksContext';
+import { TasksContext } from './useTasks';
 
 export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useLocalStorage<TaskItem[]>('TASKS', []);

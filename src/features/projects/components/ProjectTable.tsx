@@ -137,21 +137,12 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
                   {item.project.name}
                 </td>
                 <td className='p-3'>
-                  <Badge
+                   <Badge
                     value={item.priority}
                     colorMap={{
-                      High:
-                        item.status === 'Done'
-                          ? 'text-gray-400 bg-gray-200'
-                          : 'text-red-700 bg-red-100',
-                      Medium:
-                        item.status === 'Done'
-                          ? 'text-gray-400 bg-gray-200'
-                          : 'text-amber-700 bg-amber-100',
-                      Low:
-                        item.status === 'Done'
-                          ? 'text-gray-400 bg-gray-200'
-                          : 'text-emerald-700 bg-emerald-100',
+                      High: 'badgeHigh',
+                      Medium: 'badgeMedium',
+                      Low: 'badgeLow',
                     }}
                   />
                 </td>
@@ -161,11 +152,12 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
                   {item.dueDate}
                 </td>
                 <td className='p-3'>
-                  <Badge
+                      <Badge
                     value={item.status}
                     colorMap={{
-                      Done: 'text-emerald-700 bg-emerald-100 ',
-                      Todo: 'text-zinc-700 bg-sky-100 ',
+                      Done: 'badgeDone',
+                      Ongoing:'badgeOngoing',
+                      Todo: 'badgeTodo',
                     }}
                   />
                 </td>

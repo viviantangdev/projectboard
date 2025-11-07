@@ -206,37 +206,30 @@ const EditTaskModalContent = ({
           </div>
         </div>
         {/*Status */}
-        {status && setStatus && (
-          <div className='flex flex-col gap-1'>
-            <div className='flex'>
-              <label htmlFor='Status' className='text-sm'>
-                Status:
-              </label>{' '}
-              {errors.status && (
-                <span className='text-xs text-red-500'>{errors.status}</span>
-              )}
-            </div>
-            <div className='flex gap-1'>
-              {statuses.map((value, index) => (
-                <Badge
-                  key={index}
-                  onClick={() => setStatus(value)}
-                  value={value}
-                  colorMap={{
-                    Done:
-                      status === 'Done'
-                        ? 'text-emerald-700 bg-emerald-100 border-emerald-100 border-2'
-                        : 'text-emerald-700 bg-transparent border-emerald-100 border-2 hover:text-emerald-700 hover:bg-emerald-100 hover:border-emerald-100 hover:border-2',
-                    Todo:
-                      status === 'Todo'
-                        ? 'text-zinc-700 bg-sky-100 border-sky-100 border-2'
-                        : 'text-zinc-700 bg-transparent border-zinc-100 border-2 hover:text-zinc-700 hover:bg-sky-100 hover:border-sky-100 hover:border-2',
-                  }}
-                />
-              ))}
-            </div>
+        <div className='flex flex-col gap-1'>
+          <div className='flex'>
+            <label htmlFor='Status' className='text-sm'>
+              Status:
+            </label>
+            {errors.status && (
+              <span className='text-xs text-red-500'>{errors.status}</span>
+            )}
           </div>
-        )}
+          <div className='flex gap-1'>
+            {statuses.map((value, index) => (
+              <Badge
+                key={index}
+                onClick={() => setStatus(value)}
+                value={value}
+                colorMap={{
+                  Done: 'badgeDone',
+                  Ongoing: 'badgeOngoing',
+                  Todo: 'badgeTodo',
+                }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/*Action Buttons */}

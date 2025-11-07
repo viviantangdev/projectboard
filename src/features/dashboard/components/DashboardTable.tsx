@@ -171,6 +171,7 @@ const DashboardTable = () => {
                     value={item.status}
                     colorMap={{
                       Done: 'badgeDone',
+                      Ongoing:'badgeOngoing',
                       Todo: 'badgeTodo',
                     }}
                   />
