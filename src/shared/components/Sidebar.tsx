@@ -8,22 +8,23 @@ import { useNavigations } from '../hooks/useNavigations';
 const Sidebar = () => {
   const navigations = useNavigations();
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
+
   return (
-    <aside className='sidebar'>
-      <div className='flex flex-col gap-10 h-full'>
+    <aside className="sidebar">
+      <div className="flex flex-col gap-10 h-full">
         <Logo />
-        <nav className='flex flex-col gap-3 flex-1'>
+        <nav className="flex flex-col gap-3 flex-1">
           {navigations.map((nav, index) => (
-            <div key={index} className='flex flex-col gap-1'>
+            <div key={index} className="flex flex-col gap-1">
               {nav.children && nav.children.length > 0 ? (
                 <>
                   <button
                     onClick={() => setIsProjectsOpen(!isProjectsOpen)}
-                    className='navlink flex justify-between items-center'
+                    className="navlink flex justify-between items-center"
                   >
-                    <div className='flex items-center gap-2'>
+                    <div className="flex items-center gap-2 text-wrap">
                       {nav.icon}
-                      {nav.name}
+                      <span className="nav-text">{nav.name}</span>
                     </div>
                     <span
                       className={`transition-transform duration-300 ${
@@ -34,7 +35,7 @@ const Sidebar = () => {
                     </span>
                   </button>
                   {isProjectsOpen && (
-                    <div className='ml-4 flex flex-col gap-1'>
+                    <div className="ml-4 flex flex-col gap-1">
                       {nav.children.map((child, childIndex) => (
                         <NavLink
                           key={childIndex}
@@ -46,7 +47,7 @@ const Sidebar = () => {
                           }
                         >
                           {child.icon}
-                          {child.name}
+                          <span className="nav-text">{child.name}</span>
                         </NavLink>
                       ))}
                     </div>
@@ -56,11 +57,13 @@ const Sidebar = () => {
                 <NavLink
                   to={nav.path}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 navlink ${isActive ? 'navlinkActive' : ''}`
+                    `flex items-center gap-2 navlink ${
+                      isActive ? 'navlinkActive' : ''
+                    }`
                   }
                 >
                   {nav.icon}
-                  {nav.name}
+                  <span className="nav-text">{nav.name}</span>
                 </NavLink>
               )}
             </div>

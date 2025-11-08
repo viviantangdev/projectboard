@@ -12,7 +12,7 @@
 
 body {
   @apply scroll-smooth font-body bg-zinc-50 text-zinc-900 h-screen 
-  transform transition-smooth;
+  transform transition-smooth ;
   @variant dark {
     @apply bg-zinc-900 text-zinc-100;
   }
@@ -78,8 +78,12 @@ select {
   }
 }
 
+.nav-text {
+  @apply inline-block whitespace-normal wrap-break-word break-all flex-1;
+}
+
 .navlink {
-  @apply py-2 text-shadow-2xs text-gray-600;
+  @apply py-2 text-shadow-2xs text-gray-600 whitespace-normal wrap-break-word;
 
   &:hover {
     @apply text-sky-400;
