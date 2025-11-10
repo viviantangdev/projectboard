@@ -1,3 +1,5 @@
+import Input from './Input';
+
 interface TaskFormSingleInputProps {
   value: string;
   setValue: (value: string) => void;
@@ -12,12 +14,7 @@ const TaskFormSingleInput = ({
 }: TaskFormSingleInputProps) => {
   return (
     <div className='flex flex-col py-6'>
-      <input
-        type='text'
-        className='searchInput'
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
+      <Input value={value} onChange={setValue} placeHolder='New project' />
       <div className='flex gap-3 pt-5'>
         <button
           type='button'

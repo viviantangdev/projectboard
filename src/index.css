@@ -11,10 +11,17 @@
 }
 
 body {
-  @apply scroll-smooth font-body bg-zinc-50 text-zinc-900 h-screen 
-  transform transition-smooth ;
+  @apply scroll-smooth font-body bg-zinc-50 text-zinc-900
+  transform transition-smooth;
   @variant dark {
     @apply bg-zinc-900 text-zinc-100;
+  }
+}
+
+main {
+  @apply bg-zinc-50;
+  @variant dark {
+    @apply bg-zinc-900;
   }
 }
 
@@ -39,12 +46,40 @@ span {
 label {
   @apply text-sm;
 }
-input {
-  @apply text-sm;
+input{
+  @apply text-sm p-2 border border-zinc-300 bg-zinc-50 placeholder-zinc-400 rounded;
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
+  }
+  @variant dark {
+    @apply border-zinc-600 bg-zinc-700 text-zinc-100 placeholder-zinc-400;
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
+    }
+  }
 }
-select {
-  @apply text-sm;
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
 }
+
+.dark input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+}
+
+select{
+  @apply text-sm p-2 border border-zinc-300 bg-zinc-50 placeholder-zinc-400 rounded;
+  &:focus {
+    @apply outline-none ring-2 ring-sky-500;
+  }
+  @variant dark {
+    @apply border-zinc-600 bg-zinc-700 text-zinc-100 placeholder-zinc-400;
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
+    }
+  }
+}
+
 
 /*-----------NAVIGATION------------*/
 
@@ -69,8 +104,7 @@ select {
 
 .sidebar {
   @apply hidden lg:block p-5
- bg-zinc-100 
-  h-screen w-[200px]
+ bg-zinc-100 w-[200px]
   border-r border-gray-300
   transform transition-smooth;
   @variant dark {
@@ -110,7 +144,7 @@ select {
 }
 
 .note {
-  @apply flex flex-col gap-4 p-4 min-h-full
+  @apply flex flex-col gap-4 p-4 
   bg-amber-200 rounded shadow-sm
    border border-gray-300;
   @variant dark {
@@ -177,19 +211,6 @@ select {
 .checkbox:checked::after {
   content: '✓';
   @apply flex justify-center items-center text-zinc-50 text-sm font-bold;
-}
-
-.searchInput {
-  @apply p-2 border border-zinc-300 bg-zinc-50 placeholder-zinc-400 rounded;
-  &:focus {
-    @apply outline-none ring-2 ring-sky-500;
-  }
-  @variant dark {
-    @apply border-zinc-600 bg-zinc-700 text-zinc-100 placeholder-zinc-400;
-    &:focus {
-      @apply outline-none ring-2 ring-sky-600;
-    }
-  }
 }
 
 .select {
@@ -377,29 +398,6 @@ select {
   @variant dark {
     @apply bg-zinc-800 text-zinc-300;
   }
-}
-
-.modalInput {
-  @apply p-2 border border-zinc-300 bg-zinc-50 rounded;
-  &:focus {
-    @apply outline-none ring-2 ring-sky-500;
-  }
-  @variant dark {
-    @apply border-zinc-600 bg-zinc-700 text-zinc-100 placeholder-zinc-400;
-    &:focus {
-      @apply outline-none ring-2 ring-sky-600;
-    }
-  }
-}
-
-.modalInput[type='date']::-webkit-calendar-picker-indicator {
-  filter: invert(0.4);
-  cursor: pointer;
-  background-size: contain;
-}
-
-.dark .modalInput[type='date']::-webkit-calendar-picker-indicator {
-  filter: invert(0.6);
 }
 
 /*-----------CREATE MENU------------*/

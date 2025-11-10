@@ -25,7 +25,7 @@ const FeatureLayout = ({
   const [newProject, setNewProject] = useState<string>('');
   const { addProject } = useProjects();
   return (
-    <main className='p-5 lg:p-15 flex flex-col gap-8 w-full'>
+    <main className='px-5 py-10 min-h-screen lg:p-15 flex flex-col gap-8 lg:min-h-full w-full'>
       <div className='flex justify-between items-end'>
         <div className='flex items-center gap-2 '>
           {icon}

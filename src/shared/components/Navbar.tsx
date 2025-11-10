@@ -39,9 +39,9 @@ const Navbar = () => {
                     onClick={() => setIsProjectsOpen(!isProjectsOpen)}
                     className='navlink flex justify-between items-center'
                   >
-                    <div className='flex items-center gap-2'>
+                    <div className="flex items-center gap-2 text-wrap">
                       {nav.icon}
-                      {nav.name}
+                      <span className="nav-text">{nav.name}</span>
                     </div>
                     <span
                       className={`transition-transform duration-300 ${
@@ -64,7 +64,7 @@ const Navbar = () => {
                           }
                         >
                           {child.icon}
-                          {child.name}
+                          <span className="nav-text">{child.name}</span>
                         </NavLink>
                       ))}
                     </div>
@@ -80,7 +80,7 @@ const Navbar = () => {
                   }
                 >
                   {nav.icon}
-                  {nav.name}
+                  <span className="nav-text">{nav.name}</span>
                 </NavLink>
               )}
             </div>

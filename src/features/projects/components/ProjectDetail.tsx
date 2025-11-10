@@ -2,11 +2,13 @@ import { FaFolderOpen } from 'react-icons/fa6';
 import { useParams } from 'react-router';
 import FeatureLayout from '../../../shared/layouts/FeatureLayout';
 import { useProjects } from '../context/useProjects';
+import ProjectFilterSection from './ProjectFilterSection';
 import ProjectTable from './ProjectTable';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
   const { projects } = useProjects();
+
   const project = projects.find((p) => p.name === projectId);
 
   if (!project) {
@@ -19,8 +21,14 @@ const ProjectDetail = () => {
       icon={<FaFolderOpen />}
       withCreateButton={true}
     >
-      <h3>Tasks</h3>
-      <ProjectTable project={project} />
+      <section>
+        <h3>Tasks</h3>
+        <div className='container'>
+          {/* Filter and Search */}
+          <ProjectFilterSection project={project} />
+          <ProjectTable project={project} />
+        </div>
+      </section>
     </FeatureLayout>
   );
 };

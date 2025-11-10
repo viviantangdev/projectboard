@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
-import { useSortTasks } from '../../../shared/hooks/useSortTask';
+import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import type { ProjectItem } from '../../../shared/utils/task';
 import TaskForm from '../../dashboard/components/TaskForm';
@@ -11,69 +11,25 @@ interface ProjectTableProps {
   project: ProjectItem;
 }
 const ProjectTable = ({ project }: ProjectTableProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterPriority, setFilterPriority] = useState('');
-  const [filterStatus, setFilterStatus] = useState('');
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
-  const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
-  const { sortedData, handleSort, sortBy, sortOrder } = useSortTasks(tasks); // Use the custom hook
-  const { actionButtons, editTask } = useTaskActions(tasks, onDeleteTask, () =>
-    setIsEditTaskModalOpen(true)
+  const { onDeleteTask, onToggleTaskStatus } = useTasks();
+
+  // project-specific tasks are handled by the FilterTasksProvider via onSetFilterProject
+  const { filteredTasks, handleSort, sortBy, sortOrder, onSetFilterProject } =
+    useFilterTasks();
+
+  const { actionButtons, editTask } = useTaskActions(
+    filteredTasks,
+    onDeleteTask,
+    () => setIsEditTaskModalOpen(true)
   );
 
-  // Filter project
-  const filteredTasks = useMemo(() => {
-    if (!project) return []; // Return empty array if project is not found
-    return sortedData
-      .filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .filter(
-        (item) =>
-          (filterPriority === '' || item.priority === filterPriority) &&
-          (filterStatus === '' || item.status === filterStatus) &&
-          item.project.name === project.name
-      );
-  }, [sortedData, searchTerm, filterPriority, filterStatus, project]);
+  useEffect(() => {
+    onSetFilterProject(project.name);
+  }, [project.name, onSetFilterProject]);
 
   return (
-    <div className='container max-w-4xl'>
-      {/* Filter and Search Controls */}
-      <div className='flex flex-col sm:flex-row gap-4 mb-6'>
-        <input
-          type='text'
-          placeholder='Search by task'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className='searchInput'
-        />
-
-        <select
-          value={filterPriority}
-          onChange={(e) => setFilterPriority(e.target.value)}
-          className='select'
-        >
-          <option value=''>All Priorities</option>
-          {[...new Set(tasks.map((item) => item.priority))].map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className='select'
-        >
-          <option value=''>All Statuses</option>
-          {[...new Set(tasks.map((item) => item.status))].map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
-      </div>
-
+    <div className='container'>
       {/* Table */}
       <div className='relative overflow-x-auto shadow-md  tracking-wider rounded '>
         <table className='w-full min-w-[640px] tableContainer'>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import Badge from '../../../shared/components/Badge';
+import Input from '../../../shared/components/Input';
 import Modal from '../../../shared/components/Modal';
 import TaskFormSingleInput from '../../../shared/components/TaskFormSingleInput';
 import {
@@ -102,7 +103,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
             )}
           </div>
           <textarea
-            className='w-full resize-none h-auto outline-none  placeholder:italic'
+            className='resize-none h-auto outline-none placeholder:italic'
             placeholder='Title...'
             value={title}
             onChange={(e) => {
@@ -118,7 +119,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
             )}
           </div>
           <textarea
-            className='w-full resize-none h-auto outline-none  placeholder:italic'
+            className='resize-none h-auto outline-none  placeholder:italic'
             placeholder='Details...'
             value={details}
             onChange={(e) => {
@@ -147,7 +148,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
                 );
                 setProject(selectedProject || { id: '', name: e.target.value });
               }}
-              className='modalInput'
+              className='select'
             >
               <option value='' disabled>
                 Select a project
@@ -158,6 +159,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
                 </option>
               ))}
             </select>
+
             <button
               type='button'
               onClick={() => setIsAddProjectModalOpen(true)}
@@ -208,12 +210,11 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
             )}
           </div>
           <div>
-            <input
+            <Input
               type='date'
+              placeHolder={'YYYY-MM-DD'}
               value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              placeholder='YYYY-MM-DD'
-              className='modalInput'
+              onChange={setDueDate}
             />
           </div>
         </div>
@@ -253,13 +254,13 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
 
       {/* Action Buttons */}
       <div className='flex gap-3'>
-        <button type='submit' className='actionButton w-full'>
+        <button type='submit' className='actionButton'>
           Save
         </button>
         <button
           type='button'
           onClick={() => setIsModalOpen(false)}
-          className='cancelButton w-full'
+          className='cancelButton'
         >
           Cancel
         </button>

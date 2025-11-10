@@ -1,90 +1,25 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
-import { useSortTasks } from '../../../shared/hooks/useSortTask';
+import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import { useTasks } from '../context/useTasks';
 import TaskForm from './TaskForm';
 
 const DashboardTable = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterProject, setFilterProject] = useState('');
-  const [filterPriority, setFilterPriority] = useState('');
-  const [filterStatus, setFilterStatus] = useState('');
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
   const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
-  const { sortedData, handleSort, sortBy, sortOrder } = useSortTasks(tasks); // Use the custom hook
   const { actionButtons, editTask } = useTaskActions(tasks, onDeleteTask, () =>
     setIsEditTaskModalOpen(true)
   );
 
-  const filteredTasks = useMemo(() => {
-    return sortedData
-      .filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .filter(
-        (item) =>
-          (filterProject === '' || item.project.name === filterProject) &&
-          (filterPriority === '' || item.priority === filterPriority) &&
-          (filterStatus === '' || item.status === filterStatus)
-      );
-  }, [sortedData, searchTerm, filterPriority, filterProject, filterStatus]);
+  const { filteredTasks, handleSort, sortBy, sortOrder } = useFilterTasks();
 
   return (
-    <div className='container max-w-4xl'>
-      {/* Filter and Search Controls */}
-      <div className='flex flex-col sm:flex-row gap-4 mb-6'>
-        <input
-          type='text'
-          placeholder='Search by task'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className='searchInput'
-        />
-        <select
-          value={filterProject}
-          onChange={(e) => setFilterProject(e.target.value)}
-          className='select'
-        >
-          <option value=''>All Projects</option>
-          {[...new Set(tasks.map((item) => item.project.name))].map(
-            (value, index) => (
-              <option key={index} value={value}>
-                {value}
-              </option>
-            )
-          )}
-        </select>
-        <select
-          value={filterPriority}
-          onChange={(e) => setFilterPriority(e.target.value)}
-          className='select'
-        >
-          <option value=''>All Priorities</option>
-          {[...new Set(tasks.map((item) => item.priority))].map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className='select'
-        >
-          <option value=''>All Statuses</option>
-          {[...new Set(tasks.map((item) => item.status))].map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
-      </div>
-
+    <>
       {/* Table */}
       <div className='relative overflow-x-auto shadow-md  tracking-wider rounded '>
-        <table className='w-full min-w-[640px] tableContainer'>
+        <table className='tableContainer'>
           {/*Header*/}
           <thead>
             <tr className='p-3 tableHeader'>
@@ -136,7 +71,7 @@ const DashboardTable = () => {
                     type='checkbox'
                     checked={item.status === 'Done'}
                     onChange={() => onToggleTaskStatus(item.id, item.status)}
-                    className='h-5 w-5 checkbox'
+                    className='checkbox'
                   />
                 </td>
                 <td
@@ -210,7 +145,7 @@ const DashboardTable = () => {
           }
         />
       )}
-    </div>
+    </>
   );
 };
 

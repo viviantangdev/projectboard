@@ -20,7 +20,7 @@ const Note = ({ note, onDelete, onUpdate, dragHandleProps }: NoteProps) => {
         <HiOutlineXMark onClick={onDelete} className='cursor-pointer' />
       </div>
       <textarea
-        className='w-full resize-none h-auto outline-none'
+        className='resize-none h-auto outline-none'
         placeholder='New title'
         value={note.title}
         onChange={(e) => {
@@ -36,7 +36,7 @@ const Note = ({ note, onDelete, onUpdate, dragHandleProps }: NoteProps) => {
       />
 
       <textarea
-        className='w-full resize-none h-auto outline-none'
+        className='resize-none h-auto outline-none'
         placeholder='New details'
         value={note.details}
         onChange={(e) => {
