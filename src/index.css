@@ -49,7 +49,7 @@ label {
 
 /*-----------INPUT & SELECT------------*/
 
-input{
+input {
   @apply text-sm p-2 border border-zinc-300 bg-zinc-50 placeholder-zinc-400 rounded;
   &:focus {
     @apply outline-none ring-2 ring-sky-500;
@@ -70,7 +70,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   filter: invert(0.6);
 }
 
-select{
+select {
   @apply text-sm p-2 border border-zinc-300 bg-zinc-50 placeholder-zinc-400 rounded;
   &:focus {
     @apply outline-none ring-2 ring-sky-500;
@@ -82,7 +82,6 @@ select{
     }
   }
 }
-
 
 /*-----------NAVIGATION------------*/
 
@@ -340,17 +339,17 @@ select{
     @apply bg-red-500 text-zinc-50 transition-smooth;
   }
 }
-.unSelectedBadgeDone {
+.unSelectedBadgeCompleted {
   &:hover {
     @apply bg-emerald-500 text-zinc-50 transition-smooth;
   }
 }
-.unSelectedBadgeOngoing {
+.unSelectedBadgeInProgress {
   &:hover {
     @apply bg-sky-500 text-zinc-50 transition-smooth;
   }
 }
-.unSelectedBadgeTodo {
+.unSelectedBadgeNotStarted {
   &:hover {
     @apply bg-zinc-300 transition-smooth;
   }
@@ -377,19 +376,19 @@ select{
 }
 
 /*Status*/
-.badgeTodo {
+.badgeNotStarted {
   @apply bg-zinc-300;
   @variant dark {
     @apply bg-zinc-600 text-zinc-100;
   }
 }
-.badgeOngoing {
+.badgeInProgress {
   @apply bg-sky-500 text-zinc-50;
   @variant dark {
     @apply bg-sky-600 text-zinc-50;
   }
 }
-.badgeDone {
+.badgeCompleted {
   @apply bg-emerald-500 text-zinc-50;
   @variant dark {
     @apply bg-emerald-600 text-zinc-50;
@@ -429,12 +428,11 @@ select{
 
 /*-----------TAG------------*/
 
-.tag{
+.tag {
   @apply flex justify-center items-center gap-2 text-sm px-2 py-1 
   rounded-full cursor-pointer
-  border border-zinc-300 bg-zinc-100
-  ;
-    &:focus {
+  border border-zinc-300 bg-zinc-100;
+  &:focus {
     @apply outline-none ring-2 ring-sky-500;
   }
   @variant dark {
@@ -444,4 +442,3 @@ select{
     }
   }
 }
-

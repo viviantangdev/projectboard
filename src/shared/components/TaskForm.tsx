@@ -34,7 +34,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
     task?.priority || undefined
   );
   const [dueDate, setDueDate] = useState<string>(task?.dueDate || '');
-  const [status, setStatus] = useState<StatusType>(task?.status || 'Todo');
+  const [status, setStatus] = useState<StatusType>(task?.status || 'Completed');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState<string>('');
@@ -88,7 +88,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
     setProject({ id: '', name: '' });
     setPriority(undefined);
     setDueDate('');
-    setStatus('Todo');
+    setStatus('Completed');
     setIsModalOpen(false);
   }
 
@@ -233,18 +233,18 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
                 onClick={() => setStatus(value)}
                 value={value}
                 colorMap={{
-                  Done:
-                    status === 'Done'
-                      ? 'badgeDone'
-                      : 'unSelectedBadge unSelectedBadgeDone',
-                  Ongoing:
-                    status === 'Ongoing'
-                      ? 'badgeOngoing'
-                      : 'unSelectedBadge unSelectedBadgeOngoing',
-                  Todo:
-                    status === 'Todo'
-                      ? 'badgeTodo'
-                      : 'unSelectedBadge unSelectedBadgeTodo',
+                  Completed:
+                    status === 'Completed'
+                      ? 'badgeCompleted'
+                      : 'unSelectedBadge unSelectedBadgeCompleted',
+                  InProgress:
+                    status === 'InProgress'
+                      ? 'badgeInProgress'
+                      : 'unSelectedBadge unSelectedBadgeInProgress',
+                  NotStarted:
+                    status === 'Completed'
+                      ? 'badgeNotStarted'
+                      : 'unSelectedBadge unSelectedbadgeNotStarted',
                 }}
               />
             ))}

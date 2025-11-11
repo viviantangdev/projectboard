@@ -37,9 +37,9 @@ const TaskView = ({ task }: TaskViewProps) => {
           <Badge
             value={task!.status}
             colorMap={{
-              Done: 'badgeDone',
-              Ongoing: 'badgeOngoing',
-              Todo: 'badgeTodo',
+              Completed: 'badgeCompleted',
+              InProgress: 'badgeInProgress',
+              NotStarted: 'badgeNotStarted',
             }}
           />
         </div>

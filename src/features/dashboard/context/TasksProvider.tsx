@@ -47,7 +47,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     setTasks((prev) =>
       prev.map((task) =>
         task.id === id
-          ? { ...task, status: currentStatus === 'Done' ? 'Todo' : 'Done' }
+          ? { ...task, status: currentStatus === 'Completed' ? 'NotStarted' : 'Completed' }
           : task
       )
     );

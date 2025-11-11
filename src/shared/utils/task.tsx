@@ -1,7 +1,7 @@
 export type PriorityType = 'Low' | 'Medium' | 'High';
 export const priorities: PriorityType[] = ['Low', 'Medium', 'High'];
-export type StatusType = 'Todo' | 'Ongoing' | 'Done';
-export const statuses: StatusType[] = ['Todo', 'Ongoing', 'Done'];
+export type StatusType = 'NotStarted' | 'InProgress' | 'Completed';
+export const statuses: StatusType[] = ['NotStarted', 'InProgress', 'Completed'];
 
 export interface TaskItem {
   id: string;

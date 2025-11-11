@@ -86,20 +86,20 @@ const DashboardTable = () => {
                 <td className='p-3'>
                   <input
                     type='checkbox'
-                    checked={item.status === 'Done'}
+                    checked={item.status === 'Completed'}
                     onChange={() => onToggleTaskStatus(item.id, item.status)}
                     className='checkbox'
                   />
                 </td>
                 <td
                   className={`p-3 ${
-                    item.status === 'Done' && 'line-through text-gray-400'
+                    item.status === 'Completed' && 'line-through text-gray-400'
                   }`}
                 >
                   {item.title}
                 </td>
                 <td
-                  className={`p-3 ${item.status === 'Done' && 'text-gray-400'}`}
+                  className={`p-3 ${item.status === 'Completed' && 'text-gray-400'}`}
                 >
                   {item.project.name}
                 </td>
@@ -114,7 +114,7 @@ const DashboardTable = () => {
                   />
                 </td>
                 <td
-                  className={`p-3 ${item.status === 'Done' && 'text-gray-400'}`}
+                  className={`p-3 ${item.status === 'Completed' && 'text-gray-400'}`}
                 >
                   {item.dueDate}
                 </td>
@@ -122,22 +122,22 @@ const DashboardTable = () => {
                   <Badge
                     value={item.status}
                     colorMap={{
-                      Done: 'badgeDone',
-                      Ongoing: 'badgeOngoing',
-                      Todo: 'badgeTodo',
+                      Completed: 'badgeCompleted',
+                      InProgress: 'badgeInProgress',
+                      NotStarted: 'badgeNotStarted',
                     }}
                   />
                 </td>
                 <td>
                   <div className='flex gap-3'>
-                    {item.status !== 'Done' &&
+                    {item.status !== 'Completed' &&
                       actionButtons.map((action, index) => (
                         <button
                           key={index}
                           onClick={() => action.onClick(item.id)}
                           aria-label={action.label}
                           title={action.label}
-                          disabled={item.status === 'Done'}
+                          disabled={item.status === 'Completed'}
                           className='iconButton'
                         >
                           {action.icon}
