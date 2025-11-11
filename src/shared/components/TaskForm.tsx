@@ -34,7 +34,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
     task?.priority || undefined
   );
   const [dueDate, setDueDate] = useState<string>(task?.dueDate || '');
-  const [status, setStatus] = useState<StatusType>(task?.status || 'Completed');
+  const [status, setStatus] = useState<StatusType>(task?.status || 'NotStarted');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState<string>('');
