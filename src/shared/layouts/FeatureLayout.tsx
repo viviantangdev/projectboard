@@ -43,7 +43,7 @@ const FeatureLayout = ({
       {withCreateButton && isTaskModalOpen && (
         <Modal
           isOpen={isTaskModalOpen}
-          setIsOpen={() => setIsTaskModalOpen(false)}
+          setIsOpen={setIsTaskModalOpen}
           title={'New task'}
           children={<TaskForm setIsModalOpen={setIsTaskModalOpen} />}
         />

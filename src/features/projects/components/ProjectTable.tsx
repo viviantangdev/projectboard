@@ -1,34 +1,47 @@
 import { useEffect, useState } from 'react';
 import Badge from '../../../shared/components/Badge';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import Modal from '../../../shared/components/Modal';
 import TaskForm from '../../../shared/components/TaskForm';
+import TaskView from '../../../shared/components/TaskView';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import type { ProjectItem } from '../../../shared/utils/task';
 import { useTasks } from '../../dashboard/context/useTasks';
-import TaskView from '../../../shared/components/TaskView';
 
 interface ProjectTableProps {
   project: ProjectItem;
 }
 const ProjectTable = ({ project }: ProjectTableProps) => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
   const { onDeleteTask, onToggleTaskStatus } = useTasks();
 
   // project-specific tasks are handled by the FilterTasksProvider via onSetFilterProject
   const { filteredTasks, handleSort, sortBy, sortOrder, onSetFilterProject } =
     useFilterTasks();
 
-  const { actionButtons, editTask , viewTask} = useTaskActions(
+  const { actionButtons, editTask, viewTask } = useTaskActions(
     filteredTasks,
     onDeleteTask,
-    () => setIsTaskModalOpen(true)
+    () => setIsTaskModalOpen(true),
+    (id) => setDeleteId(id)
   );
 
   useEffect(() => {
     onSetFilterProject(project.name);
   }, [project.name, onSetFilterProject]);
 
+  function handleDeleteTask() {
+    if (deleteId) {
+      onDeleteTask(deleteId);
+      setDeleteId(null);
+    }
+  }
+  function handleCancelDelete() {
+    setDeleteId(null);
+  }
   return (
     <>
       {/* Table */}
@@ -146,20 +159,37 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
       {editTask && (
         <Modal
           isOpen={isTaskModalOpen}
-          setIsOpen={() => setIsTaskModalOpen(false)}
+          setIsOpen={setIsTaskModalOpen}
           title={'Edit task'}
           children={
             <TaskForm task={editTask} setIsModalOpen={setIsTaskModalOpen} />
           }
         />
       )}
-           {/* View Modal */}
+      {/* View Modal */}
       {viewTask && (
         <Modal
           isOpen={isTaskModalOpen}
-          setIsOpen={() => setIsTaskModalOpen(false)}
+          setIsOpen={setIsTaskModalOpen}
           title={'View task'}
           children={<TaskView task={viewTask} />}
+        />
+      )}
+      {/* Delete Modal */}
+      {deleteId && (
+        <Modal
+          isOpen={deleteId !== null}
+          setIsOpen={handleCancelDelete}
+          title={'Delete task'}
+          children={
+            <DeleteItem
+              onCancel={handleCancelDelete}
+              onDelete={handleDeleteTask}
+              deleteValue={
+                filteredTasks.find((task) => task.id === deleteId)!.title
+              }
+            />
+          }
         />
       )}
     </>

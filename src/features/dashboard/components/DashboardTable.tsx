@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { IoWarningOutline } from 'react-icons/io5';
 import Badge from '../../../shared/components/Badge';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import Modal from '../../../shared/components/Modal';
 import TaskForm from '../../../shared/components/TaskForm';
 import TaskView from '../../../shared/components/TaskView';
@@ -9,14 +11,26 @@ import { useTasks } from '../context/useTasks';
 
 const DashboardTable = () => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
   const { actionButtons, editTask, viewTask } = useTaskActions(
     tasks,
     onDeleteTask,
-    () => setIsTaskModalOpen(true)
+    () => setIsTaskModalOpen(true),
+    (id) => setDeleteId(id)
   );
 
   const { filteredTasks, handleSort, sortBy, sortOrder } = useFilterTasks();
+
+  function handleDeleteTask() {
+    if (deleteId) {
+      onDeleteTask(deleteId);
+      setDeleteId(null);
+    }
+  }
+  function handleCancelDelete() {
+    setDeleteId(null);
+  }
 
   return (
     <>
@@ -141,7 +155,7 @@ const DashboardTable = () => {
       {editTask && (
         <Modal
           isOpen={isTaskModalOpen}
-          setIsOpen={() => setIsTaskModalOpen(false)}
+          setIsOpen={setIsTaskModalOpen}
           title={'Edit task'}
           children={
             <TaskForm task={editTask} setIsModalOpen={setIsTaskModalOpen} />
@@ -152,9 +166,27 @@ const DashboardTable = () => {
       {viewTask && (
         <Modal
           isOpen={isTaskModalOpen}
-          setIsOpen={() => setIsTaskModalOpen(false)}
+          setIsOpen={setIsTaskModalOpen}
           title={'View task'}
           children={<TaskView task={viewTask} />}
+        />
+      )}
+      {/* Delete Modal */}
+      {deleteId && (
+        <Modal
+          isOpen={deleteId !== null}
+          setIsOpen={handleCancelDelete}
+          title={'Delete task'}
+          icon={<IoWarningOutline />}
+          children={
+            <DeleteItem
+              deleteValue={
+                filteredTasks.find((task) => task.id === deleteId)!.title
+              }
+              onCancel={handleCancelDelete}
+              onDelete={handleDeleteTask}
+            />
+          }
         />
       )}
     </>

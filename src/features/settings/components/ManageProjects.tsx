@@ -1,19 +1,41 @@
 import { useState } from 'react';
 import { BsDot } from 'react-icons/bs';
+import { IoWarningOutline } from 'react-icons/io5';
 import { TbEdit, TbTrash } from 'react-icons/tb';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import Modal from '../../../shared/components/Modal';
 import TaskFormSingleInput from '../../../shared/components/TaskFormSingleInput';
+import type { ProjectItem } from '../../../shared/utils/task';
 import { useProjects } from '../../projects/context/useProjects';
 
 const ManageProjects = () => {
   const { projects, addProject, editProject, deleteProject } = useProjects();
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [newProject, setNewProject] = useState<string>('');
   const [editCurrentProject, setEditCurrentProject] = useState({
     id: '',
     name: '',
   });
+
+  function handleEditProject(project: ProjectItem) {
+    setEditCurrentProject({
+      id: project.id,
+      name: project.name,
+    });
+    setIsEditProjectModalOpen(true);
+  }
+
+  function handleDeleteProject(projectId: ProjectItem['id']) {
+    // delete immediately when asked (modal will call this with the id)
+    deleteProject(projectId);
+    setDeleteId(null);
+  }
+
+  function handleCancelDelete() {
+    setDeleteId(null);
+  }
 
   return (
     <div className='flex flex-col gap-5 settingsContainer'>
@@ -38,18 +60,10 @@ const ManageProjects = () => {
             <span>{project.name}</span>
             <div className='flex items-center'>
               <button className='iconButton '>
-                <TbEdit
-                  onClick={() => {
-                    setEditCurrentProject({
-                      id: project.id,
-                      name: project.name,
-                    });
-                    setIsEditProjectModalOpen(true);
-                  }}
-                />
+                <TbEdit onClick={() => handleEditProject(project)} />
               </button>
               <button className='iconButton'>
-                <TbTrash onClick={() => deleteProject(project.id)} />
+                <TbTrash onClick={() => setDeleteId(project.id)} />
               </button>
             </div>
           </li>
@@ -85,6 +99,25 @@ const ManageProjects = () => {
                 editProject(editCurrentProject.id, editCurrentProject.name)
               }
               setIsModalOpen={setIsEditProjectModalOpen}
+            />
+          }
+        />
+      )}
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <Modal
+          isOpen={deleteId !== null}
+          setIsOpen={handleCancelDelete}
+          title={'Delete project'}
+          icon={<IoWarningOutline />}
+          children={
+            <DeleteItem
+              deleteValue={
+                projects.find((project) => project.id === deleteId)!.name
+              }
+              onCancel={handleCancelDelete}
+              onDelete={() => handleDeleteProject(deleteId!)}
             />
           }
         />

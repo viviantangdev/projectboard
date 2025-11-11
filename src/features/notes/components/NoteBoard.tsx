@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { DndContext, closestCenter, type DragEndEvent } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -8,9 +9,17 @@ import { CSS } from '@dnd-kit/utilities';
 import type { NoteItem } from '../../../shared/utils/note';
 import { useNotes } from '../context/useNotes';
 import Note from './Note';
+import Modal from '../../../shared/components/Modal';
+import DeleteItem from '../../../shared/components/DeleteItem';
 
-const SortableNote = ({ note }: { note: NoteItem }) => {
-  const { onDeleteNote, onUpdateNote } = useNotes();
+const SortableNote = ({
+  note,
+  onRequestDelete,
+}: {
+  note: NoteItem;
+  onRequestDelete: (id: string, title?: string) => void;
+}) => {
+  const { onUpdateNote } = useNotes();
   const {
     attributes,
     listeners,
@@ -33,7 +42,7 @@ const SortableNote = ({ note }: { note: NoteItem }) => {
       <Note
         note={note}
         dragHandleProps={listeners}
-        onDelete={() => onDeleteNote(note.id)}
+        onDelete={() => onRequestDelete(note.id, note.title)}
         onUpdate={(updatedData: NoteItem) =>
           onUpdateNote(note.id, updatedData)
         }
@@ -43,7 +52,24 @@ const SortableNote = ({ note }: { note: NoteItem }) => {
 };
 
 const NoteBoard = () => {
-  const { notes, onReorderNotes } = useNotes();
+  const { notes, onReorderNotes, onDeleteNote } = useNotes();
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleteValue, setDeleteValue] = useState<string>('');
+
+  const requestDelete = (id: string, title?: string) => {
+    setDeleteId(id);
+    setDeleteValue(title || '');
+  };
+
+  const handleCancelDelete = () => setDeleteId(null);
+
+  const handleConfirmDelete = () => {
+    if (deleteId) {
+      onDeleteNote(deleteId);
+      setDeleteId(null);
+      setDeleteValue('');
+    }
+  };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -53,18 +79,40 @@ const NoteBoard = () => {
   };
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext
-        items={notes.map((note) => note.id.toString())}
-        strategy={rectSortingStrategy}
-      >
-        <div className='noteBoard'>
-          {notes.map((note) => (
-            <SortableNote key={note.id.toString()} note={note} />
-          )).reverse()}
-        </div>
-      </SortableContext>
-    </DndContext>
+    <>
+      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext
+          items={notes.map((note) => note.id.toString())}
+          strategy={rectSortingStrategy}
+        >
+          <div className='noteBoard'>
+            {notes.map((note) => (
+              <SortableNote
+                key={note.id.toString()}
+                note={note}
+                onRequestDelete={requestDelete}
+              />
+            )).reverse()}
+          </div>
+        </SortableContext>
+      </DndContext>
+
+      {/* Delete confirmation modal */}
+      {deleteId && (
+        <Modal
+          isOpen={deleteId !== null}
+          setIsOpen={handleCancelDelete}
+          title={'Delete note'}
+          children={
+            <DeleteItem
+              deleteValue={deleteValue}
+              onCancel={handleCancelDelete}
+              onDelete={handleConfirmDelete}
+            />
+          }
+        />
+      )}
+    </>
   );
 };
 

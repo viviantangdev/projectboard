@@ -3,11 +3,12 @@ import { FaXmark } from 'react-icons/fa6';
 
 interface ModalProps {
   title: string;
+  icon?: React.ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   children: React.ReactNode;
 }
-const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
+const Modal = ({ title, icon, isOpen, setIsOpen, children }: ModalProps) => {
   return (
     isOpen && (
       <div className='fixed inset-0 flex items-center justify-center bg-black/80'>
@@ -19,7 +20,10 @@ const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
             <FaXmark />
             {/* Close button */}
           </button>
-          <h3>{title}</h3>
+          <div className='flex items-center gap-2 text-xl'>
+            {icon}
+            <h3>{title}</h3>
+          </div>
           {children}
         </div>
       </div>

@@ -5,7 +5,8 @@ import type { TaskItem } from '../utils/task';
 export const useTaskActions = (
   tasks: TaskItem[],
   onDeleteTask: (id: string) => void,
-  handleOpenModal: () => void
+  handleOpenModal: () => void,
+  onShowAlert: (id: string) => void
 ) => {
   const [editTask, setEditTask] = useState<TaskItem | null>(null);
   const [viewTask, setViewTask] = useState<TaskItem | null>(null);
@@ -21,7 +22,13 @@ export const useTaskActions = (
   };
 
   const handleDelete = (id: string) => {
-    onDeleteTask(id);
+    onShowAlert(id);
+    // const confirmed = window.confirm(
+    //   'Are you sure you want to delete this task? This action cannot be undone.'
+    // );
+    // if (confirmed) {
+    //   onDeleteTask(id);
+    // }
   };
 
   const actionButtons = [
@@ -48,5 +55,5 @@ export const useTaskActions = (
     },
   ];
 
-  return { actionButtons, editTask, viewTask };
+  return { actionButtons, editTask, viewTask, onShowAlert, onDeleteTask };
 };
