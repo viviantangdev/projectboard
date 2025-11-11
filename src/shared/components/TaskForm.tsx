@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import Badge from '../../../shared/components/Badge';
-import Input from '../../../shared/components/Input';
-import Modal from '../../../shared/components/Modal';
-import TaskFormSingleInput from '../../../shared/components/TaskFormSingleInput';
+import { useTasks } from '../../features/dashboard/context/useTasks';
+import { useProjects } from '../../features/projects/context/useProjects';
 import {
   priorities,
   statuses,
@@ -11,9 +9,11 @@ import {
   type ProjectItem,
   type StatusType,
   type TaskItem,
-} from '../../../shared/utils/task';
-import { useProjects } from '../../projects/context/useProjects';
-import { useTasks } from '../context/useTasks';
+} from '../utils/task';
+import Badge from './Badge';
+import Input from './Input';
+import Modal from './Modal';
+import TaskFormSingleInput from './TaskFormSingleInput';
 
 interface TaskFormProps {
   task?: TaskItem; // Optional for edit mode

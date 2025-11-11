@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import TaskForm from '../../features/dashboard/components/TaskForm';
 import { useProjects } from '../../features/projects/context/useProjects';
 import CreateButton from '../components/CreateButton';
 import Modal from '../components/Modal';
+import TaskForm from '../components/TaskForm';
 import TaskFormSingleInput from '../components/TaskFormSingleInput';
 
 interface FeatureLayoutProps {

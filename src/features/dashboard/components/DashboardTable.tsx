@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
+import TaskForm from '../../../shared/components/TaskForm';
+import TaskView from '../../../shared/components/TaskView';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import { useTasks } from '../context/useTasks';
-import TaskForm from './TaskForm';
 
 const DashboardTable = () => {
-  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const { tasks, onDeleteTask, onToggleTaskStatus } = useTasks();
-  const { actionButtons, editTask } = useTaskActions(tasks, onDeleteTask, () =>
-    setIsEditTaskModalOpen(true)
+  const { actionButtons, editTask, viewTask } = useTaskActions(
+    tasks,
+    onDeleteTask,
+    () => setIsTaskModalOpen(true)
   );
 
   const { filteredTasks, handleSort, sortBy, sortOrder } = useFilterTasks();
@@ -137,12 +140,21 @@ const DashboardTable = () => {
       {/* Edit Modal */}
       {editTask && (
         <Modal
-          isOpen={isEditTaskModalOpen}
-          setIsOpen={() => setIsEditTaskModalOpen(false)}
+          isOpen={isTaskModalOpen}
+          setIsOpen={() => setIsTaskModalOpen(false)}
           title={'Edit task'}
           children={
-            <TaskForm task={editTask} setIsModalOpen={setIsEditTaskModalOpen} />
+            <TaskForm task={editTask} setIsModalOpen={setIsTaskModalOpen} />
           }
+        />
+      )}
+      {/* View Modal */}
+      {viewTask && (
+        <Modal
+          isOpen={isTaskModalOpen}
+          setIsOpen={() => setIsTaskModalOpen(false)}
+          title={'View task'}
+          children={<TaskView task={viewTask} />}
         />
       )}
     </>

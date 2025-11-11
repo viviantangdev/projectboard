@@ -1,6 +1,6 @@
-import { useState } from "react";
-import type { TaskItem } from "../utils/task";
-import { TbEdit, TbEye, TbTrash } from "react-icons/tb";
+import { useState } from 'react';
+import { TbEdit, TbEye, TbTrash } from 'react-icons/tb';
+import type { TaskItem } from '../utils/task';
 
 export const useTaskActions = (
   tasks: TaskItem[],
@@ -8,9 +8,11 @@ export const useTaskActions = (
   handleOpenModal: () => void
 ) => {
   const [editTask, setEditTask] = useState<TaskItem | null>(null);
+  const [viewTask, setViewTask] = useState<TaskItem | null>(null);
 
-  const handleSeeMore = (id: string) => {
-    console.log(`see more ${id}`);
+  const handleSeeMore = (task: TaskItem) => {
+    handleOpenModal();
+    setViewTask(task);
   };
 
   const handleEdit = (task: TaskItem) => {
@@ -26,7 +28,10 @@ export const useTaskActions = (
     {
       icon: <TbEye size={15} />,
       label: 'View',
-      onClick: handleSeeMore,
+      onClick: (id: string) => {
+        const task = tasks.find((t) => t.id === id);
+        if (task) handleSeeMore(task);
+      },
     },
     {
       icon: <TbEdit size={15} />,
@@ -43,5 +48,5 @@ export const useTaskActions = (
     },
   ];
 
-  return { actionButtons, editTask, setEditTask };
+  return { actionButtons, editTask, viewTask };
 };

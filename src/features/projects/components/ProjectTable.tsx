@@ -1,27 +1,28 @@
 import { useEffect, useState } from 'react';
 import Badge from '../../../shared/components/Badge';
 import Modal from '../../../shared/components/Modal';
+import TaskForm from '../../../shared/components/TaskForm';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import type { ProjectItem } from '../../../shared/utils/task';
-import TaskForm from '../../dashboard/components/TaskForm';
 import { useTasks } from '../../dashboard/context/useTasks';
+import TaskView from '../../../shared/components/TaskView';
 
 interface ProjectTableProps {
   project: ProjectItem;
 }
 const ProjectTable = ({ project }: ProjectTableProps) => {
-  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const { onDeleteTask, onToggleTaskStatus } = useTasks();
 
   // project-specific tasks are handled by the FilterTasksProvider via onSetFilterProject
   const { filteredTasks, handleSort, sortBy, sortOrder, onSetFilterProject } =
     useFilterTasks();
 
-  const { actionButtons, editTask } = useTaskActions(
+  const { actionButtons, editTask , viewTask} = useTaskActions(
     filteredTasks,
     onDeleteTask,
-    () => setIsEditTaskModalOpen(true)
+    () => setIsTaskModalOpen(true)
   );
 
   useEffect(() => {
@@ -144,12 +145,21 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
       {/* Edit Modal */}
       {editTask && (
         <Modal
-          isOpen={isEditTaskModalOpen}
-          setIsOpen={() => setIsEditTaskModalOpen(false)}
+          isOpen={isTaskModalOpen}
+          setIsOpen={() => setIsTaskModalOpen(false)}
           title={'Edit task'}
           children={
-            <TaskForm task={editTask} setIsModalOpen={setIsEditTaskModalOpen} />
+            <TaskForm task={editTask} setIsModalOpen={setIsTaskModalOpen} />
           }
+        />
+      )}
+           {/* View Modal */}
+      {viewTask && (
+        <Modal
+          isOpen={isTaskModalOpen}
+          setIsOpen={() => setIsTaskModalOpen(false)}
+          title={'View task'}
+          children={<TaskView task={viewTask} />}
         />
       )}
     </>
