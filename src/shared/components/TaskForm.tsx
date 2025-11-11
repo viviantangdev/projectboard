@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useTasks } from '../../features/dashboard/context/useTasks';
-import { useProjects } from '../../features/projects/context/useProjects';
 import {
   priorities,
   statuses,
@@ -14,6 +12,8 @@ import Badge from './Badge';
 import Input from './Input';
 import Modal from './Modal';
 import TaskFormSingleInput from './TaskFormSingleInput';
+import { useTasks } from '../hooks/useTasks';
+import { useProjects } from '../hooks/useProjects';
 
 interface TaskFormProps {
   task?: TaskItem; // Optional for edit mode
@@ -88,7 +88,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
     setProject({ id: '', name: '' });
     setPriority(undefined);
     setDueDate('');
-    setStatus('Completed');
+    setStatus('NotStarted');
     setIsModalOpen(false);
   }
 
@@ -242,7 +242,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
                       ? 'badgeInProgress'
                       : 'unSelectedBadge unSelectedBadgeInProgress',
                   NotStarted:
-                    status === 'Completed'
+                    status === 'NotStarted'
                       ? 'badgeNotStarted'
                       : 'unSelectedBadge unSelectedbadgeNotStarted',
                 }}

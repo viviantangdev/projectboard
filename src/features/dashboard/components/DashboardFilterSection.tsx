@@ -3,7 +3,7 @@ import DropdownSelect from '../../../shared/components/DropdownSelect';
 import Input from '../../../shared/components/Input';
 import Tag from '../../../shared/components/Tag';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
-import { useTasks } from '../context/useTasks';
+import { useTasks } from '../../../shared/hooks/useTasks';
 
 const DashboardFilterSection = () => {
   const { tasks } = useTasks();

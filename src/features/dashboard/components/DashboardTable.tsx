@@ -7,7 +7,7 @@ import TaskForm from '../../../shared/components/TaskForm';
 import TaskView from '../../../shared/components/TaskView';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
-import { useTasks } from '../context/useTasks';
+import { useTasks } from '../../../shared/hooks/useTasks';
 
 const DashboardTable = () => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);

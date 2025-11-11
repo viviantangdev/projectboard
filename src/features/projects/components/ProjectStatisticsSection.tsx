@@ -1,16 +1,20 @@
 import { FaCheck } from 'react-icons/fa6';
 import { GrPowerCycle } from 'react-icons/gr';
 import { IoMdAlarm } from 'react-icons/io';
-import { useParams } from 'react-router';
-import StatisticCard from '../../dashboard/components/StatisticCard';
-import { useTasks } from '../../dashboard/context/useTasks';
+import StatisticCard from '../../../shared/components/StatisticCard';
+import { useTasks } from '../../../shared/hooks/useTasks';
+import type { ProjectItem } from '../../../shared/utils/task';
 
-const ProjectStatisticsSection = () => {
+interface ProjectStatisticsSectionProps {
+  project: ProjectItem; // Optional project prop to disable project filter
+}
+
+const ProjectStatisticsSection = ({
+  project,
+}: ProjectStatisticsSectionProps) => {
   const { tasks } = useTasks();
 
-  const { projectId } = useParams();
-
-  const projectTasks = tasks.filter((item) => item.project.id === projectId);
+  const projectTasks = tasks.filter((item) => item.project.id === project.id);
 
   const completedTasks = projectTasks.filter(
     (t) => t.status === 'Completed'

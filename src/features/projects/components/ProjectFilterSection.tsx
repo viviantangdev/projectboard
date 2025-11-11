@@ -4,7 +4,7 @@ import Input from '../../../shared/components/Input';
 import Tag from '../../../shared/components/Tag';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import type { ProjectItem } from '../../../shared/utils/task';
-import { useTasks } from '../../dashboard/context/useTasks';
+import { useTasks } from '../../../shared/hooks/useTasks';
 
 interface ProjectFilterSectionProps {
   project: ProjectItem; // Optional project prop to disable project filter

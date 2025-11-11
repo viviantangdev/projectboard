@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useProjects } from '../../features/projects/context/useProjects';
 import CreateButton from '../components/CreateButton';
 import Modal from '../components/Modal';
 import TaskForm from '../components/TaskForm';
 import TaskFormSingleInput from '../components/TaskFormSingleInput';
+import { useProjects } from '../hooks/useProjects';
 
 interface FeatureLayoutProps {
   title: string;

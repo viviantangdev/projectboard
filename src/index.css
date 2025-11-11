@@ -442,3 +442,28 @@ select {
     }
   }
 }
+
+/*-----------STATISTICS------------*/
+
+.statCard {
+  @apply rounded shadow-2xs;
+}
+
+.statBgNotStarted{
+  @apply  from-zinc-500 to-zinc-400 ;
+}
+.statIconNotStarted{
+  @apply text-zinc-400;
+}
+.statBgInProgress{
+  @apply  from-sky-600 to-sky-400 ;
+}
+.statIconInProgress{
+  @apply text-sky-500;
+}
+.statBgCompleted{
+  @apply  from-emerald-600 to-emerald-400 ;
+}
+.statIconCompleted{
+  @apply text-emerald-500;
+}

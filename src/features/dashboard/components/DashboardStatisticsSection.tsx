@@ -1,8 +1,8 @@
 import { FaCheck } from 'react-icons/fa6';
 import { GrPowerCycle } from 'react-icons/gr';
 import { IoMdAlarm } from 'react-icons/io';
-import { useTasks } from '../context/useTasks';
-import StatisticCard from './StatisticCard';
+import StatisticCard from '../../../shared/components/StatisticCard';
+import { useTasks } from '../../../shared/hooks/useTasks';
 
 const DashboardStatisticsSection = () => {
   const { tasks } = useTasks();

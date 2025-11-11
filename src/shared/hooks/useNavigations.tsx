@@ -2,7 +2,7 @@ import { FaGear, FaFolderOpen } from 'react-icons/fa6';
 import { FaNoteSticky } from 'react-icons/fa6';
 import { LuDot } from 'react-icons/lu';
 import { MdDashboard } from 'react-icons/md';
-import { useProjects } from '../../features/projects/context/useProjects';
+import { useProjects } from './useProjects';
 
 export interface NavigationItem {
   name: string;

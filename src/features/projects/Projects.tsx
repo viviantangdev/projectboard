@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Outlet } from 'react-router';
 import Modal from '../../shared/components/Modal';
 import TaskFormSingleInput from '../../shared/components/TaskFormSingleInput';
-import { useProjects } from './context/useProjects';
+import { useProjects } from '../../shared/hooks/useProjects';
 
 const Projects = () => {
   const { projects, addProject } = useProjects();

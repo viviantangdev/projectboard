@@ -6,7 +6,7 @@ import DeleteItem from '../../../shared/components/DeleteItem';
 import Modal from '../../../shared/components/Modal';
 import TaskFormSingleInput from '../../../shared/components/TaskFormSingleInput';
 import type { ProjectItem } from '../../../shared/utils/task';
-import { useProjects } from '../../projects/context/useProjects';
+import { useProjects } from '../../../shared/hooks/useProjects';
 
 const ManageProjects = () => {
   const { projects, addProject, editProject, deleteProject } = useProjects();

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useTasks } from '../../features/dashboard/context/useTasks';
 import { FilterTasksContext } from '../hooks/useFilterTasks';
 import { useSortTasks } from '../hooks/useSortTask';
+import { useTasks } from '../hooks/useTasks';
 
 interface FilterTasksProviderProps {
   children: React.ReactNode;

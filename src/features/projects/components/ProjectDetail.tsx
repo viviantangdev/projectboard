@@ -1,8 +1,9 @@
 import { FaFolderOpen } from 'react-icons/fa6';
 import { useParams } from 'react-router';
+import { useProjects } from '../../../shared/hooks/useProjects';
 import FeatureLayout from '../../../shared/layouts/FeatureLayout';
-import { useProjects } from '../context/useProjects';
 import ProjectFilterSection from './ProjectFilterSection';
+import ProjectStatisticsSection from './ProjectStatisticsSection';
 import ProjectTable from './ProjectTable';
 
 const ProjectDetail = () => {
@@ -21,6 +22,11 @@ const ProjectDetail = () => {
       icon={<FaFolderOpen />}
       withCreateButton={true}
     >
+      {/* Statistics */}
+      <section className='flex flex-col gap-5'>
+        {/* Statistic cards */}
+        <ProjectStatisticsSection project={project} />
+      </section>
       <section className='flex flex-col gap-5'>
         <h3>Tasks</h3>
         <div className='flex flex-col gap-5'>

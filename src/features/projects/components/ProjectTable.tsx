@@ -7,7 +7,7 @@ import TaskView from '../../../shared/components/TaskView';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import { useTaskActions } from '../../../shared/hooks/useTaskActionButtons';
 import type { ProjectItem } from '../../../shared/utils/task';
-import { useTasks } from '../../dashboard/context/useTasks';
+import { useTasks } from '../../../shared/hooks/useTasks';
 
 interface ProjectTableProps {
   project: ProjectItem;
