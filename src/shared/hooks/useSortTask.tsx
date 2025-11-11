@@ -19,10 +19,8 @@ export const useSortTasks = (tasks: TaskItem[]) => {
 
   // Sorting logic based on sortBy and sortOrder
   const sortedData = [...tasks].sort((a, b) => {
-    console.log(`Sorting by ${sortBy}, order: ${sortOrder}`);
     const aValue = a[sortBy];
     const bValue = b[sortBy];
-    console.log(`aValue ${aValue}, bValue: ${bValue}`);
 
     // Handle different types
     if (sortBy === 'project') {

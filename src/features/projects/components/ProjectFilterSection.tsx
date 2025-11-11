@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import DropdownSelect from '../../../shared/components/DropdownSelect';
 import Input from '../../../shared/components/Input';
+import Tag from '../../../shared/components/Tag';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
 import type { ProjectItem } from '../../../shared/utils/task';
 import { useTasks } from '../../dashboard/context/useTasks';
@@ -15,7 +16,7 @@ const ProjectFilterSection = ({ project }: ProjectFilterSectionProps) => {
     filterPriority,
     onSetFilterPriority,
     filterStatus,
-    onSetFilteredStatus,
+    onSetFilterStatus,
     clearAllFilter,
   } = useFilterTasks();
   const { tasks } = useTasks();
@@ -34,26 +35,82 @@ const ProjectFilterSection = ({ project }: ProjectFilterSectionProps) => {
   ];
   const statusOptions = [...new Set(projectTasks.map((item) => item.status))];
 
-  return (
-    <div className='flex flex-col sm:flex-row gap-4 w-full'>
-      <Input
-        value={searchTerm}
-        onChange={onSetSearchTerm}
-        placeHolder={'Search by task'}
-      />
+  // Track if any filter is active
+  const isFiltered = useMemo(
+    () => searchTerm !== '' || filterPriority !== '' || filterStatus !== '',
+    [searchTerm, filterPriority, filterStatus]
+  );
 
-      <DropdownSelect
-        value={filterPriority}
-        onChange={onSetFilterPriority}
-        options={priorityOptions}
-        defaultOption='All Priorities'
-      />
-      <DropdownSelect
-        value={filterStatus}
-        onChange={onSetFilteredStatus}
-        options={statusOptions}
-        defaultOption='All Statuses'
-      />
+  // Filter tags configuration
+  const filterTags = useMemo(
+    () => [
+      {
+        name: searchTerm,
+        onClick: () => onSetSearchTerm(''),
+        isActive: searchTerm !== '',
+      },
+
+      {
+        name: filterPriority,
+        onClick: () => onSetFilterPriority(''),
+        isActive: filterPriority !== '',
+      },
+      {
+        name: filterStatus,
+        onClick: () => onSetFilterStatus(''),
+        isActive: filterStatus !== '',
+      },
+    ],
+    [
+      searchTerm,
+      filterPriority,
+      filterStatus,
+      onSetSearchTerm,
+      onSetFilterPriority,
+      onSetFilterStatus,
+    ]
+  );
+  return (
+    <div className='flex flex-col gap-3'>
+      <div className='flex flex-col sm:flex-row gap-4 w-full'>
+        <Input
+          value={searchTerm}
+          onChange={onSetSearchTerm}
+          placeHolder={'Search by task'}
+        />
+        <DropdownSelect
+          value={filterPriority}
+          onChange={onSetFilterPriority}
+          options={priorityOptions}
+          defaultOption='All Priorities'
+        />
+        <DropdownSelect
+          value={filterStatus}
+          onChange={onSetFilterStatus}
+          options={statusOptions}
+          defaultOption='All Statuses'
+        />
+      </div>
+      {isFiltered && (
+        <div className='flex flex-wrap gap-2'>
+          <Tag
+            name='Clear all'
+            onClick={clearAllFilter}
+            aria-label='Clear all filters'
+          />
+          {filterTags.map(
+            (tag, index) =>
+              tag.isActive && (
+                <Tag
+                  key={index}
+                  name={tag.name}
+                  onClick={tag.onClick}
+                  aria-label={`Remove ${tag.name} filter`}
+                />
+              )
+          )}
+        </div>
+      )}
     </div>
   );
 };

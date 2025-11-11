@@ -426,3 +426,22 @@ select{
     @apply bg-zinc-800;
   }
 }
+
+/*-----------TAG------------*/
+
+.tag{
+  @apply flex justify-center items-center gap-2 text-sm px-2 py-1 
+  rounded-full cursor-pointer
+  border border-zinc-300 bg-zinc-100
+  ;
+    &:focus {
+    @apply outline-none ring-2 ring-sky-500;
+  }
+  @variant dark {
+    @apply border-zinc-600 bg-zinc-800 text-zinc-100;
+    &:focus {
+      @apply outline-none ring-2 ring-sky-600;
+    }
+  }
+}
+

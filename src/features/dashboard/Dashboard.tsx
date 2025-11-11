@@ -12,7 +12,7 @@ const Dashboard = () => {
     >
       <section className='flex flex-col gap-5'>
         <h3>All tasks</h3>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-5'>
           {/* Filter and Search */}
           <DashboardFilterSection />
           {/* Table */}

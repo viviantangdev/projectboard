@@ -12,7 +12,7 @@ type FilterTasksContextType = {
   filterPriority: string;
   onSetFilterPriority: (value: string) => void;
   filterStatus: string;
-  onSetFilteredStatus: (value: string) => void;
+  onSetFilterStatus: (value: string) => void;
   // Sorting control exposed from the provider
   handleSort: (key: keyof TaskItem) => void;
   sortBy: keyof TaskItem;

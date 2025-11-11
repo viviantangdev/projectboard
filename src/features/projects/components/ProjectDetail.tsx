@@ -23,7 +23,7 @@ const ProjectDetail = () => {
     >
       <section className='flex flex-col gap-5'>
         <h3>Tasks</h3>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-5'>
           {/* Filter and Search */}
           <ProjectFilterSection project={project} />
           <ProjectTable project={project} />

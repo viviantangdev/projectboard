@@ -36,7 +36,7 @@ export const FilterTasksProvider = ({ children }: FilterTasksProviderProps) => {
   function onSetFilterPriority(value: string) {
     setFilterPriority(value);
   }
-  function onSetFilteredStatus(value: string) {
+  function onSetFilterStatus(value: string) {
     setFilterStatus(value);
   }
 
@@ -59,7 +59,7 @@ export const FilterTasksProvider = ({ children }: FilterTasksProviderProps) => {
         filterPriority,
         onSetFilterPriority,
         filterStatus,
-        onSetFilteredStatus,
+        onSetFilterStatus,
         // expose sorting controls so components use the provider's sorting state
         handleSort,
         sortBy,
