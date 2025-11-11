@@ -18,7 +18,7 @@ const DashboardTable = () => {
   return (
     <>
       {/* Table */}
-      <div className='relative overflow-x-auto shadow-md  tracking-wider rounded '>
+      <div className='relative overflow-x-auto shadow-md tracking-wider rounded'>
         <table className='tableContainer'>
           {/*Header*/}
           <thead>

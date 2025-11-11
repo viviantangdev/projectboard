@@ -17,6 +17,7 @@ type FilterTasksContextType = {
   handleSort: (key: keyof TaskItem) => void;
   sortBy: keyof TaskItem;
   sortOrder: SortOrderType;
+  clearAllFilter: () => void;
 };
 
 export const FilterTasksContext = createContext<

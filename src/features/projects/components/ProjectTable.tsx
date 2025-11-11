@@ -29,10 +29,10 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
   }, [project.name, onSetFilterProject]);
 
   return (
-    <div className='container'>
+    <>
       {/* Table */}
       <div className='relative overflow-x-auto shadow-md  tracking-wider rounded '>
-        <table className='w-full min-w-[640px] tableContainer'>
+        <table className='tableContainer'>
           {/*Header*/}
           <thead>
             <tr className='p-3 tableHeader'>
@@ -78,7 +78,7 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
                     type='checkbox'
                     checked={item.status === 'Done'}
                     onChange={() => onToggleTaskStatus(item.id, item.status)}
-                    className='h-5 w-5 checkbox'
+                    className='checkbox'
                   />
                 </td>
                 <td
@@ -152,7 +152,7 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
           }
         />
       )}
-    </div>
+    </>
   );
 };
 

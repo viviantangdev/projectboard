@@ -12,12 +12,13 @@ const DropdownSelect = ({
   options,
   defaultOption,
 }: DropdownSelectProps) => {
+  
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onChange(e.target.value);
   };
 
   return (
-    <select value={value} onChange={handleChange}>
+    <select value={value} onChange={handleChange} className='w-full overflow-hidden text-ellipsis'>
       <option value=''>{defaultOption}</option>
       {options.map((option) => (
         <option key={option} value={option}>

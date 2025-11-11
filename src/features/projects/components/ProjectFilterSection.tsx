@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import DropdownSelect from '../../../shared/components/DropdownSelect';
 import Input from '../../../shared/components/Input';
 import { useFilterTasks } from '../../../shared/hooks/useFilterTasks';
@@ -15,10 +16,16 @@ const ProjectFilterSection = ({ project }: ProjectFilterSectionProps) => {
     onSetFilterPriority,
     filterStatus,
     onSetFilteredStatus,
+    clearAllFilter,
   } = useFilterTasks();
   const { tasks } = useTasks();
 
-  // Filter tasks by project.id 
+  useEffect(() => {
+    clearAllFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Filter tasks by project.id
   const projectTasks = tasks.filter((item) => item.project.id === project.id);
 
   // Generate priority and status options for the specific project
@@ -28,7 +35,7 @@ const ProjectFilterSection = ({ project }: ProjectFilterSectionProps) => {
   const statusOptions = [...new Set(projectTasks.map((item) => item.status))];
 
   return (
-    <div className='flex flex-col sm:flex-row gap-4 mb-6'>
+    <div className='flex flex-col sm:flex-row gap-4 w-full'>
       <Input
         value={searchTerm}
         onChange={onSetSearchTerm}

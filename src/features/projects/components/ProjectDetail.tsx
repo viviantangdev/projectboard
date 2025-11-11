@@ -21,9 +21,9 @@ const ProjectDetail = () => {
       icon={<FaFolderOpen />}
       withCreateButton={true}
     >
-      <section>
+      <section className='flex flex-col gap-5'>
         <h3>Tasks</h3>
-        <div className='container'>
+        <div className='flex flex-col gap-3'>
           {/* Filter and Search */}
           <ProjectFilterSection project={project} />
           <ProjectTable project={project} />

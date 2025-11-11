@@ -40,6 +40,13 @@ export const FilterTasksProvider = ({ children }: FilterTasksProviderProps) => {
     setFilterStatus(value);
   }
 
+  function clearAllFilter(){
+    setSearchTerm('');
+    setFilterProject('');
+    setFilterPriority('');
+    setFilterStatus('');
+  }
+
   return (
     <FilterTasksContext.Provider
       value={{
@@ -57,6 +64,7 @@ export const FilterTasksProvider = ({ children }: FilterTasksProviderProps) => {
         handleSort,
         sortBy,
         sortOrder,
+        clearAllFilter
       }}
     >
       {children}

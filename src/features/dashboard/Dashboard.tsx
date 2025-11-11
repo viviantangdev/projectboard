@@ -10,9 +10,9 @@ const Dashboard = () => {
       icon={<MdDashboard />}
       withCreateButton={true}
     >
-      <section>
+      <section className='flex flex-col gap-5'>
         <h3>All tasks</h3>
-        <div className='container'>
+        <div className='flex flex-col gap-3'>
           {/* Filter and Search */}
           <DashboardFilterSection />
           {/* Table */}
