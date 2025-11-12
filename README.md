@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# ProjectBoard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A moderna and minimal task management board, where you can organize your projects, tesks and crate notes all in one place. 
 
-Currently, two official plugins are available:
+[🔗 Live Demo](https://viviantangdev.github.io/projectboard/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Resonsive design (mobile-first).
+- Dark/light mode toggle.
 
-## Expanding the ESLint configuration
+### 🧱 Projects
+- Create, edit, and delete projects
+- Each project has its own board of tasks
+- Visual overview of all active projects
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### ✅ Tasks
+- Add, edit, and delete tasks within a project
+- View task details (status, details, etc.)
+- Manage task status: **Not Started**, **In Progress**, **Completed**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🗒️ Notes
+- Add quick notes (like sticky notes)
+- Edit or delete notes anytime
+- Great for reminders or small thoughts
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠️ Technologies Used
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **React** – Core library for building the user interface and handling component state.  
+- **TypeScript** – Strongly typed JavaScript that improves developer experience and prevents runtime errors.  
+- **Tailwind CSS** – Utility-first CSS framework for fast, responsive, and consistent styling.  
+- **Vite** (or Create React App) – Modern development server and build tool for lightning-fast setup and hot reloads.  
+- **LocalStorage** API – for persistent client-side data storage.
+- **State Management** | useState / Context API.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+
+---
