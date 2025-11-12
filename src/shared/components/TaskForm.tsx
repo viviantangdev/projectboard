@@ -22,7 +22,7 @@ interface TaskFormProps {
 
 const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
   const { projects, addProject } = useProjects();
-  const { onCreateTask, onUpdateTask } = useTasks();
+  const { onAddTask, onUpdateTask } = useTasks();
 
   // Initialize state based on whether task is provided (edit mode) or not (create mode)
   const [title, setTitle] = useState<string>(task?.title || '');
@@ -79,7 +79,7 @@ const TaskForm = ({ task, setIsModalOpen }: TaskFormProps) => {
     if (task) {
       onUpdateTask(task.id, taskData);
     } else {
-      onCreateTask(taskData);
+      onAddTask(taskData);
     }
 
     // Reset form and close modal

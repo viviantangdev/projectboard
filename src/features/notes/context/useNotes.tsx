@@ -3,7 +3,7 @@ import type { NoteItem } from '../../../shared/utils/note';
 
 type NotesContextType = {
   notes: NoteItem[];
-  onCreateNote: (data: NoteItem) => void;
+  onAddNote: (data: NoteItem) => void;
   onUpdateNote: (id: string, data: NoteItem) => void;
   onDeleteNote: (id: string) => void;
   onReorderNotes: (activeId: string, overId: string) => void; // New function

@@ -4,10 +4,10 @@ import NoteBoard from './components/NoteBoard';
 import { useNotes } from './context/useNotes';
 
 const Notes = () => {
-  const { onCreateNote, notes } = useNotes();
+  const { onAddNote, notes } = useNotes();
 
   function handleCreateNote() {
-    onCreateNote({ id: '', title: '', details: '' }); // ID will be generated in onCreateNote
+    onAddNote({ id: '', title: '', details: '' }); // ID will be generated in onCreateNote
   }
   return (
     <FeatureLayout

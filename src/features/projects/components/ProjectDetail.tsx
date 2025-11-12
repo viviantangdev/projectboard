@@ -16,6 +16,9 @@ const ProjectDetail = () => {
   const { tasks } = useTasks();
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
+  function handleAddTask() {
+    setIsTaskModalOpen(true);
+  }
   const project = projects.find((p) => p.name === projectId);
   if (!project) {
     return <div>Project not found</div>;
@@ -43,7 +46,7 @@ const ProjectDetail = () => {
             <p>Add a task to get started.</p>
             <button
               type='button'
-              onClick={() => setIsTaskModalOpen(true)}
+              onClick={handleAddTask}
               className='actionButton'
             >
               Create task

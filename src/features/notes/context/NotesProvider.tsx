@@ -11,7 +11,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     { id: '3', title: 'Note 3', details: 'Details 3' },
   ]);
 
-  function onCreateNote({ title, details }: NoteItem) {
+  function onAddNote({ title, details }: NoteItem) {
     setNotes((prev) => [
       ...prev,
       {
@@ -44,7 +44,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     <NotesContext.Provider
       value={{
         notes,
-        onCreateNote,
+        onAddNote,
         onUpdateNote,
         onDeleteNote,
         onReorderNotes,

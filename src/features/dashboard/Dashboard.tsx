@@ -13,6 +13,10 @@ const Dashboard = () => {
 
   const { tasks } = useTasks();
 
+  function handleAddTask(){
+    setIsTaskModalOpen(true);
+  }
+
   return (
     <FeatureLayout
       title='Dashboard'
@@ -26,14 +30,14 @@ const Dashboard = () => {
       </section>
       {/* Tasks */}
       <section className='flex flex-col gap-5'>
-        <h3>All tasks</h3>
+        <h3>All tasks ({tasks.length})</h3>
         {tasks.length === 0 ? (
           <div className='flex flex-col items-baseline gap-2'>
             <p>No task here yet!</p>
             <p>Add a task to get started.</p>
             <button
               type='button'
-              onClick={() => setIsTaskModalOpen(true)}
+              onClick={handleAddTask}
               className='actionButton'
             >
               Create task

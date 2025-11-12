@@ -3,7 +3,7 @@ import type { TaskItem } from '../utils/task';
 
 type TasksContextType = {
   tasks: TaskItem[];
-  onCreateTask: (data: TaskItem) => void;
+  onAddTask: (data: TaskItem) => void;
   onUpdateTask: (id: string, data: TaskItem) => void;
   onDeleteTask: (id: string) => void;
   onToggleTaskStatus: (id: string, currentStatus: TaskItem['status']) => void;

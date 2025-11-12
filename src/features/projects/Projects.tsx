@@ -13,6 +13,10 @@ const Projects = () => {
   const navigate = useNavigate();
   const params = useParams();
 
+  function handleAddProject(){
+    setIsAddProjectModalOpen(true);
+  }
+
   // Show empty state only when there are no projects and we're not viewing a specific project route.
   if (projects.length === 0 && !params.projectId) {
     return (
@@ -25,7 +29,7 @@ const Projects = () => {
             <p>Start by creating your first project.</p>
             <button
               type='button'
-              onClick={() => setIsAddProjectModalOpen(true)}
+              onClick={handleAddProject}
               className='actionButton'
             >
               Create project

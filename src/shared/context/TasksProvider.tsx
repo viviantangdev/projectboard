@@ -11,7 +11,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('Updated tasks:', tasks); // Log updated state
   }, [tasks]);
 
-  function onCreateTask({
+  function onAddTask({
     title,
     details,
     project,
@@ -61,7 +61,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     <TasksContext.Provider
       value={{
         tasks,
-        onCreateTask,
+        onAddTask,
         onUpdateTask,
         onDeleteTask,
         onToggleTaskStatus,

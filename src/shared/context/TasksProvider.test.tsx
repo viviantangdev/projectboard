@@ -22,7 +22,7 @@ describe('TasksProvider', () => {
     const { result } = renderWithProvider(() => useTasks());
 
     act(() => {
-      result.current.onCreateTask({
+      result.current.onAddTask({
         id: '1',
         title: 'New Task',
         details: 'Task details',
@@ -42,7 +42,7 @@ describe('TasksProvider', () => {
     const { result } = renderWithProvider(() => useTasks());
 
     act(() => {
-      result.current.onCreateTask({
+      result.current.onAddTask({
         id: '1',
         title: 'Original Title',
         details: 'Details',
@@ -73,7 +73,7 @@ describe('TasksProvider', () => {
     const { result } = renderWithProvider(() => useTasks());
 
     act(() => {
-      result.current.onCreateTask({
+      result.current.onAddTask({
         id: '1',
         title: 'Task to Delete',
         details: 'Details',
@@ -98,7 +98,7 @@ describe('TasksProvider', () => {
     const { result } = renderWithProvider(() => useTasks());
 
     act(() => {
-      result.current.onCreateTask({
+      result.current.onAddTask({
         id: '1',
         title: 'Task',
         details: 'Details',
@@ -124,7 +124,7 @@ describe('TasksProvider', () => {
     const { result } = renderWithProvider(() => useTasks());
 
     act(() => {
-      result.current.onCreateTask({
+      result.current.onAddTask({
         id: '1',
         title: 'Task',
         details: 'Details',
@@ -150,7 +150,7 @@ describe('TasksProvider', () => {
     const { result } = renderWithProvider(() => useTasks());
 
     act(() => {
-      result.current.onCreateTask({
+      result.current.onAddTask({
         id: '1',
         title: 'Task',
         details: 'Details',
@@ -206,7 +206,7 @@ describe('TasksProvider', () => {
     const taskIds: string[] = [];
     act(() => {
       for (let i = 1; i <= 3; i++) {
-        result.current.onCreateTask({
+        result.current.onAddTask({
           id: `${i}`,
           title: `Task ${i}`,
           details: `Details ${i}`,
