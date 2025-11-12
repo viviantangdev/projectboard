@@ -17,8 +17,6 @@ const ProjectTable = ({ project }: ProjectTableProps) => {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const { onDeleteTask, onToggleTaskStatus } = useTasks();
-
-  // project-specific tasks are handled by the FilterTasksProvider via onSetFilterProject
   const { filteredTasks, handleSort, sortBy, sortOrder, onSetFilterProject } =
     useFilterTasks();
 
