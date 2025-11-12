@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/projectboard/',
   plugins: [react(), tailwindcss()],
   optimizeDeps: {
     include: ['@hello-pangea/dnd'],
