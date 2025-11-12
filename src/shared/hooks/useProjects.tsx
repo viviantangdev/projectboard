@@ -3,7 +3,7 @@ import type { ProjectItem } from '../utils/task';
 
 type ProjectsContextType = {
   projects: ProjectItem[];
-  addProject: (name: string) => void;
+  addProject: (name: string) => string;
   editProject: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
 };

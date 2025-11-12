@@ -24,6 +24,7 @@ export const ProjectsProvider = ({
   const addProject = (name: string) => {
     const newProject = { id: uuidV4(), name: name.trim() };
     setProjects((prev) => [...prev, newProject]);
+    return newProject.name;
   };
 
   const editProject = (id: string, name: string) => {
