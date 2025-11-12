@@ -4,23 +4,33 @@ import NoteBoard from './components/NoteBoard';
 import { useNotes } from './context/useNotes';
 
 const Notes = () => {
-  const { onCreateNote } = useNotes();
+  const { onCreateNote, notes } = useNotes();
 
-  function handleSumbit() {
+  function handleCreateNote() {
     onCreateNote({ id: '', title: '', details: '' }); // ID will be generated in onCreateNote
   }
   return (
     <FeatureLayout
       title='Notes'
-      icon={<FaNoteSticky /> }
+      icon={<FaNoteSticky />}
       withCreateButton={false}
       actionButton={
-        <button onClick={handleSumbit} className='actionButton'>
+        <button onClick={handleCreateNote} className='actionButton'>
           + Create note
         </button>
       }
     >
-      <NoteBoard />
+      {notes.length === 0 ? (
+        <div className='flex flex-col items-baseline gap-2'>
+          <p>No notes here yet!</p>
+          <p>Add a note to get started.</p>
+          <button type='button' onClick={handleCreateNote} className='actionButton'>
+            Create note
+          </button>
+        </div>
+      ) : (
+        <NoteBoard />
+      )}
     </FeatureLayout>
   );
 };
